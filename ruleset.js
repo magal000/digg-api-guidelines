@@ -28,12 +28,12 @@ const webRuleset = await import('./rulesets/web.js');
 // 
 export default {
   rules: {
-   'VER.01': verRuleset.default.rules["VER.01"],
-    'VER.06': verRuleset.default.rules["VER.06"],
+     // 'VER.01': verRuleset.default.rules["VER.01"],
+    // 'VER.06': verRuleset.default.rules["VER.06"],
     'UFN.02': ufnRuleset.default.rules["UFN.02"],
-    'UFN.05': ufnRuleset.default.rules["UFN.05"],
-    'UFN.06': ufnRuleset.default.rules["UFN.06"],
-    'UFN.09': ufnRuleset.default.rules["UFN.09"],
+    // 'UFN.05': ufnRuleset.default.rules["UFN.05"],
+    // 'UFN.06': ufnRuleset.default.rules["UFN.06"],
+    // 'UFN.09': ufnRuleset.default.rules["UFN.09"],
     //'WEB.01': webRuleset.default.rules["WEB.01"]
     //'DOT.01': dotRuleset.default.rules["DOT.01"],
   }
