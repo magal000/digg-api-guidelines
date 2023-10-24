@@ -4,13 +4,13 @@ export default {
   rules: {
     //Corresponds to rule UFN.02 in REST API-profile version 1.1.0
     'UFN.02': {
-      given: "$.servers[?(@.url.startsWith('https://'))]",
+      given: "$.servers[?(@.url.startsWith('http'))]",
       message: "{{property}} Alla API:er SKALL exponeras via HTTPS på port 443.",
       then: {
         field: 'url',
         function: pattern,
         functionOptions: {
-          match: '^api-info$',
+          match: '^(https)://(.*)$',
         }
       },
     },
