@@ -18,6 +18,6 @@ Replace feature-ver01 with the name of the rule you will work on.
 2. Commit and push the changes you have made:
 `git push origin feature/feature-ver01` 
 3. Go to GitHub and submit a pull request to the main branch
-4. You need to and a reviewer via GitHub. The reviewer will review your pull request and decide whether to accept it.
-4. If your pull request is accepted, your changes will be merged into the main branch of the project.
+4. You need to add a reviewer via GitHub. The reviewer will review your pull request and decide whether to accept it.
+5. If your pull request is accepted, your changes will be merged into the main branch of the project.
 
