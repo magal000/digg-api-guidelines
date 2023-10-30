@@ -1,6 +1,4 @@
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
-import pkg from '@stoplight/spectral-formats';
-const { oas2, oas3 } = pkg;
 
 export default {
     rules: {
@@ -14,8 +12,8 @@ export default {
                 field: "$.paths[/api-info]",
                 function: truthy,
 
-                field: "$.paths[/api-info]",
-                function: pattern,
+                //field: "$.paths[/api-info]",
+                //function: pattern,
                 functionOptions: {
                     match: '^api-info$',
                 }
@@ -32,8 +30,8 @@ export default {
                 field: "$.paths[/api-info]",
                 function: truthy,
 
-                field: "$.paths[/api-info]",
-                function: pattern,
+                //field: "$.paths[/api-info]",
+                //function: pattern,
                 functionOptions: {
                     match: '^api-info$',
                 }

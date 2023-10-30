@@ -1,19 +1,29 @@
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
+import { RuleService } from "../ruleservices/RuleService.ts"
 
-export default {
+let given = "$.servers[?(@.url.startsWith('http'))]";
+let message = "{{property}} Alla API:er SKALL exponeras via HTTPS på port 443.";
+let field = 'url';
+let match = '^(https)://(.*)$';
+
+let rulesService = new RuleService(given, message, field, match);
+
+
+export default{
   rules: {
     //Corresponds to rule UFN.02 in REST API-profile version 1.1.0
     'UFN.02': {
-      given: "$.servers[?(@.url.startsWith('https://'))]",
-      message: "{{property}} Alla API:er SKALL exponeras via HTTPS på port 443.",
+      given: rulesService.given,
+      message: rulesService.message,
       then: {
-        field: 'url',
+        field: rulesService.field,
         function: pattern,
         functionOptions: {
-          match: '^api-info$',
+          match: rulesService.match
         }
       },
     },
+    
     //Corresponds to rule UFN.02 in REST API-profile version 1.1.0
     'UFN.05': {
       description: 'En URL BÖR INTE vara längre än 2048 tecken.',
@@ -28,11 +38,9 @@ export default {
     },
     //Corresponds to rule UFN.06 in REST API-profile version 1.1.0
     "UFN.06": {
-      message:
-        "{{property}} --> Bokstäver i URL:n SKALL bestå av enbart gemener.",
-      description:
-        "Bokstäver i URL:n SKALL bestå av enbart gemener.",
-      given: "$.paths[*]~",
+      description: 'En URL BÖR INTE vara längre än 2048 tecken.',
+      given: "$.paths[*]~",      
+      message:"{{property}} --> Bokstäver i URL:n SKALL bestå av enbart gemener.",
       then: {
         function: pattern,
         functionOptions: {
@@ -59,4 +67,3 @@ export default {
 
   }
 }
-
