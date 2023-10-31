@@ -20,12 +20,12 @@ import * as ufn from "./rulesets/ufn.ts";
 
 export default{
     rules: {
-        //'VER.01': ver.default.rules["VER.01"],
-        //'VER.06': ver.default.rules["VER.06"],
+        'VER.01': ver.default.rules["VER.01"],
+        'VER.06': ver.default.rules["VER.06"],
         'UFN.02': ufn.default.rules["UFN.02"],
         'UFN.05': ufn.default.rules["UFN.05"],
-        //'UFN.06': ufn.default.rules["UFN.06"],
-        //'UFN.09': ufnRuleset.default.rules["UFN.09"],
+        'UFN.06': ufn.default.rules["UFN.06"],
+        'UFN.09': ufn.default.rules["UFN.09"],
         //'WEB.01': webRuleset.default.rules["WEB.01"]
         //'DOT.01': dotRuleset.default.rules["DOT.01"],
     }

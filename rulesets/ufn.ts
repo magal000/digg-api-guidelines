@@ -5,8 +5,9 @@ let given = "$.servers[?(@.url.startsWith('http'))]";
 let message = "{{property}} Alla API:er SKALL exponeras via HTTPS på port 443.";
 let field = 'url';
 let match = '^(https)://(.*)$';
+let severity = 1;
 
-let rulesService = new RuleService(given, message, field, match);
+let rulesService = new RuleService(given, message, field, match, severity);
 
 
 export default{
@@ -47,7 +48,7 @@ export default{
           match: "^[a-z/{}]*$",
         },
       },
-      severity: 'warn',
+      severity: rulesService.severity,
     },
     //Corresponds to rule UFN.09 in REST API-profile version 1.1.0
     "UFN.09": {
@@ -62,7 +63,7 @@ export default{
           match: "^(/|[a-z0-9-.]+|{[a-zA-Z0-9_]+})+$",
         },
       },
-      severity: 'warn',
+      severity: rulesService.severity,
     },
 
   }
