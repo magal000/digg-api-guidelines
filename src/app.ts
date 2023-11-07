@@ -14,10 +14,8 @@ const apiSpecFileName = "../apis/ver-api.yaml";
 // En samling av alla regler som ska användas för att validera API-specifikationen
 const allRules = await import('../ruleset.ts');
 
-//import * as all_rules from "../ruleset.ts"
-//var allRules = all_rules;
 
-//console.log ("app files");
+//console.log("appppp")
 //console.log(allRules.default)
 
 import * as fs from "node:fs";
@@ -26,6 +24,7 @@ import { fileURLToPath } from "node:url";
 import { join } from "path";
 import Parsers from "@stoplight/spectral-parsers";
 import spectralCore from "@stoplight/spectral-core";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const { Spectral, Document } = spectralCore;
 const spectral = new Spectral();

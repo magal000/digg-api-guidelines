@@ -11,24 +11,19 @@
  **************************************************************/
 //var ufnRuleset = await Promise.resolve().then(function () { return import("./ufn.js"); });
 //var verRuleset = await Promise.resolve().then(function () { return import("./ver.js"); });
-import * as ver from "./rulesets/ver.ts";
-import * as ufn from "./rulesets/ufn.ts";
+import { Ufn02 ,Ufn05} from "./ruleservices/UfnRules.ts";
+import { Ver01 ,Ver06} from "./ruleservices/VerRules.ts";
 
-//console.log ("rulesets files");
-//console.log (ufnRuleset.default);
-
-
-export default{
-    rules: {
-        'VER.01': ver.default.rules["VER.01"],
-        'VER.06': ver.default.rules["VER.06"],
-        'UFN.02': ufn.default.rules["UFN.02"],
-        'UFN.05': ufn.default.rules["UFN.05"],
-        'UFN.06': ufn.default.rules["UFN.06"],
-        'UFN.09': ufn.default.rules["UFN.09"],
-        //'WEB.01': webRuleset.default.rules["WEB.01"]
-        //'DOT.01': dotRuleset.default.rules["DOT.01"],
-    }
+    const VER01 = new Ver01();
+    const VER06 = new Ver06();
+    const UFN02 = new Ufn02();
+    const UFN05 = new Ufn05()
+    
+ export default { rules: {
+    
+    
+    VER01, UFN02, VER06,UFN05
+  }
 };
 export {};
 //# sourceMappingURL=ruleset.js.map
