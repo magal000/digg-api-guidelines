@@ -11,8 +11,8 @@
  **************************************************************/
 //var ufnRuleset = await Promise.resolve().then(function () { return import("./ufn.js"); });
 //var verRuleset = await Promise.resolve().then(function () { return import("./ver.js"); });
-import { Ufn02 ,Ufn05} from "./ruleservices/UfnRules.ts";
-import { Ver01 ,Ver06} from "./ruleservices/VerRules.ts";
+import { Ufn02 ,Ufn05} from "./rulesets/UfnRules.ts";
+import { Ver01 ,Ver06} from "./rulesets/VerRules.ts";
 
     const VER01 = new Ver01();
     const VER06 = new Ver06();
