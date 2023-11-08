@@ -31,7 +31,7 @@ const spectral = new Spectral();
 spectral.setRuleset(allRules.default);
 // Ett Document-objekt som representerar API-specifikationen som ska valideras
 const apiSpecDocument = new Document(
-// load an API specification file from your project's root directory. 
-fs.readFileSync(join(__dirname, apiSpecFileName), "utf-8").trim(), Parsers.Yaml, apiSpecFileName);
+    // load an API specification file from your project's root directory. 
+    fs.readFileSync(join(__dirname, apiSpecFileName), "utf-8").trim(), Parsers.Yaml, apiSpecFileName);
 // Validera API-specifikationen och logga resultatet
 spectral.run(apiSpecDocument).then(console.log);

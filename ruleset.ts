@@ -11,19 +11,20 @@
  **************************************************************/
 //var ufnRuleset = await Promise.resolve().then(function () { return import("./ufn.js"); });
 //var verRuleset = await Promise.resolve().then(function () { return import("./ver.js"); });
-import { Ufn02 ,Ufn05} from "./rulesets/UfnRules.ts";
-import { Ver01 ,Ver06} from "./rulesets/VerRules.ts";
+import { Ufn02, Ufn05 } from "./rulesets/UfnRules.ts";
+import { Ver01, Ver06 } from "./rulesets/VerRules.ts";
 
-    const VER01 = new Ver01();
-    const VER06 = new Ver06();
-    const UFN02 = new Ufn02();
-    const UFN05 = new Ufn05()
-    
- export default { rules: {
-    
-    
-    VER01, UFN02, VER06,UFN05
+const VER01 = new Ver01();
+const VER06 = new Ver06();
+const UFN02 = new Ufn02();
+const UFN05 = new Ufn05()
+
+export default {
+  rules: {
+
+
+    VER01, UFN02, VER06, UFN05
   }
 };
-export {};
+export { };
 //# sourceMappingURL=ruleset.js.map
