@@ -20,7 +20,6 @@ import { fileURLToPath } from "node:url";
 import { join } from "path";
 import Parsers from "@stoplight/spectral-parsers";
 import spectralCore from "@stoplight/spectral-core";
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const { Spectral, Document } = spectralCore;
 const spectral = new Spectral();

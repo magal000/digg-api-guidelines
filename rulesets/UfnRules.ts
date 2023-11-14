@@ -1,5 +1,6 @@
 import { RulesetInterface } from "../ruleinterface/RuleInterface.ts"
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
+import { DiagnosticSeverity } from "@stoplight/types";
 
 
 
@@ -14,15 +15,16 @@ export class Ufn02 implements RulesetInterface {
     }
   }
 }
-export class Ufn05 implements RulesetInterface {
-  description = 'En URL BÖR INTE vara längre än 2048 tecken.';
-  given = "$.servers[?(@.url.startsWith('http'))]";
-  message = "$.paths[*]~";
+export class Ufn09 implements RulesetInterface {
+  description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+  given = "$.paths[*]~";
+  message = "{{property}} --> ska vara kebab-case (gemener och separerade med ett '-').[Kategori: URL format och namngivning, Typ: SKALL INTE]";
   then = {
     function: pattern,
     functionOptions: {
-      match: '^(?=.{1,2048}$).*'
+      match: "^(/|[a-z0-9-.]+|{[a-zA-Z0-9_]+})+$"
     }
   }
+  severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn05 };
+export default { Ufn02,Ufn09 };
