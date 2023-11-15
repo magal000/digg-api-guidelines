@@ -6,7 +6,7 @@ testRule("Ufn09", [
         document: {
           openapi: "3.1.0",
           info: { version: "1.0" },
-          paths: { "/detta-är-kebab-case": {} },
+          paths: { "/this-is-kebab-case": {} },
         },
         errors: [],
       },
@@ -15,17 +15,44 @@ testRule("Ufn09", [
         document: {
           openapi: "3.1.0",
           info: { version: "1.0" },
-          paths: { "/Detta_är_snake_case": {} },
+          paths: { "/Detta_e_snake_case": {} },
         },
         errors: [
           {
             message:
-              "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
-            path: ["paths", "/Detta_är_snake_case"],
+              "/Detta_e_snake_case --> ska vara kebab-case (gemener och separerade med ett '-').[Kategori: URL format och namngivning, Typ: SKALL INTE]",
+            path: ["paths", "/Detta_e_snake_case"],
             severity: DiagnosticSeverity.Error,
-          },
+          }
         ],
       },
+]);
+testRule("Ufn06", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/thisisnotanuppercaseurl": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/ThisIsAnUpperCaseUrl": {} },
+      },
+      errors: [
+        {
+          message:
+            "/ThisIsAnUpperCaseUrl - Bokstäver i URL:n SKALL bestå av enbart gemener",
+          path: ["paths", "/ThisIsAnUpperCaseUrl"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
 ]);
 testRule("Ufn02", [
     {
@@ -38,36 +65,19 @@ testRule("Ufn02", [
         errors: [],
       },
       {
-        name: "ogiltigt testfall",
+        name: "ogiltigt testfall 1",
         document: {
           openapi: "3.1.0",
           info: { version: "1.0" },
-          paths: { "http://www.example.com": {} },
+          paths: { "/": {} },
+          servers: [{ url: "http://api.example.com/" }],
         },
         errors: [
           {
-            message:
-              "Alla API:er SKALL exponeras via HTTPS på port 443",
-            path: ["paths", "http://www.example.com"],
+            message: "url Alla API:er SKALL exponeras via HTTPS på port 443.",
+            path: ["servers", "0", "url"],
             severity: DiagnosticSeverity.Error,
           },
         ],
       },
-      {
-        name: "ogiltigt testfall",
-        document: {
-          openapi: "3.1.0",
-          info: { version: "1.0" },
-          paths: { "https://": {} }, // Det behöver finnas något mer i pathen efter https://
-        },
-        errors: [
-          {
-            message:
-              "Alla API:er SKALL exponeras via HTTPS på port 443",
-            path: ["paths", "http://www.example.com"],
-            severity: DiagnosticSeverity.Error,
-          },
-        ],
-      },      
 ]);
-

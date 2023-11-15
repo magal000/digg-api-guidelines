@@ -11,12 +11,24 @@ export class Ufn02 implements RulesetInterface {
     field: 'url',
     function: pattern,
     functionOptions: {
-      match: '^(https)://(.*)$'
+      match: "/^https:/"
     }
   }
+  severity = DiagnosticSeverity.Error;
+}
+export class Ufn06 implements RulesetInterface {
+  given = "$.paths[*]~";
+  message = "{{property}} - Bokstäver i URL:n SKALL bestå av enbart gemener";
+  then = {
+    function: pattern,
+    functionOptions: {
+      match: "^[a-z/{}]*$"
+    }
+  }
+  severity = DiagnosticSeverity.Error;
 }
 export class Ufn09 implements RulesetInterface {
-  description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+  description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
   given = "$.paths[*]~";
   message = "{{property}} --> ska vara kebab-case (gemener och separerade med ett '-').[Kategori: URL format och namngivning, Typ: SKALL INTE]";
   then = {
@@ -27,4 +39,4 @@ export class Ufn09 implements RulesetInterface {
   }
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02,Ufn09 };
+export default { Ufn02, Ufn09 };
