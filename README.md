@@ -9,6 +9,8 @@ A work-in-progress linter for the swedish rest api-profile specification
 2. Navigate to the cloned repository
 3. Install the dependencies: `npm install`
 4. Run the application: `ts-node-esm src/app.ts`
+5. Run Jest tests: Jest
+
 
 ## How To Contribute
 
