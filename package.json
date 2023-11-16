@@ -1,0 +1,32 @@
+{
+  "name": "rap-lp",
+  "version": "0.0.1",
+  "main": ".src/app.ts",
+  "type": "module",
+  "description": "A command-line tool to lint OpenAPI v3 definitions using Spectral",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "jest"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "@stoplight/spectral-formats": "^1.5.0",
+    "@types/jest": "^28.1.6",
+    "@types/node": "^20.8.8",
+    "jest": "^28.0",
+    "ts-jest": "^28.0.8",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@stoplight/spectral-core": "^1.18.3",
+    "@stoplight/spectral-functions": "^1.7.2",
+    "@stoplight/spectral-ruleset-bundler": "^1.5.2",
+    "js-yaml": "^4.1.0",
+    "path": "^0.12.7"
+  },
+  "author": "Digg - Agency for Digital Government",
+  "license": "EUPL",
+  "keywords": []
+}
