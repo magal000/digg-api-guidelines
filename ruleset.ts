@@ -17,6 +17,7 @@ const ruleInstances: Record<string, any> = {};
 const ruleTypes = [
   UfnRules.Ufn02,
   UfnRules.Ufn06,
+  UfnRules.Ufn07,
   UfnRules.Ufn09,
   SakRules.Sak09,
 ];

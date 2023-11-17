@@ -54,6 +54,33 @@ testRule("Ufn06", [
       ],
     },
 ]);
+testRule("Ufn07", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ-._~": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall med asterisk",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/a-*-is-not-allowed": {} },
+      },
+      errors: [
+        {
+          message:
+            "/a-*-is-not-allowed - URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).",
+          path: ["paths", "/a-*-is-not-allowed"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+]);
 testRule("Ufn02", [
     {
         name: "giltigt testfall",

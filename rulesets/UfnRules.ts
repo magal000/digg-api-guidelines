@@ -27,6 +27,17 @@ export class Ufn06 implements RulesetInterface {
   }
   severity = DiagnosticSeverity.Error;
 }
+export class Ufn07 implements RulesetInterface {
+  given = "$.paths[*]~";
+  message = "{{property}} - URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).";
+  then = {
+    function: pattern,
+    functionOptions: {
+      match: "^[a-zA-Z0-9/\\\-\\\.\\\_\\\~]*$"
+    }
+  }
+  severity = DiagnosticSeverity.Error;
+}
 export class Ufn09 implements RulesetInterface {
   description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
   given = "$.paths[*]~";
@@ -39,4 +50,4 @@ export class Ufn09 implements RulesetInterface {
   }
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn09 };
+export default { Ufn02, Ufn09, Ufn07 };
