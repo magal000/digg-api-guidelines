@@ -11,14 +11,16 @@
  **************************************************************/
 import * as UfnRules from "./rulesets/UfnRules.ts";
 import * as SakRules from "./rulesets/SakRules.ts";
+import * as VerRules from "./rulesets/VerRules.ts";
 
 const ruleInstances: Record<string, any> = {};
 
 const ruleTypes = [
   UfnRules.Ufn02,
-  UfnRules.Ufn06,
   UfnRules.Ufn09,
+  UfnRules.Ufn06,
   SakRules.Sak09,
+  VerRules.Ver06,
 ];
 
 ruleTypes.forEach((RuleClass) => {
