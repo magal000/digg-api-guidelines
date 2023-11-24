@@ -39,4 +39,16 @@ export class Ufn09 implements RulesetInterface {
   }
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn09 };
+export class Ufn10 implements RulesetInterface {
+  description = "Understreck '_' SKALL (UFN.10) endast användas för att separera ord i query parameternamn.";
+  given = "$.paths.*.*.parameters[?(@.in=='query')].name";
+  message = "Understreck '_' SKALL (UFN.10) endast användas för att separera ord i query parameternamn.";
+  then = {
+    function: pattern,
+    functionOptions: {
+        notMatch: "/[-.~]/",
+    }
+  }
+  severity = DiagnosticSeverity.Error;
+}
+export default { Ufn02, Ufn06,Ufn09,Ufn10 };

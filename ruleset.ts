@@ -18,6 +18,7 @@ const ruleTypes = [
   UfnRules.Ufn02,
   UfnRules.Ufn06,
   UfnRules.Ufn09,
+  UfnRules.Ufn10,
   SakRules.Sak09,
 ];
 
