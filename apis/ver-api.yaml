@@ -190,11 +190,11 @@ paths:
 
 components:
   securitySchemes:
-    basicAuth:     # <-- arbitrary name for the security scheme
+    bearerAuth:     # <-- arbitrary name for the security scheme
       type: http
-      scheme: basic
+      scheme: bearer
   security:
-  - basicAuth: []  # <-- use the same name here
+  - bearerAuth: []  # <-- use the same name here
   schemas:
     Pet:
       allOf:
