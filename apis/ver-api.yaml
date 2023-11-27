@@ -14,7 +14,21 @@ info:
 servers:
   - url: http://petstore.swagger.io/v2
 paths:
-
+  /api-info:
+    get:
+      description: Returns home
+      operationId: find pet by id
+      responses:
+        '200':
+          description: pet response
+          content:
+            application/json:
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /pets:
     get:
       description: |
@@ -129,6 +143,31 @@ paths:
       operationId: find pet by id
       parameters:
         - name: i_d
+          in: path
+          description: ID of pet to fetch
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: pet response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+/petshamtame/{id_djur}:
+    get:
+      description: Returns a user based on a single ID, if the user does not have access to the pet
+      operationId: find pet by id
+      parameters:
+        - name: iddjur
           in: path
           description: ID of pet to fetch
           required: true
