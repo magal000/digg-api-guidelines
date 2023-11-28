@@ -54,6 +54,35 @@ testRule("Ufn06", [
       ],
     },
 ]);
+
+testRule("Ufn08", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/thisisnotanuppercaseurl": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/ThisIsAnUpperCaseUrl": {} },
+      },
+      errors: [
+        {
+          message:
+            "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+          path: ["paths", "/ThisIsAnUpperCaseUrl"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+]);
+
 testRule("Ufn02", [
     {
         name: "giltigt testfall",

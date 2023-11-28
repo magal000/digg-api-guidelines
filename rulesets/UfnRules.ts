@@ -27,6 +27,17 @@ export class Ufn06 implements RulesetInterface {
   }
   severity = DiagnosticSeverity.Error;
 }
+export class Ufn08 implements RulesetInterface {
+  given = "$.paths[*]~";
+  message = "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.";
+  then = {
+    function: pattern,
+    functionOptions: {
+      match: "^[a-z/{}]*$"
+    }
+  }
+  severity = DiagnosticSeverity.Error;
+}
 export class Ufn09 implements RulesetInterface {
   description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
   given = "$.paths[*]~";
