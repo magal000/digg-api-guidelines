@@ -12,13 +12,15 @@
 import * as UfnRules from "./rulesets/UfnRules.ts";
 import * as SakRules from "./rulesets/SakRules.ts";
 import * as VerRules from "./rulesets/VerRules.ts";
+import * as ArqRules from "./rulesets/ArqRules.ts";
+
 
 const ruleInstances: Record<string, any> = {};
 
 const ruleTypes = [
+  ArqRules.Arq05_1,ArqRules.Arq05_2,ArqRules.Arq05_3,
   UfnRules.Ufn02,
   UfnRules.Ufn09,
-  UfnRules.Ufn10,
   UfnRules.Ufn06,
   SakRules.Sak09,
   SakRules.Sak10,

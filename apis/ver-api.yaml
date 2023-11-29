@@ -14,21 +14,53 @@ info:
 servers:
   - url: http://petstore.swagger.io/v2
 paths:
-  /api-info:
-    get:
-      description: Returns home
-      operationId: find pet by id
+
+  /example:
+    post:
+      summary: Example API with Payload in Headers Allowed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+      parameters:
+        - name: payloadData
+          in: header
+          description: Payload data in headers (allowed in this example)
+          required: true
+          schema:
+            type: object
+        - name: payloadData2
+          in: header
+          description: Payload data in headers (allowed in this example)
+          required: true
+          schema:
+            type: object
+        - name: payloadData3
+          in: header
+          description: Payload data in headers (allowed in this example)
+          required: true
+          schema:
+            type: string
+            format: binary
+        - name: nestedHeaders
+          in: header
+          description: Nested structure in headers (discouraged)
+          required: true
+          schema:
+            type: object
+            properties:
+              nestedField:
+              type: string
+
       responses:
         '200':
-          description: pet response
-          content:
-            application/json:
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          description: Successful response
+
   /pets:
     get:
       description: |
