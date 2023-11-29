@@ -7,7 +7,7 @@ testRule("Fns01", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        parameter: { "/{petId}": {} },
+        paths: { "/camelCase": {} },
       },
       errors: [],
     },
@@ -16,12 +16,13 @@ testRule("Fns01", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        parameter: { "/thisisnotcamelcase": {} },
-      },
+        paths: { "/pets": {} },
+        parameters: [{ name: "Thisisnotcamelcase", in: "query"}]
+     },
       errors: [
         {
-          message: "/thisisnotcamelcase--> Parameternamn SKALL anges med en konsekvent namnkonvention exempelvis antingen snake_case eller camelCase",
-          path: ["parameter", "/thisisnotcamelcase"],
+          message: "Thisisnotcamelcase Parameternamn SKALL anges med en konsekvent namnkonvention exempelvis antingen snake_case eller camelCase",
+          path: ["parameters", "0", "name"],
           severity: DiagnosticSeverity.Error,
         }
       ],

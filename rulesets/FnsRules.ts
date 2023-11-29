@@ -6,11 +6,11 @@ import { DiagnosticSeverity } from "@stoplight/types";
 export class Fns01 implements RulesetInterface {
     description = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase";
     message = "{{property}}--> Parameternamn SKALL anges med en konsekvent namnkonvention exempelvis antingen snake_case eller camelCase";
-    given = "$.parameter[*]~";
+    given = "$.paths...parameters[?(@.in=='query')].name";
     then = {
       function: pattern,
       functionOptions: {
-      match: "\{([a-z]+[_a-z][a-z_]+)*\}+|(\{([a-z]+[A-Z][a-z]+)*\})",
+      match:  "^([a-z]+[A-Z]+\\w+)+|^[a-z]+(?:_[a-z]+)*$"
       }
     }
   severity = DiagnosticSeverity.Error;
