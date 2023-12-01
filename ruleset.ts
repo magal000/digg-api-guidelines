@@ -18,7 +18,8 @@ import * as ArqRules from "./rulesets/ArqRules.ts";
 const ruleInstances: Record<string, any> = {};
 
 const ruleTypes = [
-  ArqRules.Arq05_1,ArqRules.Arq05_2,ArqRules.Arq05_3,
+  //ArqRules.Arq05,ArqRules.Arq05_1,ArqRules.Arq05_2,ArqRules.Arq05_3,
+  ArqRules.Arq05NestedStructure,ArqRules.Arq05StringBinary,ArqRules.Arq05ComplexStructure,
   UfnRules.Ufn02,
   UfnRules.Ufn09,
   UfnRules.Ufn06,

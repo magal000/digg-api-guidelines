@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./util/helperTest.ts";
 
-testRule("Arq05_1", [
+testRule("Arq05ComplexStructure", [
     {
       name: "giltigt testfall",
       document: {
@@ -54,13 +54,13 @@ testRule("Arq05_1", [
         {
           message:
             "Payload data SKALL INTE användas i HTTP-headers.",
-          path: ["paths", "/foo", "post", "parameters", "0","schema","type"],
+          path: ["paths", "/foo", "post", "parameters", "0"],
           severity: DiagnosticSeverity.Warning,
         },
       ],
     },
   ]);
-  testRule("Arq05_2", [
+  testRule("Arq05StringBinary", [
     {
       name: "giltigt testfall",
       document: {
@@ -114,13 +114,13 @@ testRule("Arq05_1", [
         {
           message:
             "Payload data SKALL INTE användas i HTTP-headers.",
-          path: ["paths", "/foo", "post", "parameters", "0","schema","format"],
+          path: ["paths", "/foo", "post", "parameters", "0"],
           severity: DiagnosticSeverity.Warning,
         },
       ],
     },
   ]);
-  testRule("Arq05_3", [
+  testRule("Arq05NestedStructure", [
     {
       name: "giltigt testfall",
       document: {
@@ -186,7 +186,7 @@ testRule("Arq05_1", [
         {
           message:
             "Payload data SKALL INTE användas i HTTP-headers.",
-          path: ["paths", "/foo", "post", "parameters", "0","schema","properties"],
+          path: ["paths", "/foo", "post", "parameters", "0"],
           severity: DiagnosticSeverity.Warning,
         },
       ],
