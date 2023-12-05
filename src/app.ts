@@ -21,7 +21,7 @@ const { Spectral, Document } = spectralCore;
 
 try {
   // Parse command-line arguments using yargs
-  const argv = await yargs(process.argv.slice(2))
+  const argv = await yargs(process.argv.slice(2)).version("1.2.0")
     .option("file", {
       alias: "f",
       describe: "Path to the YAML file",
