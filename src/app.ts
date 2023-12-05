@@ -8,10 +8,6 @@
  *    https://dev.dataportal.se/rest-api-profil
  *
  **************************************************************/
-// Namnet på API-specifikationsfilen som ska validera
-//const apiSpecFileName = "../apis/ver-api.yaml";
-
-// En samling av alla regler som ska användas för att validera API-specifikationen
 import yargs from "yargs";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -38,14 +34,14 @@ try {
       type: "string",
     }).argv;
 
-  // Extract arguments
+  // Extract arguments from yargs
   const apiSpecFileName = (argv.file as string) || "";
   const ruleCategories = argv.categories ? (argv.categories as string).split(",") : undefined;
 
   try {
     // Import and create rule instances in RAP-LP
     const enabledRules = await importAndCreateRuleInstances(ruleCategories);
-
+    
     // Create Spectral instance
     const spectral = new Spectral();
     // Set ruleset
