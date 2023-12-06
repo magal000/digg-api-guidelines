@@ -11,12 +11,10 @@
 import yargs from "yargs";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { fileURLToPath } from "node:url";
 import { join } from "path";
 import Parsers from "@stoplight/spectral-parsers";
 import spectralCore from "@stoplight/spectral-core";
 import { importAndCreateRuleInstances, getRuleModules } from "./util/ruleUtil.ts"; // Import the helper function
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const { Spectral, Document } = spectralCore;
 
 try {
@@ -27,6 +25,7 @@ try {
       describe: "Path to the YAML file",
       demandOption: true,
       type: "string",
+      coerce: (file: string) => path.resolve(file), // convert to absolute path
     })
     .option("categories", {
       alias: "c",
@@ -49,7 +48,7 @@ try {
 
     // Load API specification into a Document object
     const apiSpecDocument = new Document(
-      fs.readFileSync(join(__dirname, apiSpecFileName), "utf-8").trim(),
+      fs.readFileSync(join(apiSpecFileName), "utf-8").trim(),
       Parsers.Yaml,
       apiSpecFileName
     );
