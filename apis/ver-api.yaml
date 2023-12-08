@@ -14,21 +14,6 @@ info:
 servers:
   - url: http://petstore.swagger.io/v2
 paths:
-  /api-info:
-    get:
-      description: Returns home
-      operationId: find pet by id
-      responses:
-        '200':
-          description: pet response
-          content:
-            application/json:
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
   /pets:
     get:
       description: |
