@@ -20,7 +20,8 @@ const ruleTypes = [
   SakRules.Sak09,
   SakRules.Sak10,
   VerRules.Ver06,
-  FnsRules.Fns01
+  FnsRules.Fns01,
+  FnsRules.Fns03
 ];
 ruleTypes.forEach((RuleClass) => {
   const instance = new RuleClass();
