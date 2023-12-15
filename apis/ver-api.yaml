@@ -163,7 +163,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-/petshamtame/{id_djur}:
+  /petshamtame/{id_djur}:
     get:
       description: Returns a user based on a single ID, if the user does not have access to the pet
       operationId: find pet by id

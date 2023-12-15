@@ -61,22 +61,76 @@ testRule("Ufn08", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/thisisnotanuppercaseurl": {} },
+        paths: { "/correct-use-of-dash/in-path": {} },
       },
       errors: [],
     },
     {
-      name: "ogiltigt testfall",
+      name: "ogiltigt testfall - underscore i path",
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/ThisIsAnUpperCaseUrl": {} },
+        paths: { "/invalid_path": {} },
       },
       errors: [
         {
-          message:
-            "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
-          path: ["paths", "/ThisIsAnUpperCaseUrl"],
+          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    {
+      name: "ogiltigt testfall - två eller flera bindestreck i rad",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/invalid--path": {} },
+      },
+      errors: [
+        {
+          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    {
+      name: "ogiltigt testfall - börjar med bindestreck",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/-invalid-path": {} },
+      },
+      errors: [
+        {
+          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    {
+      name: "ogiltigt testfall - slutar med bindestreck",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/invalid-path-": {} },
+      },
+      errors: [
+        {
+          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    {
+      name: "ogiltigt testfall - versaler i path",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/Invalid-Path": {} },
+      },
+      errors: [
+        {
+          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
           severity: DiagnosticSeverity.Error,
         }
       ],

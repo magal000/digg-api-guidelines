@@ -3,7 +3,6 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 
 
-
 export class Ufn02 implements RulesetInterface {
   given = "$.servers[?(@.url.startsWith('http'))]";
   message = "{{property}} Alla API:er SKALL exponeras via HTTPS på port 443.";
@@ -16,6 +15,7 @@ export class Ufn02 implements RulesetInterface {
   }
   severity = DiagnosticSeverity.Error;
 }
+
 export class Ufn06 implements RulesetInterface {
   given = "$.paths[*]~";
   message = "{{property}} - Bokstäver i URL:n SKALL bestå av enbart gemener";
@@ -27,17 +27,48 @@ export class Ufn06 implements RulesetInterface {
   }
   severity = DiagnosticSeverity.Error;
 }
+
 export class Ufn08 implements RulesetInterface {
   given = "$.paths[*]~";
   message = "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.";
   then = {
-    function: pattern,
-    functionOptions: {
-      match: "^[a-z/{}]*$"
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+
+      const split = targetVal.split("/").filter(removeEmpty => removeEmpty);
+
+      // Ignore path params (starts with '{')
+      const regexpPathElement = /^{/gi;  // not start with '{'
+      const pathElements = split.filter(e => !regexpPathElement.test(e));
+
+      var valid:boolean = true;
+      pathElements.forEach(function (part) {
+        const lowercaseNumericAndDash = /^[a-z0-9][a-z0-9-]*$/g;
+        if (!lowercaseNumericAndDash.test(part)) {
+          valid = false;
+        }
+        if (part.startsWith('-') || part.endsWith('-')) {
+          valid = false;
+        }
+        if (part.indexOf('--') >= 0) {
+          valid = false;
+        }
+      });
+
+      if (!valid) {
+        return [
+          {
+            message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+            severity: DiagnosticSeverity.Error,
+          },
+        ];
+      } else {
+        return [];
+      }
     }
   }
   severity = DiagnosticSeverity.Error;
 }
+
 export class Ufn09 implements RulesetInterface {
   description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
   given = "$.paths[*]~";
@@ -62,4 +93,4 @@ export class Ufn10 implements RulesetInterface {
   }
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn06,Ufn09,Ufn10 };
+export default { Ufn02, Ufn06, Ufn08, Ufn09, Ufn10 };
