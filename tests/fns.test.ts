@@ -107,4 +107,59 @@ testRule("Fns01", [
     ],
   },  
 ]);
+
+testRule("Fns03", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/charactercheck": {
+          get: {
+            description: "Gilitigt testfall av Sökparametrar SKALL starta med en bokstav",
+            parameters: [
+              {
+                name: "veryLongName",
+                in: "query",
+                required: false,
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/charactercheck": {
+          get: {
+            description: "Ogiltigt testfall av sökparametrar SKALL starta med en bokstav",
+            parameters: [
+              {
+                name: "_VeryLongName",
+                in: "query",
+                required: false,
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message:
+          "name--> Sökparametrar SKALL starta med en bokstav",
+        path: ["paths", "/charactercheck", "get", "parameters", "0","name"],
+        severity: DiagnosticSeverity.Error,
+      },
+    ],
+  }
+]);
   

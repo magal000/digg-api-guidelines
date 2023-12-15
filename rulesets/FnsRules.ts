@@ -15,4 +15,17 @@ export class Fns01 implements RulesetInterface {
     }
   severity = DiagnosticSeverity.Error;
   }
-export default { Fns01 };
+
+  export class Fns03 implements RulesetInterface {
+    description = "Sökparametrar SKALL starta med en bokstav";
+    message = "{{property}}--> Sökparametrar SKALL starta med en bokstav";
+    given = "$.paths.*.*.parameters[?(@.in=='query')].name";
+    then = {
+      function: pattern,
+      functionOptions: {
+        match: "^[a-zA-Z].*$"
+      }
+    }
+  severity = DiagnosticSeverity.Error;
+  }
+export default { Fns01 , Fns03 };
