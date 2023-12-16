@@ -56,8 +56,8 @@ export class Ufn08 implements RulesetInterface {
       if (!valid) {
         return [
           {
-            message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
-            severity: DiagnosticSeverity.Error,
+            message: this.message,
+            severity: this.severity
           },
         ];
       } else {
