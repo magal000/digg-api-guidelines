@@ -12,8 +12,55 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: http://petstore.swagger.io/v2
+  - url: http://petstore.swagger.io/v_2
 paths:
+
+  /example:
+    post:
+      summary: Example API with Payload in Headers Allowed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+      parameters:
+        - name: payloadData
+          in: header
+          description: Payload data in headers (allowed in this example)
+          required: true
+          schema:
+            type: object
+        - name: payloadData2
+          in: header
+          description: Payload data in headers (allowed in this example)
+          required: true
+          schema:
+            type: object
+        - name: payloadData3
+          in: header
+          description: Payload data in headers (allowed in this example)
+          required: true
+          schema:
+            type: string
+            format: binary
+        - name: nestedHeaders
+          in: header
+          description: Nested structure in headers (discouraged)
+          required: true
+          schema:
+            type: object
+            properties:
+              nestedField:
+              type: string
+
+      responses:
+        '200':
+          description: Successful response
+
   /pets:
     get:
       description: |
@@ -23,7 +70,7 @@ paths:
         Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra, condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium, pulvinar elit eu, euismod sapien.
       operationId: findPets
       parameters:
-        - name: tags
+        - name: very_longName
           in: query
           description: tags to filter by
           required: false
@@ -122,12 +169,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
   /petshamta/{id}:
     get:
       description: Returns a user based on a single ID, if the user does not have access to the pet
       operationId: find pet by id
       parameters:
-        - name: id
+        - name: i_d
+          in: path
+          description: ID of pet to fetch
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: pet response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /petshamtame/{id_djur}:
+    get:
+      description: Returns a user based on a single ID, if the user does not have access to the pet
+      operationId: find pet by id
+      parameters:
+        - name: iddjur
           in: path
           description: ID of pet to fetch
           required: true
@@ -150,11 +223,11 @@ paths:
 
 components:
   securitySchemes:
-    basicAuth:     # <-- arbitrary name for the security scheme
+    bearerAuth:     # <-- arbitrary name for the security scheme
       type: http
-      scheme: basic
+      scheme: bearer
   security:
-  - basicAuth: []  # <-- use the same name here
+  - bearerAuth: []  # <-- use the same name here
   schemas:
     Pet:
       allOf:

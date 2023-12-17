@@ -16,4 +16,17 @@ export class Sak09 implements RulesetInterface {
     }
     severity = DiagnosticSeverity.Error;
   }  
-  export default { Sak09 };
+export class Sak10 implements RulesetInterface {
+    description = "enom att använda HTTPS för att kryptera kommunikationen mellan klient och server kan Bearer Authentication erbjuda en hög nivå av säkerhet. Det gör det svårare för angripare att avlyssna eller ändra åtkomsttoken under överföringen";
+    message = "Authorization: Bearer header SKALL användas för autentisering/auktorisation.";
+    given = "$.components.securitySchemes[*]";
+    then = {
+      field:"scheme",
+      function: pattern,
+      functionOptions: {
+        match: "bearer",
+      }
+    }
+    severity = DiagnosticSeverity.Error;
+  }  
+ export default { Sak09,Sak10 };

@@ -1,22 +1,22 @@
 import {
-    IRuleResult,
-    Spectral,
-    Document,
-    Ruleset,
-    RulesetDefinition,
-  } from "@stoplight/spectral-core";
+  IRuleResult,
+  Spectral,
+  Document,
+  Ruleset,
+  RulesetDefinition,
+} from "@stoplight/spectral-core";
 import { httpAndFileResolver } from "@stoplight/spectral-ref-resolver";
 import {describe, expect, it} from '@jest/globals';
-import allRules from "../../ruleset.ts";
+import allRules from "./rulesetTest.ts";
 export type RuleName = keyof typeof allRules.rules;
 
 type Scenario = ReadonlyArray<
-  Readonly<{
-    name: string;
-    document: Record<string, unknown> | Document<unknown, any>;
-    errors: ReadonlyArray<Partial<IRuleResult>>;
-    mocks?: Record<string, Record<string, unknown>>;
-  }>
+Readonly<{
+  name: string;
+  document: Record<string, unknown> | Document<unknown, any>;
+  errors: ReadonlyArray<Partial<IRuleResult>>;
+  mocks?: Record<string, Record<string, unknown>>;
+}>
 >;
 
 const runTestCase = async (
@@ -24,14 +24,22 @@ const runTestCase = async (
   testName: string,
   document: Document<unknown, any> | Record<string, unknown>,
   errorsExpected: ReadonlyArray<Partial<IRuleResult>>
-): Promise<void> => {
-  const s = createWithRules([ruleName]);
-  const doc = document instanceof Document ? document : JSON.stringify(document);
-  const errors = await s.run(doc);
+  ): Promise<void> => {
 
-  expect(errors.filter(({ code }) => code === ruleName)).toEqual(
-    errorsExpected.map((error) => expect.objectContaining(error) as unknown)
-  );
+  try {
+    const s = createWithRules([ruleName]);
+    const doc = document instanceof Document ? document : JSON.stringify(document);
+    const errors = await s.run(doc);
+  
+    expect(errors.filter(({ code }) => code === ruleName)).toEqual(
+      errorsExpected.map((error) => expect.objectContaining(error) as unknown)
+    );
+  }catch (error) {
+    // Log the error
+    console.error(`Error running test case "${testName}":`, error);
+    // Rethrow the error to indicate test failure
+    throw error;
+  }
 };
 
 export default (ruleName: RuleName, tests: Scenario): void => {
@@ -39,15 +47,19 @@ export default (ruleName: RuleName, tests: Scenario): void => {
     const concurrent = tests.every(
       (test) => test.mocks === void 0 || Object.keys(test.mocks).length === 0
     );
-
     for (const testCase of tests) {
       (concurrent ? it.concurrent : it)(testCase.name, async () => {
-        await runTestCase(ruleName, testCase.name, testCase.document, testCase.errors);
+        try {
+          await runTestCase(ruleName, testCase.name, testCase.document, testCase.errors);
+        }catch (error) {
+         // Log the error and mark the test as failed
+         console.error(`Test case "${testCase.name}" failed:`, error);
+         throw error;
+        }
       });
     }
   });
 };
-
 export function createWithRules(rules: (keyof Ruleset["rules"])[]): Spectral {
   const s = new Spectral({ resolver: httpAndFileResolver });
 

@@ -41,4 +41,45 @@ testRule("Sak09", [
       ],
     },
   ]);
+  testRule("Sak10", [
+    {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          securitySchemes: {
+            "bearerAuth": {
+              type: "http",
+              scheme: "bearer",
+            },
+          },
+        },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          securitySchemes: {
+            "basicAuth": {
+              type: "http",
+              scheme: "basic",
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message: "Authorization: Bearer header SKALL användas för autentisering/auktorisation.",
+          path: ["components", "securitySchemes", "basicAuth", "scheme"],
+          severity: DiagnosticSeverity.Error,
+        },
+      ],
+    },
+  ]);
+
 
