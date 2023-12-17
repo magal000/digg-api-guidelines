@@ -8,10 +8,9 @@ A work-in-progress linter for the swedish rest api-profile specification
 1. Clone the repository
 2. Navigate to the cloned repository
 3. Install the dependencies: `npm install`
-4. Run the application: `ts-node-esm src/app.ts`
-5. Run Jest tests: Jest
-
-
+4. Run the application: `ts-node-esm src/app.ts -f Path to the YAML file`
+5. For help and how you can run the application: `ts-node-esm src/app.ts --help` 
+6. Run Jest tests: Jest
 ## How To Contribute
 
 1. Create a new feature branch:
