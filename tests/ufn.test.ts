@@ -151,3 +151,32 @@ testRule("Ufn10", [
     ],
   },
 ]);
+testRule("Ufn11", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/": {} },
+        servers: [{ url: "http://petstore.swwagger.com/api/v2" }],        
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/": {} },
+        servers: [{ url: "http://petstore.swwagger.com/a_pi/v_2" }],        
+      },
+      errors: [
+        {
+          message:
+            "Understreck '_' SKALL INTE vara del av bas URL:en.",
+          path: ["servers", "0","url"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+]);
