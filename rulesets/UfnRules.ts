@@ -35,9 +35,7 @@ export class Ufn08 implements RulesetInterface {
 
       const split = targetVal.split("/").filter(removeEmpty => removeEmpty);
 
-      // Ignore path params (starts with '{')
-      const regexpPathElement = /^{/gi;  // not start with '{'
-      const pathElements = split.filter(e => !regexpPathElement.test(e));
+      const pathElements = split.filter(e => !e.startsWith("{"));
 
       var valid:boolean = true;
       pathElements.forEach(function (part) {

@@ -62,7 +62,7 @@ testRule("Ufn08", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/correct-use-of-dash/in-path": {} },
+        paths: { "/correct-use-of-dash/in-path/{param_1}/{param_2}": {} },
       },
       errors: [],
     },
