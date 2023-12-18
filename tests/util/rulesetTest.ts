@@ -22,6 +22,7 @@ const ruleTypes = [
   UfnRules.Ufn11,
   SakRules.Sak09,
   SakRules.Sak10,
+  SakRules.Sak18,
   VerRules.Ver06,
   FnsRules.Fns01,
   FnsRules.Fns03
