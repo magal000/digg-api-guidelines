@@ -36,7 +36,7 @@ export class Ufn06 implements RulesetInterface {
   then = {
     function: pattern,
     functionOptions: {
-      match: "^[a-z/{}]*$"
+      notMatch: "[A-Z]"
     }
   }
   severity = DiagnosticSeverity.Error;

@@ -34,23 +34,38 @@ testRule("Ufn06", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/thisisnotanuppercaseurl": {} },
+        paths: { "/this-is-not/{an_upper_case_url}": {} },
       },
       errors: [],
     },
     {
-      name: "ogiltigt testfall",
+      name: "ogiltigt testfall - upper case",
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/ThisIsAnUpperCaseUrl": {} },
-        parameters: {}
+        paths: { "/This-IsAn_UpperCaseUrl": {} },
       },
       errors: [
         {
           message:
-            "/ThisIsAnUpperCaseUrl - Bokstäver i URL:n SKALL bestå av enbart gemener",
-          path: ["paths", "/ThisIsAnUpperCaseUrl"],
+            "/This-IsAn_UpperCaseUrl - Bokstäver i URL:n SKALL bestå av enbart gemener",
+          path: ["paths", "/This-IsAn_UpperCaseUrl"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    {
+      name: "ogiltigt testfall - upper case path param",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/lower/{PathParam}": {} },
+      },
+      errors: [
+        {
+          message:
+            "/lower/{PathParam} - Bokstäver i URL:n SKALL bestå av enbart gemener",
+          path: ["paths", "/lower/{PathParam}"],
           severity: DiagnosticSeverity.Error,
         }
       ],
