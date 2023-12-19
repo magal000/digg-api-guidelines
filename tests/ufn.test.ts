@@ -1,4 +1,5 @@
 import { DiagnosticSeverity } from "@stoplight/types";
+import { enumeration,length} from "@stoplight/spectral-functions";
 import testRule from "./util/helperTest.ts";
 testRule("Ufn09", [
     {
@@ -55,33 +56,34 @@ testRule("Ufn06", [
       ],
     },
 ]);
-testRule("Ufn02", [
+
+testRule("Ufn05", [
     {
-        name: "giltigt testfall",
-        document: {
-          openapi: "3.1.0",
-          info: { version: "1.0" },
-          paths: { "https://www.example.com": {} },
-        },
-        errors: [],
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/pets/{id}": {} },
       },
-      {
-        name: "ogiltigt testfall 1",
-        document: {
-          openapi: "3.1.0",
-          info: { version: "1.0" },
-          paths: { "/": {} },
-          servers: [{ url: "http://api.example.com/" }],
-        },
-        errors: [
-          {
-            message: "url Alla API:er SKALL exponeras via HTTPS på port 443.",
-            path: ["servers", "0", "url"],
-            severity: DiagnosticSeverity.Error,
-          },
-        ],
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}": {} },
       },
+      errors: [
+        {
+          message:"En URL BÖR INTE vara längre än 2048 tecken.",
+          path: ["paths","/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}"],
+          severity: DiagnosticSeverity.Warning,
+        }
+      ],
+    },
 ]);
+
 testRule("Ufn10", [
   {
     name: "giltigt testfall",
