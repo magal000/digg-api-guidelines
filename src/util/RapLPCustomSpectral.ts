@@ -50,10 +50,10 @@ private modifyResults(results: ISpectralDiagnostic[]): CustomSpectralDiagnostic[
         if (ruleClass && typeof ruleClass.getCustomProperties === 'function') { // Check for existance
           const customProperties = ruleClass.getCustomProperties;
           const customResult: CustomSpectralDiagnostic = {
-                ...this.mapResultToCustom(result),
-              id: ruleClass.customProperties.id,
-              område: ruleClass.customProperties.område,
-              ...customProperties, // For more copy
+            id: ruleClass.customProperties.id,
+            område: ruleClass.customProperties.område,
+            ...customProperties, // For more copy
+              ...this.mapResultToCustom(result),
           };
           customResults.push(customResult);
           break; // Break the loop once a match is found

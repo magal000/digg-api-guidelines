@@ -92,7 +92,7 @@ try {
         }
       };
       const formatLintingResult = (result: any) => {
-        return `Allvarlighetsgrad: ${colorizeSeverity(result.allvarlighetsgrad)} \nId: ${result.id} \nKrav: (${result.krav}) \nOmråde: ${result.område} \nSökväg:(${result.sökväg}) \nOmfattning:(${JSON.stringify(result.omfattning,null,2)}) `;
+        return `allvarlighetsgrad: ${colorizeSeverity(result.allvarlighetsgrad)} \nid: ${result.id} \nkrav: ${result.krav} \nområde: ${result.område} \nsökväg:[${result.sökväg}] \nomfattning:${JSON.stringify(result.omfattning,null,2)} `;
       };
       const content = JSON.stringify(result, null, 2);
       //Check specified option from yargs input
