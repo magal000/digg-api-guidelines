@@ -9,7 +9,7 @@ export class Ver06 extends BaseRuleset {
     id: "VER.06",
   };
   given = "$.paths";
-  message = "Information om ett API SKALL tillgängliggöras via resursen api-info under roten '/' till API:et.";
+  message = "Information om ett API SKALL tillgängliggöras via resursen api-info under roten '/' till API:et.";
   then = {
     field: '/api-info',
     function: truthy,

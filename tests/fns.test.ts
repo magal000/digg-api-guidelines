@@ -24,7 +24,6 @@ testRule("Fns01", [
     },
     errors: [],
   },
-
   {
     name: "ogiltigt testfall",
     document: {
@@ -76,7 +75,6 @@ testRule("Fns01", [
     },
     errors: [],
   },
-
   {
     name: "ogiltigt testfall",
     document: {

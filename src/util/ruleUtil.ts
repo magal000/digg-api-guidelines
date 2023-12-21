@@ -16,7 +16,9 @@ const ruleModules = [
   "UfnRules",
   "SakRules",
   "VerRules",
-  "FnsRules"
+  "FnsRules",
+  "ArqRulles",
+  "DokRules"
 ];
 /**
  * 

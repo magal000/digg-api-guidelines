@@ -1,4 +1,5 @@
 import { DiagnosticSeverity } from "@stoplight/types";
+import { enumeration,length} from "@stoplight/spectral-functions";
 import testRule from "./util/helperTest.ts";
 testRule("Ufn09", [
     {
@@ -33,7 +34,77 @@ testRule("Ufn06", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/thisisnotanuppercaseurl": {} },
+        paths: { "/this-is-not/{an_upper_case_url}": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall - upper case",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/This-IsAn_UpperCaseUrl": {} },
+      },
+      errors: [
+        {
+          message:
+            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
+          path: ["paths", "/This-IsAn_UpperCaseUrl"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    {
+      name: "ogiltigt testfall - upper case path param",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/lower/{PathParam}": {} },
+      },
+      errors: [
+        {
+          message:
+            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
+          path: ["paths", "/lower/{PathParam}"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+]);
+testRule("Ufn02", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "https://www.example.com": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall 1",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/": {} },
+        servers: [{ url: "http://api.example.com/" }],
+      },
+      errors: [
+        {
+          message: "Alla API:er SKALL exponeras via HTTPS på port 443.",
+          path: ["servers", "0", "url"],
+          severity: DiagnosticSeverity.Error,
+        },
+      ],
+    },
+]);
+testRule("Ufn05", [
+    {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/pets/{id}": {} },
       },
       errors: [],
     },
@@ -42,45 +113,18 @@ testRule("Ufn06", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/ThisIsAnUpperCaseUrl": {} },
+        paths: { "/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}": {} },
       },
       errors: [
         {
-          message:
-            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
-          path: ["paths", "/ThisIsAnUpperCaseUrl"],
-          severity: DiagnosticSeverity.Error,
+          message:"En URL BÖR INTE vara längre än 2048 tecken.",
+          path: ["paths","/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}"],
+          severity: DiagnosticSeverity.Warning,
         }
       ],
     },
 ]);
-testRule("Ufn02", [
-    {
-        name: "giltigt testfall",
-        document: {
-          openapi: "3.1.0",
-          info: { version: "1.0" },
-          paths: { "https://www.example.com": {} },
-        },
-        errors: [],
-      },
-      {
-        name: "ogiltigt testfall 1",
-        document: {
-          openapi: "3.1.0",
-          info: { version: "1.0" },
-          paths: { "/": {} },
-          servers: [{ url: "http://api.example.com/" }],
-        },
-        errors: [
-          {
-            message: "Alla API:er SKALL exponeras via HTTPS på port 443.",
-            path: ["servers", "0", "url"],
-            severity: DiagnosticSeverity.Error,
-          },
-        ],
-      },
-]);
+
 testRule("Ufn10", [
   {
     name: "giltigt testfall",
@@ -134,4 +178,33 @@ testRule("Ufn10", [
       },
     ],
   },
+]);
+testRule("Ufn11", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/": {} },
+        servers: [{ url: "http://petstore.swwagger.com/api/v2" }],        
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/": {} },
+        servers: [{ url: "http://petstore.swwagger.com/a_pi/v_2" }],        
+      },
+      errors: [
+        {
+          message:
+            "Understreck '_' SKALL INTE vara del av bas URL:en.",
+          path: ["servers", "0","url"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
 ]);

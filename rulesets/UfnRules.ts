@@ -1,6 +1,6 @@
 import { Rule } from "@stoplight/spectral-core";
 import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
+import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 
 export class Ufn02 extends BaseRuleset {
@@ -19,6 +19,25 @@ export class Ufn02 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
+
+export class Ufn05 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.05",
+  };
+  description = "En URL BÖR INTE vara längre än 2048 tecken.";
+  given = "$.paths[*]~";
+  message = "En URL BÖR INTE vara längre än 2048 tecken.";
+  then = {
+    field: "url",
+    function: length,
+    functionOptions:{
+      max: 2048
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+
 export class Ufn06 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -29,11 +48,12 @@ export class Ufn06 extends BaseRuleset {
   then = {
     function: pattern,
     functionOptions: {
-      match: "^[a-z/{}]*$"
+      notMatch: "[A-Z]"
     }
   }
   severity = DiagnosticSeverity.Error;
 }
+
 export class Ufn09 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -50,6 +70,7 @@ export class Ufn09 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
+
 export class Ufn10 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -66,4 +87,23 @@ export class Ufn10 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn06,Ufn09,Ufn10 };
+
+export class Ufn11 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.11",
+  };
+  description = "Understreck '_' SKALL INTE vara del av bas URL:en.";
+  given = "$.servers..url";
+  message = "Understreck '_' SKALL INTE vara del av bas URL:en.";
+  then = {
+    field: "url",
+    function: pattern,
+    functionOptions: {
+      notMatch: "/[_]/",
+    }
+  }
+  severity = DiagnosticSeverity.Error;
+}
+
+export default { Ufn02, Ufn05, Ufn06, Ufn09, Ufn10, Ufn11 };

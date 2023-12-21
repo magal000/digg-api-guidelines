@@ -24,7 +24,7 @@ export class Sak10 extends BaseRuleset {
     område: "Säkerhet",
     id: "SAK.10",
   };
-  description = "enom att använda HTTPS för att kryptera kommunikationen mellan klient och server kan Bearer Authentication erbjuda en hög nivå av säkerhet. Det gör det svårare för angripare att avlyssna eller ändra åtkomsttoken under överföringen";
+  description = "Genom att använda HTTPS för att kryptera kommunikationen mellan klient och server kan Bearer Authentication erbjuda en hög nivå av säkerhet. Det gör det svårare för angripare att avlyssna eller ändra åtkomsttoken under överföringen";
   message = "Authorization: Bearer header SKALL användas för autentisering/auktorisation.";
   given = "$.components.securitySchemes[*]";
   then = {
@@ -36,4 +36,4 @@ export class Sak10 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
   }  
- export default { Sak09,Sak10 };
+ export default { Sak09, Sak10 };

@@ -19,6 +19,7 @@ export class Fns01 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
+
 export class Fns03 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Filtrering, paginering och sökparametrar",
@@ -33,6 +34,7 @@ export class Fns03 extends BaseRuleset {
       match: "^[a-zA-Z].*$"
     }
   }
-severity = DiagnosticSeverity.Error;
+  severity = DiagnosticSeverity.Error;
 }
-export default { Fns01 , Fns03 };
+
+export default { Fns01, Fns03 };
