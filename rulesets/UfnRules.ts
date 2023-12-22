@@ -1,5 +1,5 @@
 import { RulesetInterface } from "../ruleinterface/RuleInterface.ts"
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
+import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema , length} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 
 export class Ufn02 implements RulesetInterface {
@@ -15,13 +15,27 @@ export class Ufn02 implements RulesetInterface {
   severity = DiagnosticSeverity.Error;
 }
 
+export class Ufn05 implements RulesetInterface {
+  description = "En URL BÖR INTE vara längre än 2048 tecken.";
+  given = "$.paths[*]~";
+  message = "En URL BÖR INTE vara längre än 2048 tecken.";
+  then = {
+    field: "url",
+    function: length,
+    functionOptions: {
+      max: 2048
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+
 export class Ufn06 implements RulesetInterface {
   given = "$.paths[*]~";
   message = "{{property}} - Bokstäver i URL:n SKALL bestå av enbart gemener";
   then = {
     function: pattern,
     functionOptions: {
-      match: "^[a-z/{}]*$"
+      notMatch: "[A-Z]"
     }
   }
   severity = DiagnosticSeverity.Error;
@@ -105,4 +119,4 @@ export class Ufn11 implements RulesetInterface {
   }
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn06, Ufn08, Ufn09, Ufn10, Ufn11 };
+export default { Ufn02, Ufn05, Ufn06, Ufn08, Ufn09, Ufn10, Ufn11 };
