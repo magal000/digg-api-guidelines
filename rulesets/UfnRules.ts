@@ -32,7 +32,7 @@ export class Ufn07 implements RulesetInterface {
   then = {
     function: pattern,
     functionOptions: {
-      match: "^[a-zA-Z0-9/\\\-\\\.\\\_\\\~]*$"
+      match: "^[a-zA-Z0-9/\\\-\\\,\\\.\\\_\\\~{}]*$",
     }
   }
   severity = DiagnosticSeverity.Error;
