@@ -1,9 +1,28 @@
-import { RulesetInterface } from "../ruleinterface/RuleInterface.ts"
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
+import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
 
 
-export class Ver05 implements RulesetInterface {
+export class Ver06 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Versionhantering",
+    id: "VER.06",
+  };
+  given = "$.paths";
+  message = "Information om ett API SKALL tillgängliggöras via resursen api-info under roten '/' till API:et.";
+  then = {
+    field: '/api-info',
+    function: truthy,
+  }
+  severity = DiagnosticSeverity.Error;
+}
+
+export class Ver05 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Versionhantering",
+    id: "VER.05",
+  };
+
   given = "$.servers.[url]";
   message = "Alla API:er BÖR inkludera MAJOR versionen i den URL som används för ett specifikt API.";
   then = {
@@ -34,15 +53,5 @@ export class Ver05 implements RulesetInterface {
     }
   }
   severity = DiagnosticSeverity.Warning;
-}
-
-export class Ver06 implements RulesetInterface {
-  given = "$.paths";
-  message = "Information om ett API SKALL tillgängliggöras via resursen api-info under roten '/' till API:et.";
-  then = {
-    field: '/api-info',
-    function: truthy,
-  }
-  severity = DiagnosticSeverity.Error;
 }
 export default { Ver05, Ver06 };

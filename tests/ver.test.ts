@@ -75,6 +75,7 @@ testRule("Ver05", [
     errors: [
       {
         message: "Alla API:er BÖR inkludera MAJOR versionen i den URL som används för ett specifikt API.",
+        path: ["servers","0","url"],
         severity: DiagnosticSeverity.Warning,
       }
     ],
@@ -114,11 +115,10 @@ testRule("Ver06", [
       },
       errors: [
         {
-          message:
-            "Information om ett API SKALL tillgängliggöras via resursen api-info under roten '/' till API:et.",
-          path: ["paths" ],
+          message: "Information om ett API SKALL tillgängliggöras via resursen api-info under roten '/' till API:et.",
+          path: ["paths"],
           severity: DiagnosticSeverity.Error,
         }
-      ],
+      ]
     },
 ]);
