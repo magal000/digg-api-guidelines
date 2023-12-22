@@ -28,6 +28,132 @@ testRule("Ufn09", [
         ],
       },
 ]);
+testRule("Ufn07", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ-._~": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall med asterisk",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/a-*-is-not-allowed": {} },
+      },
+      errors: [
+        {
+          message:
+            "URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).",
+          path: ["paths", "/a-*-is-not-allowed"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+]);
+testRule("Ufn08", [
+  {
+    name: "giltigt testfall - bara gemener och bindestreck ('-')",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/correct-use-of-dash/in-path": {} },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - ignorera path parametrar",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/correct-use-of-dash/in-path/{path_param_1}/{path_param_2}": {} },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - ignorera versaler, finns annan regel för det",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "p-ath-with-UPPERCASE": {} },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - underscore i path",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/invalid_path": {} },
+    },
+    errors: [
+      {
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+        severity: DiagnosticSeverity.Error,
+      }
+    ],
+  },
+  {
+    name: "ogiltigt testfall - tilde i path",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/invalid~path": {} },
+    },
+    errors: [
+      {
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+        severity: DiagnosticSeverity.Error,
+      }
+    ],
+  },
+  {
+    name: "ogiltigt testfall - två eller flera bindestreck i rad",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/invalid--path": {} },
+    },
+    errors: [
+      {
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+        severity: DiagnosticSeverity.Error,
+      }
+    ],
+  },
+  {
+    name: "ogiltigt testfall - börjar med bindestreck",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/-invalid-path": {} },
+    },
+    errors: [
+      {
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+        severity: DiagnosticSeverity.Error,
+      }
+    ],
+  },
+  {
+    name: "ogiltigt testfall - slutar med bindestreck",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/invalid-path-": {} },
+    },
+    errors: [
+      {
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+        severity: DiagnosticSeverity.Error,
+      }
+    ],
+  },
+]);
 testRule("Ufn06", [
   {
       name: "giltigt testfall",
@@ -71,106 +197,6 @@ testRule("Ufn06", [
       ],
     },
 ]);
-testRule("Ufn08", [
-    {
-      name: "giltigt testfall - bara gemener och bindestreck ('-')",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/correct-use-of-dash/in-path": {} },
-      },
-      errors: [],
-    },
-    {
-      name: "giltigt testfall - ignorera path parametrar",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/correct-use-of-dash/in-path/{path_param_1}/{path_param_2}": {} },
-      },
-      errors: [],
-    },
-    {
-      name: "giltigt testfall - ignorera versaler, finns annan regel för det",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "p-ath-with-UPPERCASE": {} },
-      },
-      errors: [],
-    },
-    {
-      name: "ogiltigt testfall - underscore i path",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/invalid_path": {} },
-      },
-      errors: [
-        {
-          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-    {
-      name: "ogiltigt testfall - tilde i path",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/invalid~path": {} },
-      },
-      errors: [
-        {
-          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-    {
-      name: "ogiltigt testfall - två eller flera bindestreck i rad",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/invalid--path": {} },
-      },
-      errors: [
-        {
-          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-    {
-      name: "ogiltigt testfall - börjar med bindestreck",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/-invalid-path": {} },
-      },
-      errors: [
-        {
-          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-    {
-      name: "ogiltigt testfall - slutar med bindestreck",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/invalid-path-": {} },
-      },
-      errors: [
-        {
-          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-]);
-
 testRule("Ufn02", [
   {
       name: "giltigt testfall",

@@ -99,6 +99,21 @@ export class Ufn08 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
+export class Ufn07 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.07",
+  };
+  given = "$.paths[*]~";
+  message = "URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).";
+  then = {
+    function: pattern,
+    functionOptions: {
+      match: "^[a-zA-Z0-9/\\\-\\\,\\\.\\\_\\\~{}]*$",
+    }
+  }
+  severity = DiagnosticSeverity.Error;
+}
 
 export class Ufn09 extends BaseRuleset {
   static customProperties: CustomProperties = {
