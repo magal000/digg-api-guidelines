@@ -1,8 +1,6 @@
 import * as SpectralCore from '@stoplight/spectral-core';
 
 import { ISpectralDiagnostic } from '@stoplight/spectral-core';
-//import { CustomSpectralDiagnostic } from './customTypes.ts';
-//import { RuleInterface } from './yourRulesModule'; // Import your rule interface
 import spectralCore from "@stoplight/spectral-core";
 const { Spectral, Document } = spectralCore;
 
@@ -10,7 +8,6 @@ interface EnabledRules {
     rules: Record<string, any>;
   }
 class RapLPCustomSpectral {
-  //private spectral: Spectral;
   private spectral: SpectralCore.Spectral;
   private rules: Record<string, any>;
   private enabledRules: EnabledRules = {
@@ -18,7 +15,6 @@ class RapLPCustomSpectral {
 };
   private instanceCategoryMap: Map<string, any>;
   constructor() {
-    //this.spectral = new Spectral();
     this.spectral = new Spectral();
     this.rules = {};
     this.instanceCategoryMap = new Map<string,any>();
@@ -87,6 +83,7 @@ private mapResultToCustom(result: ISpectralDiagnostic): CustomSpectralDiagnostic
   }
   return {
     ...rest,
+    
     krav: message, 
     allvarlighetsgrad,
     sökväg: path,

@@ -114,7 +114,7 @@ try {
         });
       }
     } catch (spectralError: any) {
-      console.error(chalk.red("Error running Spectral:", spectralError.message));
+      console.error(chalk.red("Error running Spectral:", spectralError));
     }
   } catch (ruleError: any) {
     console.error(chalk.red("Error importing and creating rule instances:", ruleError));

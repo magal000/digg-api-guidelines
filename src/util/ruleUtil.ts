@@ -17,7 +17,7 @@ const ruleModules = [
   "SakRules",
   "VerRules",
   "FnsRules",
-  "ArqRulles",
+  "ArqRules",
   "DokRules"
 ];
 /**
@@ -70,10 +70,10 @@ export async function importAndCreateRuleInstances(ruleCategories?: string[]): P
         const ruleClasses = await importRuleModule(category);
         if (ruleClasses) {
           for (const ruleClass of ruleClasses) {
-            if (ruleClass instanceof Function) // Check to see if has constructor function 
+            if (ruleClass instanceof Function) { // Check to see if has constructor function 
             ruleTypes.push(ruleClass); // Push the imported ruleClass in RAP-LP to array of ruleTypes 
             //Store ruletype for each instance
-            //instanceCategoryMap.set(ruleClass.name, category); // Do we have name of ruleClass ? 
+            }
           }
         }
       }

@@ -1,5 +1,4 @@
 import { RulesetInterface} from "../ruleinterface/RuleInterface.ts"
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 
 export interface CustomProperties {
@@ -14,5 +13,7 @@ export class BaseRuleset implements RulesetInterface {
   given: string = '';
   message: string = '';
   then: any = {};
+  description: string = '';
   severity: DiagnosticSeverity = DiagnosticSeverity.Error;
 }
+
