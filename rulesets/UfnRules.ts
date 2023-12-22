@@ -31,7 +31,7 @@ export class Ufn05 extends BaseRuleset {
   then = {
     field: "url",
     function: length,
-    functionOptions:{
+    functionOptions: {
       max: 2048
     }
   }
@@ -49,6 +49,52 @@ export class Ufn06 extends BaseRuleset {
     function: pattern,
     functionOptions: {
       notMatch: "[A-Z]"
+    }
+  }
+  severity = DiagnosticSeverity.Error;
+}
+
+export class Ufn08 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.08",
+  };
+
+  given = "$.paths[*]~";
+  message = "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.";
+  then = {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+
+      const split = targetVal.split("/").filter(removeEmpty => removeEmpty);
+
+      const pathElements = split.filter(e => !e.startsWith("{"));
+
+      var valid:boolean = true;
+      pathElements.forEach(part => {
+
+        //  regexp tillåter inte "-", ".", "_" samt "~"
+        const separators = /([,._~]+)/g;
+        if (separators.test(part)) {
+          valid = false;
+        }
+        if (part.startsWith('-') || part.endsWith('-')) {
+          valid = false;
+        }
+        if (part.indexOf('--') >= 0) {
+          valid = false;
+        }
+      });
+
+      if (!valid) {
+        return [
+          {
+            message: this.message,
+            severity: this.severity
+          },
+        ];
+      } else {
+        return [];
+      }
     }
   }
   severity = DiagnosticSeverity.Error;
@@ -105,5 +151,4 @@ export class Ufn11 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
-
-export default { Ufn02, Ufn05, Ufn06, Ufn09, Ufn10, Ufn11 };
+export default { Ufn02, Ufn05, Ufn06, Ufn08, Ufn09, Ufn10, Ufn11 };

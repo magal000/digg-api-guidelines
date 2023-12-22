@@ -18,5 +18,4 @@ export class Dok23 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error; 
 }
-
 export default { Dok23 };
