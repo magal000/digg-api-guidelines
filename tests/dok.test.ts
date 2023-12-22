@@ -22,7 +22,7 @@ testRule("Dok23", [
         },
         errors: [
           {
-            message: "API specifikationen SKALL återfinnas under API-roten",
+            message: "API specifikationen SKALL återfinnas under API-roten.",
             path: ["servers", "0", "url"],
             severity: DiagnosticSeverity.Error,
           },

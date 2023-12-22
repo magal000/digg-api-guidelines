@@ -21,7 +21,7 @@ testRule("Ufn09", [
         errors: [
           {
             message:
-              "/Detta_e_snake_case --> ska vara kebab-case (gemener och separerade med ett '-').[Kategori: URL format och namngivning, Typ: SKALL INTE]",
+              "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
             path: ["paths", "/Detta_e_snake_case"],
             severity: DiagnosticSeverity.Error,
           }
@@ -48,7 +48,7 @@ testRule("Ufn06", [
       errors: [
         {
           message:
-            "/This-IsAn_UpperCaseUrl - Bokstäver i URL:n SKALL bestå av enbart gemener",
+            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
           path: ["paths", "/This-IsAn_UpperCaseUrl"],
           severity: DiagnosticSeverity.Error,
         }
@@ -64,14 +64,40 @@ testRule("Ufn06", [
       errors: [
         {
           message:
-            "/lower/{PathParam} - Bokstäver i URL:n SKALL bestå av enbart gemener",
+            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
           path: ["paths", "/lower/{PathParam}"],
           severity: DiagnosticSeverity.Error,
         }
       ],
     },
 ]);
-
+testRule("Ufn02", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "https://www.example.com": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall 1",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/": {} },
+        servers: [{ url: "http://api.example.com/" }],
+      },
+      errors: [
+        {
+          message: "Alla API:er SKALL exponeras via HTTPS på port 443.",
+          path: ["servers", "0", "url"],
+          severity: DiagnosticSeverity.Error,
+        },
+      ],
+    },
+]);
 testRule("Ufn05", [
     {
       name: "giltigt testfall",
@@ -146,7 +172,7 @@ testRule("Ufn10", [
     errors: [
       {
         message:
-          "Understreck '_' SKALL (UFN.10) endast användas för att separera ord i query parameternamn.",
+          "Understreck '_' SKALL endast användas för att separera ord i parameternamn.",
         path: ["paths", "/pets", "get", "parameters", "0","name"],
         severity: DiagnosticSeverity.Error,
       },
