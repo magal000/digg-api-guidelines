@@ -19,8 +19,8 @@ const ruleTypes = [
   UfnRules.Ufn02,
   UfnRules.Ufn06,
   UfnRules.Ufn08,
-  UfnRules.Ufn09,
   UfnRules.Ufn05,
+  UfnRules.Ufn09,
   UfnRules.Ufn10,
   UfnRules.Ufn11,
   SakRules.Sak09,
@@ -38,6 +38,3 @@ ruleTypes.forEach((RuleClass) => {
 export default {  // Usage outside
   rules: ruleInstances,
 };
-
-
-
