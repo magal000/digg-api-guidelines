@@ -12,8 +12,25 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: http://petstore.swagger.io/v_2
+  - url: https://example.com/myapi/v2
 paths:
+<<<<<<< HEAD
+  /api-info:
+    get:
+      description: Returns home
+      operationId: find pet by id
+      responses:
+        '200':
+          description: pet response
+          content:
+            application/json:
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+=======
 
   /example:
     post:
@@ -61,6 +78,7 @@ paths:
         '200':
           description: Successful response
 
+>>>>>>> develop
   /pets:
     get:
       description: |
@@ -70,7 +88,7 @@ paths:
         Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra, condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium, pulvinar elit eu, euismod sapien.
       operationId: findPets
       parameters:
-        - name: very_longName
+        - name: " "
           in: query
           description: tags to filter by
           required: false
@@ -79,7 +97,7 @@ paths:
             type: array
             items:
               type: string
-        - name: limit
+        - name: 
           in: query
           description: maximum number of results to return
           required: false
