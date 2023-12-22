@@ -57,12 +57,30 @@ testRule("Ufn06", [
 ]);
 
 testRule("Ufn08", [
-  {
-      name: "giltigt testfall",
+    {
+      name: "giltigt testfall - bara gemener och bindestreck ('-')",
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/correct-use-of-dash/in-path/{param_1}/{param_2}": {} },
+        paths: { "/correct-use-of-dash/in-path": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "giltigt testfall - ignorera path parametrar",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/correct-use-of-dash/in-path/{path_param_1}/{path_param_2}": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "giltigt testfall - ignorera versaler, finns annan regel för det",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "p-ath-with-UPPERCASE": {} },
       },
       errors: [],
     },
@@ -72,6 +90,20 @@ testRule("Ufn08", [
         openapi: "3.1.0",
         info: { version: "1.0" },
         paths: { "/invalid_path": {} },
+      },
+      errors: [
+        {
+          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    {
+      name: "ogiltigt testfall - tilde i path",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/invalid~path": {} },
       },
       errors: [
         {
@@ -114,20 +146,6 @@ testRule("Ufn08", [
         openapi: "3.1.0",
         info: { version: "1.0" },
         paths: { "/invalid-path-": {} },
-      },
-      errors: [
-        {
-          message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-    {
-      name: "ogiltigt testfall - versaler i path",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/Invalid-Path": {} },
       },
       errors: [
         {

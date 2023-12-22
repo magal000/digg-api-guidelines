@@ -38,9 +38,11 @@ export class Ufn08 implements RulesetInterface {
       const pathElements = split.filter(e => !e.startsWith("{"));
 
       var valid:boolean = true;
-      pathElements.forEach(function (part) {
-        const lowercaseNumericAndDash = /^[a-z0-9][a-z0-9-]*$/g;
-        if (!lowercaseNumericAndDash.test(part)) {
+      pathElements.forEach(part => {
+
+        //  regexp tillåter inte "-", ".", "_" samt "~"
+        const separators = /([,._~]+)/g;
+        if (separators.test(part)) {
           valid = false;
         }
         if (part.startsWith('-') || part.endsWith('-')) {
