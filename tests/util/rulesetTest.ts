@@ -16,6 +16,7 @@ const ruleInstances: Record<string, any> = {};
  */
 const ruleTypes = [
   ArqRules.Arq05ComplexStructure, ArqRules.Arq05NestedStructure, ArqRules.Arq05StringBinary,
+  UfnRules.Ufn01,
   UfnRules.Ufn02,
   UfnRules.Ufn06,
   UfnRules.Ufn09,

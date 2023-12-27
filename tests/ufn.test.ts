@@ -182,3 +182,32 @@ testRule("Ufn11", [
       ],
     },
 ]);
+
+testRule("Ufn01", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://gw.api.bolagsverket.se/foretagsinformation/v2/organisationer/2021005489?fields=postadress" }],
+     
+    },
+    errors: [],
+  },
+  {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [{ url: "http://api.example.com/" }],
+        
+      },
+      errors: [
+        {
+          message: "En URL för ett API BÖR följa namnstandarden:{protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+          path: ["servers", "0", "url"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },
+]);

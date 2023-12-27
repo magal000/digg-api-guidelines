@@ -2,7 +2,20 @@ import { RulesetInterface } from "../ruleinterface/RuleInterface.ts"
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema , length} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 
-0
+export class Ufn01 implements RulesetInterface {
+  description = "En URL för ett API BÖR följa namnstandarden {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}";
+  given = "$.servers.[*].url";
+  message = "En URL för ett API BÖR följa namnstandarden:{protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}";
+  then = {
+    field: 'url',
+    function: pattern,
+    functionOptions: {
+      match: "^[a-z]+://(?:[a-z0-9\-.]+\.)+([a-z]{2,6})(?:/(v[0-9]+)+/[a-z0-9-]+)?$"
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+
 export class Ufn02 implements RulesetInterface {
   given = "$.servers[?(@.url.startsWith('http'))]";
   message = "{{property}} Alla API:er SKALL exponeras via HTTPS på port 443.";
@@ -78,4 +91,4 @@ export class Ufn11 implements RulesetInterface {
   }
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02,Ufn05, Ufn09,Ufn10,Ufn11 };
+export default { Ufn01, Ufn02,Ufn05, Ufn09,Ufn10,Ufn11 };
