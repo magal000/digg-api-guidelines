@@ -168,7 +168,7 @@ testRule("Fns04", [
       openapi: "3.1.0",
       info: { version: "1.0" },
       paths: {
-        "/gemnercheck": {
+        "/gemenercheck": {
           get: {
             description: "Sökparametrar BÖR använda enbart gemener",
             parameters: [
@@ -191,7 +191,7 @@ testRule("Fns04", [
       openapi: "3.1.0",
       info: { version: "1.0" },
       paths: {
-        "/gemnercheck": {
+        "/gemenercheck": {
           get: {
             description: "Sökparametrar BÖR använda enbart gemener",
             parameters: [
@@ -209,10 +209,9 @@ testRule("Fns04", [
       {
         message:
           "Sökparametrar BÖR använda enbart gemener",
-        path: ["paths", "/gemnercheck", "get", "parameters", "0","name"],
+        path: ["paths", "/gemenercheck", "get", "parameters", "0","name"],
         severity: DiagnosticSeverity.Warning,
       },
     ],
   }
 ]);
-
