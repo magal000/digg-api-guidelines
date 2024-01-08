@@ -160,3 +160,65 @@ testRule("Fns03", [
     ],
   }
 ]);
+
+testRule("Fns09", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/limitcheck": {
+          get: {
+            description: "Defaultvärde för limit BÖR vara 20",
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  default:20
+                }
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/limitcheck": {
+          get: {
+            description: "Defaultvärde för limit BÖR vara 20",
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema :{
+                  default:30
+                }
+             
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message:
+          "Defaultvärde för limit BÖR vara 20",
+        path: ["paths", "/limitcheck", "get", "parameters","0","schema","default"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  }
+]);

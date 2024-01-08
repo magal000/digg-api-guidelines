@@ -37,4 +37,31 @@ export class Fns03 extends BaseRuleset {
   severity = DiagnosticSeverity.Error;
 }
 
-export default { Fns01, Fns03 };
+export class Fns09 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.09",
+  };
+  description = "Defaultvärde för limit BÖR vara 20";
+  message = "Defaultvärde för limit BÖR vara 20";
+  given = "$.paths.[*].parameters[?(@.in=='query' && @.name)].schema.default";
+  then = {
+    function: (targetVal: number) => {
+    const isInteger = typeof targetVal === 'number' && !Number.isFinite(targetVal);
+    if(isInteger===false && targetVal > 20 ){
+        return [
+          {
+            message: this.message,
+            severity: this.severity
+          }
+        ];
+        } else {
+         return []
+      }      
+    }
+  }
+  severity = DiagnosticSeverity.Warning;  
+}
+
+
+export default { Fns01, Fns03, Fns09 };
