@@ -7,6 +7,7 @@ import * as SakRules from "../../rulesets/SakRules.ts";
 import * as VerRules from "../../rulesets/VerRules.ts";
 import * as FnsRules from "../../rulesets/FnsRules.ts";
 import * as ArqRules from "../../rulesets/ArqRules.ts";
+import * as DokRules from "../../rulesets/DokRules.ts";
 
 const ruleInstances: Record<string, any> = {};
 
@@ -16,16 +17,22 @@ const ruleInstances: Record<string, any> = {};
 const ruleTypes = [
   ArqRules.Arq05ComplexStructure, ArqRules.Arq05NestedStructure, ArqRules.Arq05StringBinary,
   UfnRules.Ufn02,
+  UfnRules.Ufn05,
   UfnRules.Ufn06,
+  UfnRules.Ufn07,
+  UfnRules.Ufn08,
   UfnRules.Ufn09,
   UfnRules.Ufn10,
   UfnRules.Ufn11,
   SakRules.Sak09,
   SakRules.Sak10,
   SakRules.Sak18,
+  VerRules.Ver05,
   VerRules.Ver06,
   FnsRules.Fns01,
-  FnsRules.Fns03
+  FnsRules.Fns03,
+  FnsRules.Fns04,
+  DokRules.Dok23
 ];
 ruleTypes.forEach((RuleClass) => {
   const instance = new RuleClass();
@@ -35,6 +42,3 @@ ruleTypes.forEach((RuleClass) => {
 export default {  // Usage outside
   rules: ruleInstances,
 };
-
-
-
