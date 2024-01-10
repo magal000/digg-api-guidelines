@@ -31,6 +31,7 @@ const ruleTypes = [
   FnsRules.Fns01,
   FnsRules.Fns03,
   FnsRules.Fns04,
+  FnsRules.Fns06,
   DokRules.Dok23
 ];
 ruleTypes.forEach((RuleClass) => {

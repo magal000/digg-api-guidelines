@@ -53,4 +53,22 @@ export class Fns04 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Warning;
 }
-export default { Fns01, Fns03 , Fns04};
+
+export class Fns06 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.06",
+  };
+  description = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-'', '.', '_' samt '~', se vidare i RFC 3986)";
+  message = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)";
+  given = "$.paths.[*].parameters[?(@.in=='query')].name";
+  then = {
+    function: pattern,
+    functionOptions: {
+      match: "^(?:[a-zA-Z0-9-._~])+$"
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+
+export default { Fns01, Fns03 , Fns04, Fns06};
