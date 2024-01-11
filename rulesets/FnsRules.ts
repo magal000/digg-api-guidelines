@@ -44,11 +44,11 @@ export class Fns09 extends BaseRuleset {
   };
   description = "Defaultvärde för limit BÖR vara 20";
   message = "Defaultvärde för limit BÖR vara 20";
-  given = "$.paths.[*].parameters[?(@.in=='query' && @.name)].schema.default";
+  given = "$.paths.[*].parameters[?(@.in=='query')].name";
   then = {
     function: (targetVal: number) => {
     const isInteger = typeof targetVal === 'number' && !Number.isFinite(targetVal);
-    if(isInteger===false && targetVal > 20 ){
+    if(isInteger===false && targetVal !== 20 ){
         return [
           {
             message: this.message,

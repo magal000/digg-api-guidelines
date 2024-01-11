@@ -81,14 +81,14 @@ paths:
             minimum: 0
           required: false
           description: default number of results to start from.
-        - name: limit
+        - name: 20
           in: query
           description: number of results to return
           required: false
           schema:
             type: integer
             format: int32
-            default: 20
+            
       responses:
         '200':
           description: pet response
