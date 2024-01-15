@@ -43,10 +43,15 @@ export class Sak18 extends BaseRuleset {
   };
   description = "OAuth är ett auktorisationsprotokoll som säkert delegerar behörighet till en annan resurs.";
   message = "OAuth version 2.0 eller senare BÖR användas för auktorisation.";
-  given = "$.components.securitySchemes..type";
+  given = "$.components.securitySchemes.*";
   then = {
     function: (targetVal: string, _opts: string, paths: string[]) => {
-      if (targetVal === "oauth2") {
+      const flows = targetVal["flows"];
+      if (targetVal["type"] === "oauth2" &&
+          (flows["implicit"] ||
+           flows["password"] ||
+           flows["clientCredentials"] ||
+           flows["authorizationCode"])) {
         return [];
       } else {
         return [
