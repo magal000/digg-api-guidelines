@@ -59,13 +59,13 @@ export class Fns06 extends BaseRuleset {
     område: "Filtrering, paginering och sökparametrar",
     id: "FNS.06",
   };
-  description = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-'', '.', '_' samt '~', se vidare i RFC 3986)";
-  message = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)";
+  description = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen  a-z, 0-9, '-'', '.', '_' samt '~', se vidare i RFC 3986)";
+  message = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen  a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)";
   given = "$.paths.[*].parameters[?(@.in=='query')].name";
   then = {
     function: pattern,
     functionOptions: {
-      match: "^(?:[a-zA-Z0-9-._~])+$"
+      match: "^(?:[a-z0-9-._~])+$"
     }
   }
   severity = DiagnosticSeverity.Warning;

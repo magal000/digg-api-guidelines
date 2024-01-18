@@ -225,7 +225,7 @@ testRule("Fns06", [
       paths: {
         "/urlsakratecknencheck": {
           get: {
-            description: "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)",
+            description: "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)",
             parameters: [
               {
                 name: "url_sakra-tecknen.check~",
@@ -248,10 +248,10 @@ testRule("Fns06", [
       paths: {
         "/urlsakratecknencheck": {
           get: {
-            description: "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)",
+            description: "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)",
             parameters: [
               {
-                name: "url@sakra,tecknen+checke*",
+                name: "Aurl@sakra,tecknen+checke*",
                 in: "query",
                 required: false,
               },
@@ -263,7 +263,7 @@ testRule("Fns06", [
     errors: [
       {
         message:
-          "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)",
+          "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen  a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)",
         path: ["paths", "/urlsakratecknencheck", "get", "parameters", "0","name"],
         severity: DiagnosticSeverity.Warning,
       },
