@@ -173,9 +173,13 @@ testRule("Fns09", [
             description: "Defaultvärde för limit BÖR vara 20",
             parameters: [
               {
-                name: 20,
+                name: "limit",
                 in: "query",
                 required: false,
+                schema: {
+                  type: "integer",
+                  default: 20
+                }
               }
             ],
           },
@@ -195,11 +199,15 @@ testRule("Fns09", [
             description: "Defaultvärde för limit BÖR vara 20",
             parameters: [
               {
-                name: 30,
+                name: "limit",
                 in: "query",
                 required: false,
+                schema: {
+                  type: "integer",
+                  default: 201
+                }
               }
-            ]
+            ],
           },
         },
       },
@@ -207,7 +215,7 @@ testRule("Fns09", [
     errors: [
       {
         message: "Defaultvärde för limit BÖR vara 20",
-
+        severity: DiagnosticSeverity.Warning,
       }
     ],
   },

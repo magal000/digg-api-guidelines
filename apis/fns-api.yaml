@@ -1,0 +1,98 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: FNS
+  description: Filtrering, paginering och sökparametrar
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: RAP-LP Team
+    email: rap-lp@example.com
+    url: http://example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://fns.example.com/
+
+paths:
+  /organisationer:
+    get:
+      summary: Returns all organization
+      operationId: findOrganisationer
+      tags:
+        - organisationer
+        - organisationer2
+      description: |
+        Returns all organization from the system that the user has access to
+      parameters:
+        - name: limit
+          in: query
+          description: max number of entries
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 20
+        - name: page
+          in: query
+          description: page number
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 1
+      responses:
+        '200':
+          description: organization response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organisation'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+components:
+  securitySchemes:
+    bearerAuth:     # <-- arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    Organisation:
+      type: object
+      required:
+        - id
+        - namn
+      properties:
+        id:
+          type: string
+          format: uuid
+        namn:
+          type: string
+        homepage:
+          type: string
+        epost:
+          type: string
+
+tags:
+  - name: organisationer
+    description: Organisationer
+  - name: organisationer2
+    description: Organisationer2

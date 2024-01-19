@@ -44,23 +44,22 @@ export class Fns09 extends BaseRuleset {
   };
   description = "Defaultvärde för limit BÖR vara 20";
   message = "Defaultvärde för limit BÖR vara 20";
-  given = "$.paths.[*].parameters[?(@.in=='query')].name";
+  given = "$.paths..parameters[?(@.in=='query' && @.name == 'limit')].schema";
   then = {
-    function: (targetVal: number) => {
-    const isInteger = typeof targetVal === 'number' && !Number.isFinite(targetVal);
-    if(isInteger===false && targetVal !== 20 ){
+    function: (targetVal, _opts, paths) => {
+      if (targetVal["default"] != 20) {
         return [
           {
             message: this.message,
             severity: this.severity
           }
         ];
-        } else {
+      } else {
          return []
-      }      
+      }
     }
   }
-  severity = DiagnosticSeverity.Warning;  
+  severity = DiagnosticSeverity.Warning;
 }
 
 export class Fns04 extends BaseRuleset {
