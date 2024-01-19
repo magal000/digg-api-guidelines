@@ -8,6 +8,7 @@ import * as VerRules from "../../rulesets/VerRules.ts";
 import * as FnsRules from "../../rulesets/FnsRules.ts";
 import * as ArqRules from "../../rulesets/ArqRules.ts";
 import * as DokRules from "../../rulesets/DokRules.ts";
+import * as AmeRules from "../../rulesets/AmeRules.ts";
 
 const ruleInstances: Record<string, any> = {};
 
@@ -15,6 +16,7 @@ const ruleInstances: Record<string, any> = {};
  * Define each rule class to create instance of
  */
 const ruleTypes = [
+  AmeRules.Ame01,
   ArqRules.Arq05ComplexStructure, ArqRules.Arq05NestedStructure, ArqRules.Arq05StringBinary,
   UfnRules.Ufn02,
   UfnRules.Ufn05,
@@ -26,11 +28,13 @@ const ruleTypes = [
   UfnRules.Ufn11,
   SakRules.Sak09,
   SakRules.Sak10,
+  SakRules.Sak18,
   VerRules.Ver05,
   VerRules.Ver06,
   FnsRules.Fns01,
   FnsRules.Fns03,
   FnsRules.Fns09,
+  FnsRules.Fns04,
   DokRules.Dok23
 ];
 ruleTypes.forEach((RuleClass) => {

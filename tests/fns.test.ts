@@ -184,7 +184,6 @@ testRule("Fns09", [
     },
     errors: [],
   },
-
   {
     name: "ogiltigt testfall",
     document: {
@@ -199,6 +198,58 @@ testRule("Fns09", [
                 name: 30,
                 in: "query",
                 required: false,
+              }
+            ]
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "Defaultvärde för limit BÖR vara 20",
+
+      }
+    ],
+  },
+]);
+
+testRule("Fns04", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/gemenercheck": {
+          get: {
+            description: "Sökparametrar BÖR använda enbart gemener",
+            parameters: [
+              {
+                name: "verylongname",
+                in: "query",
+                required: false,
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/gemenercheck": {
+          get: {
+            description: "Sökparametrar BÖR använda enbart gemener",
+            parameters: [
+              {
+                name: "veryLongName",
+                in: "query",
+                required: false,
               },
             ],
           },
@@ -208,8 +259,8 @@ testRule("Fns09", [
     errors: [
       {
         message:
-          "Defaultvärde för limit BÖR vara 20",
-        path: ["paths", "/limitcheck", "get", "parameters","0","name"],
+          "Sökparametrar BÖR använda enbart gemener",
+        path: ["paths", "/gemenercheck", "get", "parameters", "0","name"],
         severity: DiagnosticSeverity.Warning,
       },
     ],
