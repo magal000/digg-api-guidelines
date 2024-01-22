@@ -96,8 +96,9 @@ components:
     oAuth2:
       type: oauth2
       flows:
-        implicit:
-          authorizationUrl: https://example.com/api/oauth/dialog
+        clientCredentials:
+          tokenUrl: http://example.com/api/oauth/token
+          refreshUrl: http://example.com/api/oauth/refresh
           scopes:
             write:pets: modify pets in your account
             read:pets: read your pets

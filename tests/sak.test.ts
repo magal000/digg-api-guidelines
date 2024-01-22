@@ -89,8 +89,14 @@ testRule("Sak09", [
         info: { version: "1.0" },
         components: {
           securitySchemes: {
-            "oAuth2Password": {
+            "oAuth2": {
               type: "oauth2",
+              flows: {
+                clientCredentials: {
+                  tokenUrl: "https://example.com/token",
+                  refreshUrl: "https://example.com/refresh",
+                },
+              }
             },
           },
         },
@@ -104,9 +110,15 @@ testRule("Sak09", [
         info: { version: "1.0" },
         components: {
           securitySchemes: {
-            "oAuth2Password": {
-              type: "http"
-            },
+            "oAuth2": {
+              type: "oauth2",
+              flows: {
+                clientCredentials: {
+                  tokenUrl: "https://example.com/token",
+                  refreshUrl: "http://example.com/refresh",
+                },
+              },
+            }
           },
         },
       },
@@ -118,5 +130,3 @@ testRule("Sak09", [
       ],
     },
   ]);
-
-
