@@ -1,6 +1,6 @@
 import { DiagnosticSeverity } from "@stoplight/types";
-import { enumeration,length} from "@stoplight/spectral-functions";
 import testRule from "./util/helperTest.ts";
+
 testRule("Ufn09", [
     {
         name: "giltigt testfall",
@@ -21,12 +21,138 @@ testRule("Ufn09", [
         errors: [
           {
             message:
-              "/Detta_e_snake_case --> ska vara kebab-case (gemener och separerade med ett '-').[Kategori: URL format och namngivning, Typ: SKALL INTE]",
+              "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
             path: ["paths", "/Detta_e_snake_case"],
             severity: DiagnosticSeverity.Error,
           }
         ],
       },
+]);
+testRule("Ufn07", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ-._~": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall med asterisk",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/a-*-is-not-allowed": {} },
+      },
+      errors: [
+        {
+          message:
+            "URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).",
+          path: ["paths", "/a-*-is-not-allowed"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+]);
+testRule("Ufn08", [
+  {
+    name: "giltigt testfall - bara gemener och bindestreck ('-')",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/correct-use-of-dash/in-path": {} },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - ignorera path parametrar",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/correct-use-of-dash/in-path/{path_param_1}/{path_param_2}": {} },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - ignorera versaler, finns annan regel för det",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "p-ath-with-UPPERCASE": {} },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - underscore i path",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/invalid_path": {} },
+    },
+    errors: [
+      {
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+        severity: DiagnosticSeverity.Error,
+      }
+    ],
+  },
+  {
+    name: "ogiltigt testfall - tilde i path",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/invalid~path": {} },
+    },
+    errors: [
+      {
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+        severity: DiagnosticSeverity.Error,
+      }
+    ],
+  },
+  {
+    name: "ogiltigt testfall - två eller flera bindestreck i rad",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/invalid--path": {} },
+    },
+    errors: [
+      {
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+        severity: DiagnosticSeverity.Error,
+      }
+    ],
+  },
+  {
+    name: "ogiltigt testfall - börjar med bindestreck",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/-invalid-path": {} },
+    },
+    errors: [
+      {
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+        severity: DiagnosticSeverity.Error,
+      }
+    ],
+  },
+  {
+    name: "ogiltigt testfall - slutar med bindestreck",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/invalid-path-": {} },
+    },
+    errors: [
+      {
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.",
+        severity: DiagnosticSeverity.Error,
+      }
+    ],
+  },
 ]);
 testRule("Ufn06", [
   {
@@ -48,7 +174,7 @@ testRule("Ufn06", [
       errors: [
         {
           message:
-            "/This-IsAn_UpperCaseUrl - Bokstäver i URL:n SKALL bestå av enbart gemener",
+            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
           path: ["paths", "/This-IsAn_UpperCaseUrl"],
           severity: DiagnosticSeverity.Error,
         }
@@ -64,14 +190,40 @@ testRule("Ufn06", [
       errors: [
         {
           message:
-            "/lower/{PathParam} - Bokstäver i URL:n SKALL bestå av enbart gemener",
+            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
           path: ["paths", "/lower/{PathParam}"],
           severity: DiagnosticSeverity.Error,
         }
       ],
     },
 ]);
-
+testRule("Ufn02", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "https://www.example.com": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall 1",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/": {} },
+        servers: [{ url: "http://api.example.com/" }],
+      },
+      errors: [
+        {
+          message: "Alla API:er SKALL exponeras via HTTPS på port 443.",
+          path: ["servers", "0", "url"],
+          severity: DiagnosticSeverity.Error,
+        },
+      ],
+    },
+]);
 testRule("Ufn05", [
     {
       name: "giltigt testfall",
@@ -146,7 +298,7 @@ testRule("Ufn10", [
     errors: [
       {
         message:
-          "Understreck '_' SKALL (UFN.10) endast användas för att separera ord i query parameternamn.",
+          "Understreck '_' SKALL endast användas för att separera ord i parameternamn.",
         path: ["paths", "/pets", "get", "parameters", "0","name"],
         severity: DiagnosticSeverity.Error,
       },
@@ -189,7 +341,7 @@ testRule("Ufn01", [
     document: {
       openapi: "3.1.0",
       info: { version: "1.0" },
-      servers: [{ url: "https://gw.api.bolagsverket.se/foretagsinformation/v2/organisationer/2021005489?fields=postadress" }],
+      paths: { "/exampletest": {} }
      
     },
     errors: [],
@@ -199,13 +351,13 @@ testRule("Ufn01", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        servers: [{ url: "http://api.example.com/" }],
+        paths: { "/exampletest232323": {} },
         
       },
       errors: [
         {
-          message: "En URL för ett API BÖR följa namnstandarden:{protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
-          path: ["servers", "0", "url"],
+          message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+          path: [],
           severity: DiagnosticSeverity.Warning,
         },
       ],
