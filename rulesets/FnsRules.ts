@@ -44,10 +44,30 @@ export class Fns09 extends BaseRuleset {
   };
   description = "Defaultvärde för limit BÖR vara 20";
   message = "Defaultvärde för limit BÖR vara 20";
-  given = "$.paths..parameters[?(@.in=='query' && @.name == 'limit')].schema";
+  given = "$.paths..parameters";
   then = {
     function: (targetVal, _opts, paths) => {
-      if (targetVal["default"] != 20) {
+
+      let isValid = true;
+      targetVal.forEach(function (item, index) {
+        if (item["in"] == "query" &&
+          (item["name"] == "page" || item["name"] == "offset")) {
+
+          // check for existense of 'limit' parameter
+          const limit = targetVal.find(param => param.name === 'limit');
+          if (limit) {
+            if (limit.schema.default != 20) {
+              isValid = false;
+            } else {
+              isValid = true;
+            }
+          } else {
+            isValid = true;
+          }
+        }
+        });
+
+      if (!isValid) {
         return [
           {
             message: this.message,

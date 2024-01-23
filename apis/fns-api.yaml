@@ -17,17 +17,16 @@ servers:
 paths:
   /organisationer:
     get:
-      summary: Returns all organization
-      operationId: findOrganisationer
+      summary: Returns all organizations
+      operationId: findOrganizations
       tags:
-        - organisationer
-        - organisationer2
+        - Organization
       description: |
-        Returns all organization from the system that the user has access to
+        Returns all organizations from the system that the user has access to
       parameters:
         - name: limit
           in: query
-          description: max number of entries
+          description: max number of organizations to return
           required: false
           schema:
             type: integer
@@ -35,15 +34,23 @@ paths:
             default: 20
         - name: page
           in: query
-          description: page number
+          description: page number (organizations are sorted by name)
           required: false
           schema:
             type: integer
             format: int32
             default: 1
+        - name: custom
+          in: query
+          description: special case
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 55
       responses:
         '200':
-          description: organization response
+          description: Organization response
           content:
             application/json:
               schema:
@@ -56,6 +63,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /personer:
+    get:
+      summary: Returns all persons
+      operationId: findPersonal
+      tags:
+        - Persons
+      description: |
+        Returns all persons
+      parameters:
+        - name: limit
+          in: query
+          description: max number of persons to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 20
+        - name: offset
+          in: query
+          description: offset (persons are sorted by name)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+      responses:
+        '200':
+          description: person response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
 
 
 components:
@@ -90,9 +139,24 @@ components:
           type: string
         epost:
           type: string
-
+    Person:
+      type: object
+      required:
+        - id
+        - namn
+      properties:
+        id:
+          type: string
+          format: uuid
+        namn:
+          type: string
+        homepage:
+          type: string
+        epost:
+          type: string
+  
 tags:
-  - name: organisationer
-    description: Organisationer
-  - name: organisationer2
-    description: Organisationer2
+  - name: Organization
+    description: Organization
+  - name: Persons
+    description: Persons
