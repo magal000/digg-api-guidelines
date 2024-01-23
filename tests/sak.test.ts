@@ -114,8 +114,7 @@ testRule("Sak09", [
               type: "oauth2",
               flows: {
                 clientCredentials: {
-                  tokenUrl: "https://example.com/token",
-                  refreshUrl: "http://example.com/refresh",
+                  tokenUrl: "http://example.com/token",
                 },
               },
             }
