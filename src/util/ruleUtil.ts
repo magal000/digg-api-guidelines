@@ -18,7 +18,8 @@ const ruleModules = [
   "VerRules",
   "FnsRules",
   "ArqRules",
-  "DokRules"
+  "DokRules",
+  "AmeRules"
 ];
 /**
  * 
