@@ -36,21 +36,4 @@ export class Fns03 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
-
-export class Fns04 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "Filtrering, paginering och sökparametrar",
-    id: "FNS.04",
-  };
-  description = "Sökparametrar BÖR använda enbart gemener";
-  message = "Sökparametrar BÖR använda enbart gemener";
-  given = "$.paths.[*].parameters[?(@.in=='query')].name";
-  then = {
-    function: pattern,
-    functionOptions: {
-      match: "^[a-z_]+$"
-    }
-  }
-  severity = DiagnosticSeverity.Warning;
-}
-export default { Fns01, Fns03 , Fns04};
+export default { Fns01, Fns03};
