@@ -81,5 +81,51 @@ testRule("Sak09", [
       ],
     },
   ]);
-
-
+  testRule("Sak18", [
+    {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          securitySchemes: {
+            "oAuth2": {
+              type: "oauth2",
+              flows: {
+                clientCredentials: {
+                  tokenUrl: "https://example.com/token",
+                  refreshUrl: "https://example.com/refresh",
+                },
+              }
+            },
+          },
+        },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall - http är ej tillåtet",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          securitySchemes: {
+            "oAuth2": {
+              type: "oauth2",
+              flows: {
+                clientCredentials: {
+                  tokenUrl: "http://example.com/token",
+                },
+              },
+            }
+          },
+        },
+      },
+      errors: [
+        {
+          message: "OAuth version 2.0 eller senare BÖR användas för auktorisation.",
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },
+  ]);

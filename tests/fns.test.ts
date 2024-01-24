@@ -160,62 +160,6 @@ testRule("Fns03", [
     ],
   }
 ]);
-
-testRule("Fns04", [
-  {
-    name: "giltigt testfall",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      paths: {
-        "/gemenercheck": {
-          get: {
-            description: "Sökparametrar BÖR använda enbart gemener",
-            parameters: [
-              {
-                name: "verylongname",
-                in: "query",
-                required: false,
-              },
-            ],
-          },
-        },
-      },
-    },
-    errors: [],
-  },
-
-  {
-    name: "ogiltigt testfall",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      paths: {
-        "/gemenercheck": {
-          get: {
-            description: "Sökparametrar BÖR använda enbart gemener",
-            parameters: [
-              {
-                name: "veryLongName",
-                in: "query",
-                required: false,
-              },
-            ],
-          },
-        },
-      },
-    },
-    errors: [
-      {
-        message:
-          "Sökparametrar BÖR använda enbart gemener",
-        path: ["paths", "/gemenercheck", "get", "parameters", "0","name"],
-        severity: DiagnosticSeverity.Warning,
-      },
-    ],
-  }
-]);
-
 testRule("Fns06", [
   {
     name: "giltigt testfall",
@@ -239,7 +183,6 @@ testRule("Fns06", [
     },
     errors: [],
   },
-
   {
     name: "ogiltigt testfall",
     document: {

@@ -35,5 +35,21 @@ export class Sak10 extends BaseRuleset {
     }
   }
   severity = DiagnosticSeverity.Error;
-  }  
- export default { Sak09, Sak10 };
+}
+export class Sak18 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Säkerhet",
+    id: "SAK.18",
+  };
+  description = "OAuth är ett auktorisationsprotokoll som säkert delegerar behörighet till en annan resurs.";
+  message = "OAuth version 2.0 eller senare BÖR användas för auktorisation.";
+  given = "$..[securitySchemes][?(@ && @.type=='oauth2' && @.flows ? true : false)][*].[?(@property && @property.match(/Url$/i))]";
+  then = {
+    function: pattern,
+    functionOptions: {
+      notMatch: "^http:",
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+export default { Sak09, Sak10, Sak18 };
