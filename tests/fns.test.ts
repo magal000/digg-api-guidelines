@@ -213,3 +213,149 @@ testRule("Fns06", [
     ],
   }
 ]);
+
+testRule("Fns07", [
+  {
+    name: "giltigt testfall - enbart 'limit' utan 'page' eller 'offset'",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 100
+                }
+              }
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - med 'limit' och 'page'",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 20
+                }
+              },
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 1
+                }
+              }
+
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - med 'limit' och 'offset'",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 20
+                }
+              },
+              {
+                name: "offset",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 1
+                }
+              }
+
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - med 'limit', 'offset' och 'page'",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 20
+                }
+              },
+              {
+                name: "offset",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 1
+                }
+              },
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 1
+                }
+              }
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "Vid användande av paginering, SKALL följande parametrar ingå i request: 'limit' och någon av 'page' eller 'offset'",
+        severity: DiagnosticSeverity.Error,
+      },
+    ],
+  },
+]);
