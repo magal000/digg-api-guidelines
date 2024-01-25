@@ -65,7 +65,7 @@ export class Fns09 extends BaseRuleset {
             isValid = true;
           }
         }
-        });
+      });
 
       if (!isValid) {
         return [
