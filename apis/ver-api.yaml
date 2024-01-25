@@ -91,7 +91,13 @@ paths:
           schema:
             type: integer
             format: int32
-            
+        - name: url_sakra_technen_validation
+          in: query
+          description: valid characters according to RFC 3986
+          required: false
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
           description: pet response
