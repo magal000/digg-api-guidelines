@@ -21,8 +21,8 @@ const ruleTypes = [
   UfnRules.Ufn02,
   UfnRules.Ufn05,
   UfnRules.Ufn06,
-//  UfnRules.Ufn07,
-//  UfnRules.Ufn08,
+  UfnRules.Ufn07,
+  UfnRules.Ufn08,
   UfnRules.Ufn09,
   UfnRules.Ufn10,
   UfnRules.Ufn11,
@@ -33,8 +33,8 @@ const ruleTypes = [
   VerRules.Ver06,
   FnsRules.Fns01,
   FnsRules.Fns03,
-  FnsRules.Fns04,
   FnsRules.Fns07,
+  FnsRules.Fns06,
   DokRules.Dok23
 ];
 ruleTypes.forEach((RuleClass) => {

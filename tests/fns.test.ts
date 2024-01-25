@@ -160,20 +160,19 @@ testRule("Fns03", [
     ],
   }
 ]);
-
-testRule("Fns04", [
+testRule("Fns06", [
   {
     name: "giltigt testfall",
     document: {
       openapi: "3.1.0",
       info: { version: "1.0" },
       paths: {
-        "/gemenercheck": {
+        "/urlsakratecknencheck": {
           get: {
-            description: "Sökparametrar BÖR använda enbart gemener",
+            description: "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)",
             parameters: [
               {
-                name: "verylongname",
+                name: "url_sakra-tecknen.check~",
                 in: "query",
                 required: false,
               },
@@ -184,19 +183,18 @@ testRule("Fns04", [
     },
     errors: [],
   },
-
   {
     name: "ogiltigt testfall",
     document: {
       openapi: "3.1.0",
       info: { version: "1.0" },
       paths: {
-        "/gemenercheck": {
+        "/urlsakratecknencheck": {
           get: {
-            description: "Sökparametrar BÖR använda enbart gemener",
+            description: "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)",
             parameters: [
               {
-                name: "veryLongName",
+                name: "url@sakra,tecknen+checke*",
                 in: "query",
                 required: false,
               },
@@ -208,8 +206,8 @@ testRule("Fns04", [
     errors: [
       {
         message:
-          "Sökparametrar BÖR använda enbart gemener",
-        path: ["paths", "/gemenercheck", "get", "parameters", "0","name"],
+          "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)",
+        path: ["paths", "/urlsakratecknencheck", "get", "parameters", "0","name"],
         severity: DiagnosticSeverity.Warning,
       },
     ],

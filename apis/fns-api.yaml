@@ -13,7 +13,6 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: http://fns.example.com/
-    description: Development server
 
 paths:
   /organisationer:
@@ -89,14 +88,12 @@ paths:
             type: integer
             format: int32
             default: 0
-        - name: page
+        - name: Aa@
           in: query
-          description: page number (persons are sorted by name)
+          description: Test
           required: false
           schema:
-            type: integer
-            format: int32
-            default: 1
+            type: string
       responses:
         '200':
           description: person response
@@ -163,7 +160,7 @@ components:
           type: string
         epost:
           type: string
-
+  
 tags:
   - name: Organization
     description: Organization

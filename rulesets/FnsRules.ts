@@ -36,19 +36,18 @@ export class Fns03 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
-
-export class Fns04 extends BaseRuleset {
+export class Fns06 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Filtrering, paginering och sökparametrar",
-    id: "FNS.04",
+    id: "FNS.06",
   };
-  description = "Sökparametrar BÖR använda enbart gemener";
-  message = "Sökparametrar BÖR använda enbart gemener";
+  description = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-'', '.', '_' samt '~', se vidare i RFC 3986)";
+  message = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)";
   given = "$.paths.[*].parameters[?(@.in=='query')].name";
   then = {
     function: pattern,
     functionOptions: {
-      match: "^[a-z_]+$"
+      match: "^(?:[a-zA-Z0-9-._~])+$"
     }
   }
   severity = DiagnosticSeverity.Warning;
@@ -105,4 +104,4 @@ export class Fns07 extends BaseRuleset {
   severity = DiagnosticSeverity.Error;
 }
 
-export default { Fns01, Fns03 , Fns04, Fns07 };
+export default { Fns01, Fns03, Fns06, Fns07 };
