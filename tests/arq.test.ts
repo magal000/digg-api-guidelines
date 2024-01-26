@@ -192,3 +192,69 @@ testRule("Arq05ComplexStructure", [
       ],
     },
   ]);
+
+  testRule("Arq01", [
+    {
+      name: "giltigt testfall - UTF-8 format",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: {
+          "/formatetest": {
+            post: {
+              requestBody: {
+                content: {
+                    'charset=UTF-8': {
+                      schema: {
+                        type: 'object',
+                        properties: {
+                          data: {
+                            type: 'string'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+            },
+          },
+        },
+        errors: [],
+      },
+      {
+      name: "ogiltigt testfall - Not UTF-8 format",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: {
+          "/formatetest": {
+            post: {
+              requestBody: {
+                content: {
+                    'no-charset=UTF-8': {
+                      schema: {
+                        type: 'object',
+                        properties: {
+                          data: {
+                            type: 'string'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+            },
+          },
+        },
+        errors: [
+          {
+          message:
+            "Ett API request BÖR skickas i UTF-8 format",
+          path: ["paths", "/formatetest", "post","requestBody", "content"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },
+  ]);
