@@ -36,6 +36,52 @@ export class Fns03 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
+
+export class Fns09 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.09",
+  };
+  description = "Defaultvärde för limit BÖR vara 20";
+  message = "Defaultvärde för limit BÖR vara 20";
+  given = "$.paths..parameters";
+  then = {
+    function: (targetVal, _opts, paths) => {
+
+      let isValid = true;
+      targetVal.forEach(function (item, index) {
+        if (item["in"] == "query" &&
+          (item["name"] == "page" || item["name"] == "offset")) {
+
+          // check for existense of 'limit' parameter
+          const limit = targetVal.find(param => param.name === 'limit');
+          if (limit) {
+            if (limit.schema.default != 20) {
+              isValid = false;
+            } else {
+              isValid = true;
+            }
+          } else {
+            isValid = true;
+          }
+        }
+      });
+
+      if (!isValid) {
+        return [
+          {
+            message: this.message,
+            severity: this.severity
+          }
+        ];
+      } else {
+         return []
+      }
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+
 export class Fns06 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Filtrering, paginering och sökparametrar",
