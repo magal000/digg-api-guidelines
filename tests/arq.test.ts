@@ -200,11 +200,11 @@ testRule("Arq05ComplexStructure", [
         openapi: "3.1.0",
         info: { version: "1.0" },
         paths: {
-          "/formatetest": {
+          "/utfformatetest": {
             post: {
               requestBody: {
                 content: {
-                    'charset=UTF-8': {
+                    'application/json;charset=utf-8': {
                       schema: {
                         type: 'object',
                         properties: {
@@ -228,11 +228,11 @@ testRule("Arq05ComplexStructure", [
         openapi: "3.1.0",
         info: { version: "1.0" },
         paths: {
-          "/formatetest": {
+          "/utfformatetest": {
             post: {
               requestBody: {
                 content: {
-                    'no-charset=UTF-8': {
+                    'no-application/json;charset=utf-8': {
                       schema: {
                         type: 'object',
                         properties: {
@@ -252,7 +252,7 @@ testRule("Arq05ComplexStructure", [
           {
           message:
             "Ett API request BÖR skickas i UTF-8 format",
-          path: ["paths", "/formatetest", "post","requestBody", "content"],
+          path: ["paths", "/utfformatetest", "post","requestBody", "content"],
           severity: DiagnosticSeverity.Warning,
         },
       ],

@@ -69,7 +69,7 @@ export class Arq01 extends BaseRuleset {
   given = "$.paths.[*].requestBody.content";
   then = {
     function:(targetVal) =>{
-      if(targetVal.hasOwnProperty('charset=UTF-8')){
+      if(targetVal.hasOwnProperty('application/json;charset=utf-8')){
         return [];
       }else{
         return [
