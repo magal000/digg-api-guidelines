@@ -33,6 +33,8 @@ const ruleTypes = [
   VerRules.Ver06,
   FnsRules.Fns01,
   FnsRules.Fns03,
+  FnsRules.Fns09,
+  FnsRules.Fns07,
   FnsRules.Fns06,
   DokRules.Dok23
 ];

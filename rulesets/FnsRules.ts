@@ -36,6 +36,52 @@ export class Fns03 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
+
+export class Fns09 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.09",
+  };
+  description = "Defaultvärde för limit BÖR vara 20";
+  message = "Defaultvärde för limit BÖR vara 20";
+  given = "$.paths..parameters";
+  then = {
+    function: (targetVal, _opts, paths) => {
+
+      let isValid = true;
+      targetVal.forEach(function (item, index) {
+        if (item["in"] == "query" &&
+          (item["name"] == "page" || item["name"] == "offset")) {
+
+          // check for existense of 'limit' parameter
+          const limit = targetVal.find(param => param.name === 'limit');
+          if (limit) {
+            if (limit.schema.default != 20) {
+              isValid = false;
+            } else {
+              isValid = true;
+            }
+          } else {
+            isValid = true;
+          }
+        }
+      });
+
+      if (!isValid) {
+        return [
+          {
+            message: this.message,
+            severity: this.severity
+          }
+        ];
+      } else {
+         return []
+      }
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+
 export class Fns06 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Filtrering, paginering och sökparametrar",
@@ -52,4 +98,56 @@ export class Fns06 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Warning;
 }
-export default { Fns01, Fns03 , Fns06};
+
+export class Fns07 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.07",
+  };
+  description = "";
+  message = "Vid användande av paginering, SKALL följande parametrar ingå i request: 'limit' och någon av 'page' eller 'offset'";
+  given = "$.paths..parameters";
+  then = {
+    function: (targetVal: any, _opts: string, paths: string[]) => {
+      const xor = (a, b) => (a && !b) || (!a && b);
+      let isValid = false;
+      let hasLimit = false;
+      let hasPage = false;
+      let hasOffset = false;
+      targetVal.forEach(function (parameter, index) {
+        if (parameter["in"] == "query") {
+
+          if (parameter["name"] == "page") {
+            hasPage = true;
+          }
+          if (parameter["name"] == "offset") {
+            hasOffset = true;
+          }
+          if (parameter["name"] == "limit") {
+            hasLimit = true;
+          }
+        }
+      });
+      // if there is a limit paramenter, check for existence of one of 'page' or 'offset' parameter
+      if (hasLimit && xor(hasPage, hasOffset)) {
+        isValid = true;
+      } else if (hasLimit && !(hasPage || hasOffset)) {
+        isValid = true;
+      }
+
+      if (isValid) {
+        return [];
+      } else {
+        return [
+            {
+              message: this.message,
+              severity: this.severity
+           },
+        ]
+      }
+    }
+  }
+  severity = DiagnosticSeverity.Error;
+}
+
+export default { Fns01, Fns03, Fns06, Fns07 };
