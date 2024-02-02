@@ -33,4 +33,38 @@ export class Ame01 extends BaseRuleset {
   severity = DiagnosticSeverity.Warning;
 }
 
-export default { Ame01 };
+export class Ame02 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "API Message",
+    id: "AME.02",
+  };
+  description = "Denna regel validerar att response är application/json.";
+  message = "Det BÖR förutsättas att alla request headers som standard använder 'Accept' med värde 'application/json'";
+  given = "$.paths.*.*..content";
+  then = {
+    function: (targetVal: any, _opts: string, paths: string[]) => {
+      var valid:boolean = false;
+
+      Object.getOwnPropertyNames(targetVal).forEach(function (item, index) {
+        console.log(item);
+        if (item.includes('application/json')) {
+          valid = true;
+        }
+      });
+
+      if (!valid) {
+        return [
+          {
+            message: this.message,
+            severity: this.severity
+          },
+        ];
+      } else {
+        return [];
+      }
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+
+export default { Ame01, Ame02 };

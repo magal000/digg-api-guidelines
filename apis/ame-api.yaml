@@ -24,7 +24,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          application/json; charset=utf-8:
             schema:
               type: object
               properties:
@@ -34,7 +34,7 @@ paths:
         '200':
           description: example response
           content:
-            application/json:
+            application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/Error'
   /example2:
@@ -48,7 +48,13 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          application/json; charset=utf-8:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: integer
+          application/json; charset=utf-16:
             schema:
               type: object
               properties:
