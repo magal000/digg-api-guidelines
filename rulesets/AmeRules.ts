@@ -46,8 +46,7 @@ export class Ame02 extends BaseRuleset {
       var valid:boolean = false;
 
       Object.getOwnPropertyNames(targetVal).forEach(function (item, index) {
-        console.log(item);
-        if (item.includes('application/json')) {
+        if (item.toLocaleLowerCase().includes('application/json')) {
           valid = true;
         }
       });
