@@ -92,7 +92,7 @@ export class Fns05 extends BaseRuleset {
   
   then = {
     
-    function: (targetVal:boolean):Object[] => {
+    function: (targetVal) => {
       return false === targetVal? [] : 
       [
         {
