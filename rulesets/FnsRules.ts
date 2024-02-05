@@ -81,6 +81,30 @@ export class Fns09 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Warning;
 }
+export class Fns05 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.05",
+  };
+  description = "Sökparametrar BÖR vara frivilliga.";
+  message = "Sökparametrar BÖR vara frivilliga.";
+  given = "$.paths.[*].parameters[?(@.in=='query')].required";
+  
+  then = {
+    
+    function: (targetVal:boolean):Object[] => {
+      return false === targetVal? [] : 
+      [
+        {
+          message: this.message,
+          severity: this.severity
+        }
+      ];
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+
 
 export class Fns06 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -150,4 +174,4 @@ export class Fns07 extends BaseRuleset {
   severity = DiagnosticSeverity.Error;
 }
 
-export default { Fns01, Fns03, Fns06, Fns07 };
+export default { Fns01, Fns03, Fns06, Fns07,Fns05 };
