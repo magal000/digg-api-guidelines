@@ -93,7 +93,6 @@ export class Arq03 extends BaseRuleset {
             }
           }
           if (element['in'] === 'cookie' && element['schema']['type'] == undefined) {
-            console.log('cookie');
             isValid = false;
           }
         });
