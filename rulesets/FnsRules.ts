@@ -133,11 +133,12 @@ export class Fns07 extends BaseRuleset {
   given = "$.paths..parameters";
   then = {
     function: (targetVal: any, _opts: string, paths: string[]) => {
-      const xor = (a, b) => (a && !b) || (!a && b);
-      let isValid = false;
+
+      let isValid = true;
       let hasLimit = false;
       let hasPage = false;
       let hasOffset = false;
+
       targetVal.forEach(function (parameter, index) {
         if (parameter["in"] == "query") {
 
@@ -152,11 +153,12 @@ export class Fns07 extends BaseRuleset {
           }
         }
       });
-      // if there is a limit paramenter, check for existence of one of 'page' or 'offset' parameter
-      if (hasLimit && xor(hasPage, hasOffset)) {
-        isValid = true;
-      } else if (hasLimit && !(hasPage || hasOffset)) {
-        isValid = true;
+
+      if (hasPage && hasOffset) {
+        isValid = false;
+      }
+      if (!hasLimit) {
+        isValid = false;
       }
 
       if (isValid) {
