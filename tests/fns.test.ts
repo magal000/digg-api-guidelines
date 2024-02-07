@@ -160,6 +160,217 @@ testRule("Fns03", [
     ],
   }
 ]);
+
+testRule("Fns09", [
+  {
+    name: "giltigt testfall - enbart 'limit' utan 'page' eller 'offset' (dvs default värde för 'limit' kan vara vad som helst)",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/limitcheck": {
+          get: {
+            description: "Defaultvärde för limit BÖR vara 20",
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 100
+                }
+              }
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - med 'limit' och 'page'",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/limitcheck": {
+          get: {
+            description: "Defaultvärde för limit BÖR vara 20",
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 20
+                }
+              },
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 1
+                }
+              }
+
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - med 'limit' och 'page' där default värde för 'limit' är fel",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/limitcheck": {
+          get: {
+            description: "Defaultvärde för limit BÖR vara 20",
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 201
+                }
+              },
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 1
+                }
+              }
+
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "Defaultvärde för limit BÖR vara 20",
+        severity: DiagnosticSeverity.Warning,
+      }
+    ],
+  },
+]);
+testRule("Fns05", [
+  {
+    name: "giltigt testfall sökparameter BÖR vara frivillig",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 100
+                }
+              }
+            ],
+          },
+        },
+        "/testpasth": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 100
+                }
+              },{
+                name: "q",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "string",
+                  default: 100
+                }
+              }
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - värde true.",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/urlsakratecknencheck": {
+          get: {
+            description: "Sökparametrar BÖR vara frivilliga.",
+            parameters: [
+              {
+                name: "url@sakra,tecknen+checke*",
+                in: "query",
+                required: true,
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message:"Sökparametrar BÖR vara frivilliga.",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - värde 0",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/urlsakratecknencheck": {
+          get: {
+            description: "Sökparametrar BÖR vara frivilliga.",
+            parameters: [
+              {
+                name: "url@sakra,tecknen+checke*",
+                in: "query",
+                required: 0,
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message:"Sökparametrar BÖR vara frivilliga.",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  }
+]);
+
 testRule("Fns06", [
   {
     name: "giltigt testfall",

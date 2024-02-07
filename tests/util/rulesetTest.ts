@@ -17,6 +17,7 @@ const ruleInstances: Record<string, any> = {};
  */
 const ruleTypes = [
   AmeRules.Ame01,
+  AmeRules.Ame02,
   ArqRules.Arq05ComplexStructure, ArqRules.Arq05NestedStructure, ArqRules.Arq05StringBinary,
   UfnRules.Ufn02,
   UfnRules.Ufn05,
@@ -33,6 +34,8 @@ const ruleTypes = [
   VerRules.Ver06,
   FnsRules.Fns01,
   FnsRules.Fns03,
+  FnsRules.Fns05,
+  FnsRules.Fns09,
   FnsRules.Fns07,
   FnsRules.Fns06,
   DokRules.Dok23
