@@ -266,6 +266,110 @@ testRule("Fns09", [
     ],
   },
 ]);
+testRule("Fns05", [
+  {
+    name: "giltigt testfall sökparameter BÖR vara frivillig",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 100
+                }
+              }
+            ],
+          },
+        },
+        "/testpasth": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 100
+                }
+              },{
+                name: "q",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "string",
+                  default: 100
+                }
+              }
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - värde true.",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/urlsakratecknencheck": {
+          get: {
+            description: "Sökparametrar BÖR vara frivilliga.",
+            parameters: [
+              {
+                name: "url@sakra,tecknen+checke*",
+                in: "query",
+                required: true,
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message:"Sökparametrar BÖR vara frivilliga.",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - värde 0",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/urlsakratecknencheck": {
+          get: {
+            description: "Sökparametrar BÖR vara frivilliga.",
+            parameters: [
+              {
+                name: "url@sakra,tecknen+checke*",
+                in: "query",
+                required: 0,
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message:"Sökparametrar BÖR vara frivilliga.",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  }
+]);
 
 testRule("Fns06", [
   {

@@ -71,3 +71,73 @@ testRule("Ame01", [
     ],
   },
 ]);
+
+testRule("Ame02", [
+  {
+    name: "giltigt testfall - JSON format",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/foo": {
+          post: {
+            responses: {
+              '200': {
+                content: {
+                  'application/json; charset=utf-8': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        foo: {
+                          type: 'string'
+                        }
+                      }
+                    }
+                  }
+                }
+
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - ej JSON format",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/foo": {
+          post: {
+            responses: {
+              '200': {
+                content: {
+                  'application/octet-stream': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        foo: {
+                          type: 'string'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "Det BÖR förutsättas att alla request headers som standard använder 'Accept' med värde 'application/json'",
+        path: ["paths", "/foo", "post", "responses", "200", "content"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);
