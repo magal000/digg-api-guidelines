@@ -570,3 +570,145 @@ testRule("Fns07", [
     ],
   },
 ]);
+
+testRule("Fns08", [
+  {
+    name: "giltigt testfall - enbart 'page', kan ha vilket defaultvärde som helst",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 2
+                }
+              }
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - 'om 'limit' finns ska 'page' ha defaultvärde 1",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 20
+                }
+              },
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 1
+                }
+              }
+
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - felaktigt defaultvärde på 'page' när 'limit' finns",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 2
+                }
+              },
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 1
+                }
+              }
+
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "'page' SKALL alltid starta med värde 1",
+        severity: DiagnosticSeverity.Error,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - med 'limit', 'offset' och 'page'",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 20
+                }
+              },
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 2
+                }
+              }
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "'page' SKALL alltid starta med värde 1",
+        severity: DiagnosticSeverity.Error,
+      },
+    ],
+  },
+]);
