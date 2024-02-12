@@ -68,8 +68,10 @@ export class Arq01 extends BaseRuleset {
   message = "Ett API request BÖR skickas i UTF-8 format";
   given = "$.paths.[*].requestBody.content";
   then = {
-    function:(targetVal) =>{
-      if(targetVal.hasOwnProperty('application/json;charset=utf-8')){
+    function:(targetVal: any) =>{   
+      const keyVal = Object.keys(targetVal)[0];
+      const val = keyVal.replace(/\s/g, "");
+      if(val === 'application/json;charset=utf-8'){
         return [];
       }else{
         return [
