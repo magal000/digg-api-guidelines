@@ -1,6 +1,8 @@
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
+import { BaseRuleset } from "./BaseRuleset.ts"
+import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
+
 
 
 export class Ver06 extends BaseRuleset {
@@ -10,12 +12,28 @@ export class Ver06 extends BaseRuleset {
   };
   given = "$.paths";
   message = "Information om ett API SKALL tillgängliggöras via resursen api-info under roten '/' till API:et.";
-  then = {
-    field: '/api-info',
-    function: truthy,
-  }
+  then = [
+    {
+      field: '/api-info',
+      function: truthy,
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        // Implement custom logic here for the same rule
+        console.log("<<<We are in the mood!>>>")
+    
+        //return [];
+        //this.customFunction.bind(this,targetVal, _opts, paths, this.constructor.name, Ver06.customProperties);
+        this.customFunction(targetVal, _opts, paths,  this.constructor.name, Ver06.customProperties);
+        // Implement custom logic here for the same rule
+        //this.customFunction.bind,args: [null, null, null, this.constructor.name, Ver06.customProperties]
+        console.log("<<<We are in the mood again !>>>")
+        },
+    }
+  ];
   severity = DiagnosticSeverity.Error;
 }
+
 
 export class Ver05 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -25,7 +43,8 @@ export class Ver05 extends BaseRuleset {
 
   given = "$.servers.[url]";
   message = "Alla API:er BÖR inkludera MAJOR versionen i den URL som används för ett specifikt API.";
-  then = {
+  then = [ 
+    {
     function: (targetVal: string, _opts: string, paths: string[]) => {
 
       const split = targetVal.split("/").filter(removeEmpty => removeEmpty);
@@ -51,7 +70,20 @@ export class Ver05 extends BaseRuleset {
         return [];
       }
     }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      // Implement custom logic here for the same rule
+      console.log("<<<We are in the mood!>>>")
+      //return [];
+      //this.customFunction.bind(this,targetVal, _opts, paths, this.constructor.name, Ver06.customProperties);
+      this.customFunction(targetVal, _opts, paths, this.constructor.name, Ver05.customProperties);
+      // Implement custom logic here for the same rule
+      //this.customFunction.bind,args: [null, null, null, this.constructor.name, Ver06.customProperties]
+      console.log("<<<We are in the mood again !>>>")
+      },
   }
+  ]  
   severity = DiagnosticSeverity.Warning;
 }
 export default { Ver05, Ver06 };

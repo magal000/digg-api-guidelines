@@ -18,6 +18,7 @@ import { importAndCreateRuleInstances, getRuleModules } from "./util/ruleUtil.ts
 import util from 'util';
 import {RapLPCustomSpectral} from "./util/RapLPCustomSpectral.ts";
 import chalk from 'chalk';
+import { ruleExecutionStatus } from './util/RuleExecutionStatusModule.ts';
 
 const { Spectral, Document } = spectralCore;
 const writeFileAsync = util.promisify(fs.writeFile);
@@ -68,10 +69,12 @@ try {
     /**
      * CustomSpectral
      */
+    console.log('Rule execution status:', JSON.stringify(ruleExecutionStatus,null,2) + "before running spectral...");
     const customSpectral = new RapLPCustomSpectral();
     customSpectral.setCategorys(enabledRulesAndCategorys.instanceCategoryMap);
     customSpectral.setRuleset(enabledRulesAndCategorys.rules);
     const result = await customSpectral.run(apiSpecDocument);
+    console.log('Rule execution status:', JSON.stringify(ruleExecutionStatus,null,2) + "after running spectral...");
 
     /**
      * Chalk impl.
