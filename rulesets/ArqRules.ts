@@ -71,14 +71,9 @@ export class Arq03 extends BaseRuleset {
     function: (targetVal: object, _opts: string, paths: string[]) => {
 
       let isValid = true;
-
       if (targetVal['parameters'] !== undefined) {
         targetVal['parameters'].forEach(element => {
-
           if (element['in'] == 'header') {
-            if (element['name'] == 'Accept-Charset' && element['schema']['format'] !== 'charset') {
-              isValid = false;
-            }
             if (element['name'] == 'Date' && element['schema']['format'] !== 'date-time') {
               isValid = false;
             }
@@ -97,7 +92,6 @@ export class Arq03 extends BaseRuleset {
           }
         });
       }
-
       if (!isValid) {
         return [
           {
