@@ -9,7 +9,7 @@ info:
     name: RAP-LP Team
     email: rap-lp@example.com
 servers:
-  - url: http://petstore.swagger.io/v1
+  - url: https://example.com/myapi/v2
 paths:
   /headerexample:
     get:
@@ -91,7 +91,7 @@ paths:
               schema:
                 type: string
           content:
-            application/json; charset=utf-8:
+            application/json;charset=utf-8:
               schema:
                 $ref: "#/components/schemas/Pets"
             application/xml:

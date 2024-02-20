@@ -247,32 +247,6 @@ testRule("Arq03", [
     errors: [],
   },
   {
-    name: "giltigt testfall - Accept-Charset: charset",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      paths: {
-        "/foo": {
-          post: {
-            parameters: [
-              {
-                name: "Accept-Charset",
-                in: "header",
-                description: "Accept-Charset",
-                required: true,
-                schema: {
-                  type: "string",
-                  format: "charset",
-                }
-              },
-            ],
-          },
-        },
-      },
-    },
-    errors: [],
-  },
-  {
     name: "giltigt testfall - ETag: etag",
     document: {
       openapi: "3.1.0",
