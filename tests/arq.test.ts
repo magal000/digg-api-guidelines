@@ -195,66 +195,64 @@ testRule("Arq05ComplexStructure", [
 
   testRule("Arq01", [
     {
-      name: "giltigt testfall - UTF-8 format",
+      name: "giltigt testfall",
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
         paths: {
-          "/utfformatetest": {
-            post: {
+          "/": {
+            get: {
               requestBody: {
+                description: "JSON och CSV tillåtet",
                 content: {
-                    'application/json;charset=utf-8': {
-                      schema: {
-                        type: 'object',
-                        properties: {
-                          data: {
-                            type: 'string'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                    },
+                  },
+                  "text/csv": {
+                    schema: {
+                      type: "string",
+                    },
+                  },
+                },
               },
             },
           },
         },
-        errors: [],
       },
-      {
-      name: "ogiltigt testfall - Not UTF-8 format",
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
         paths: {
-          "/utfformatetest": {
-            post: {
+          "/": {
+            get: {
               requestBody: {
+                description:
+                  "Om endast något annat format än JSON, så bör en varning ges",
                 content: {
-                    'no-application/json;charset=utf-8': {
-                      schema: {
-                        type: 'object',
-                        properties: {
-                          data: {
-                            type: 'string'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
+                  "text/csv": {
+                    schema: {
+                      type: "string",
+                    },
+                  },
+                },
               },
             },
           },
         },
-        errors: [
-          {
+      },
+      errors: [
+        {
           message:
             "Ett API request BÖR skickas i UTF-8 format",
-          path: ["paths", "/utfformatetest", "post","requestBody", "content"],
+          path: ["paths", "/", "get", "requestBody", "content"],
           severity: DiagnosticSeverity.Warning,
         },
       ],
-    },
+    },    
   ]);

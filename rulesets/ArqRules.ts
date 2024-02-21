@@ -1,6 +1,5 @@
-import { RulesetInterface } from "../ruleinterface/RuleInterface.ts"
+import { schema} from "@stoplight/spectral-functions";
 import { Arq05Base } from "./rulesetUtil.ts"
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, defined } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
 
@@ -58,7 +57,6 @@ export class Arq05ComplexStructure extends Arq05Base {
     },
   };
 }
-
 export class Arq01 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "API Request",
@@ -66,24 +64,19 @@ export class Arq01 extends BaseRuleset {
   };
   description = "Ett API request BÖR skickas i UTF-8 format";
   message = "Ett API request BÖR skickas i UTF-8 format";
-  given = "$.paths.[*].requestBody.content";
+  given = "$.paths[*][*].requestBody.content";
   then = {
-    function:(targetVal: any) =>{   
-      const keyVal = Object.keys(targetVal)[0];
-      const val = keyVal.replace(/\s/g, "");
-      if(val === 'application/json;charset=utf-8'){
-        return [];
-      }else{
-        return [
-          {
-            message: this.message,
-            severity: this.severity
-          },
-        ];
-      }
-    }
+    function: schema,
+    functionOptions: {
+      schema: {
+        type: "object",
+        properties: {
+          "application/json": true,
+        },
+        required: ["application/json"],
+      },
+    },
   }
   severity = DiagnosticSeverity.Warning;
 }
-
 export default { Arq05NestedStructure, Arq05StringBinary, Arq05ComplexStructure,Arq01 };
