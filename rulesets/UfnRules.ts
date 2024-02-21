@@ -2,6 +2,7 @@ import { Rule } from "@stoplight/spectral-core";
 import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length, alphabetical} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
+import { Url } from "url";
 
 export class Ufn01 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -9,30 +10,38 @@ export class Ufn01 extends BaseRuleset {
     id: "UFN.01",
   };
   description = "{protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}"
-  given = "$.";
+  given = "$.servers.[url]";
   message = "En URL för ett API BÖR följa namnstandarden nedan: " + this.description;
+
   then = {
-    function: (targetVal: any) => {
-         
-      const obj = targetVal.paths;
-      const endPoint = Object.keys(obj)[0].substring(1);  
-      const regeX = /^[a-z]+$/; 
+    // function: (targetVal: string, _opts: string, paths: string[]):object[] => {
 
-      if (regeX.test(endPoint)) {
-        return [];
+    //   let url:URL
+    //   try{
+    //     url = new URL(targetVal);
+    //   }catch(err){
+    //     return [this]
+    //   }
+    //   let validUrl = (...tests:boolean[]):boolean => {
+    //     for(let t of tests){
+    //       if (t === false){
+    //         return false;
+    //       }
+    //     }
+    //     return true;
+    //   }
 
-      } else {
-        return [
-          {
-            message: this.message,
-            severity: this.severity
-          },
-        ];
-      }
-    }
+      
+    //   return validUrl(/(?<version>\/v[0-9]*($|\/$))/.test(url.pathname),/(?<protocol>^[a-z0-9]+:\/\/)/.test(targetVal),/^(?<domain>^[a-z0-9\.-]*(?<!\.)$)/.test(url.hostname)),/.*api.*/.test(url.hostname+url.pathname)? [] : [this];
+    // }
+    function: pattern,
+    functionOptions: {
+      match: "^(?<protocol>^[^/]*://)+(?<host>(?<=://)[^/]*/)+(?<api>(?<=/)[^/]*/)(?<version>(?<=/)v+[0-9]+)+(?<end>/$|$)"
+    },
+  // }
   }
-    severity = DiagnosticSeverity.Warning;
-  }
+  severity = DiagnosticSeverity.Warning;
+}
  
 export class Ufn02 extends BaseRuleset {
   static customProperties: CustomProperties = {
