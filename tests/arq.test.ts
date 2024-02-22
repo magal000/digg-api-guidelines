@@ -193,6 +193,69 @@ testRule("Arq05ComplexStructure", [
     },
   ]);
 
+  testRule("Arq01", [
+    {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: {
+          "/": {
+            get: {
+              requestBody: {
+                description: "JSON och CSV tillåtet",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                    },
+                  },
+                  "text/csv": {
+                    schema: {
+                      type: "string",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: {
+          "/": {
+            get: {
+              requestBody: {
+                description:
+                  "Om endast något annat format än JSON, så bör en varning ges",
+                content: {
+                  "text/csv": {
+                    schema: {
+                      type: "string",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message:
+            "Ett API request BÖR skickas i UTF-8 format",
+          path: ["paths", "/", "get", "requestBody", "content"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },    
+  ]);
 testRule("Arq03", [
   {
     name: "giltigt testfall - Connection: keep-alive",
