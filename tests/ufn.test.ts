@@ -334,3 +334,140 @@ testRule("Ufn11", [
       ],
     },
 ]);
+
+testRule("Ufn01", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/exampletest": {} },
+      servers: [{ url: "http://petstore.swwagger.com/api/v2/" }]
+     
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/exampletest": {} },
+      servers: [{ url: "http://api.petstore.sw/dsad/v22" }]
+     
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - fel format på protokoll",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/exampletest232323": {} },
+      servers: [{ url: "htt//petstore.swwagger.com/api/v2" }],
+      
+    },
+    errors: [
+      {
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },  
+  {
+    name: "ogiltigt testfall - saknar major versions nummer",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/exampletest232323": {} },
+      servers: [{ url: "http//petstore.swwagger.com/api/v" }],
+      
+    },
+    errors: [
+      {
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - sknar : efter protokoll",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/exampletest232323": {} },
+      servers: [{ url: "http//petstorecom/api/v2" }],
+      
+    },
+    errors: [
+      {
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - Saknar api och version",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/exampletest232323": {} },
+      servers: [{ url: "http://petstorecom/" }],
+      
+    },
+    errors: [
+      {
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - fel plats version och api",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/exampletest232323": {} },
+      servers: [{ url: "http://petstorecom/v2/api" }],
+      
+    },
+    errors: [
+      {
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - Fel format på version",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/exampletest232323": {} },
+      servers: [{ url: "http://petstorecom/test/v22dsa/" }],
+      
+    },
+    errors: [
+      {
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - dubbel //",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/exampletest232323": {} },
+      servers: [{ url: "https://myapi.example.com//v2" }],
+      
+    },
+    errors: [
+      {
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);

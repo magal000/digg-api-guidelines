@@ -22,6 +22,7 @@ const ruleTypes = [
   AmeRules.Ame02,
   ArqRules.Arq03,
   ArqRules.Arq05ComplexStructure, ArqRules.Arq05NestedStructure, ArqRules.Arq05StringBinary,
+  UfnRules.Ufn01,
   UfnRules.Ufn02,
   UfnRules.Ufn05,
   UfnRules.Ufn06,
