@@ -30,7 +30,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
 components:
   schemas:
     Pet:
@@ -46,6 +49,14 @@ components:
           type: string
         tag:
           type: string
+<<<<<<< HEAD
+=======
+    Pets:
+      type: array
+      maxItems: 100
+      items:
+        $ref: "#/components/schemas/Pet"
+>>>>>>> develop
     Error:
       type: object
       required:
@@ -56,4 +67,11 @@ components:
           type: integer
           format: int32
         message:
+<<<<<<< HEAD
           type: string
+=======
+          type: string
+
+tags:
+  - name: pets
+>>>>>>> develop

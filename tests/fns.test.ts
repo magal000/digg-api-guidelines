@@ -266,6 +266,110 @@ testRule("Fns09", [
     ],
   },
 ]);
+testRule("Fns05", [
+  {
+    name: "giltigt testfall sökparameter BÖR vara frivillig",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 100
+                }
+              }
+            ],
+          },
+        },
+        "/testpasth": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 100
+                }
+              },{
+                name: "q",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "string",
+                  default: 100
+                }
+              }
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - värde true.",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/urlsakratecknencheck": {
+          get: {
+            description: "Sökparametrar BÖR vara frivilliga.",
+            parameters: [
+              {
+                name: "url@sakra,tecknen+checke*",
+                in: "query",
+                required: true,
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message:"Sökparametrar BÖR vara frivilliga.",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - värde 0",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/urlsakratecknencheck": {
+          get: {
+            description: "Sökparametrar BÖR vara frivilliga.",
+            parameters: [
+              {
+                name: "url@sakra,tecknen+checke*",
+                in: "query",
+                required: 0,
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message:"Sökparametrar BÖR vara frivilliga.",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  }
+]);
 
 testRule("Fns06", [
   {
@@ -461,6 +565,148 @@ testRule("Fns07", [
     errors: [
       {
         message: "Vid användande av paginering, SKALL följande parametrar ingå i request: 'limit' och någon av 'page' eller 'offset'",
+        severity: DiagnosticSeverity.Error,
+      },
+    ],
+  },
+]);
+
+testRule("Fns08", [
+  {
+    name: "giltigt testfall - enbart 'page', kan ha vilket defaultvärde som helst",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 2
+                }
+              }
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - 'om 'limit' finns ska 'page' ha defaultvärde 1",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 20
+                }
+              },
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 1
+                }
+              }
+
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - felaktigt defaultvärde på 'page' när 'limit' finns",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 2
+                }
+              },
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 1
+                }
+              }
+
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "'page' SKALL alltid starta med värde 1",
+        severity: DiagnosticSeverity.Error,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - med 'limit', 'offset' och 'page'",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/testpath": {
+          get: {
+            parameters: [
+              {
+                name: "limit",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 20
+                }
+              },
+              {
+                name: "page",
+                in: "query",
+                required: false,
+                schema: {
+                  type: "integer",
+                  default: 2
+                }
+              }
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "'page' SKALL alltid starta med värde 1",
         severity: DiagnosticSeverity.Error,
       },
     ],

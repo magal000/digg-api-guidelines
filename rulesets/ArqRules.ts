@@ -79,4 +79,53 @@ export class Arq01 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Warning;
 }
-export default { Arq05NestedStructure, Arq05StringBinary, Arq05ComplexStructure,Arq01 };
+
+
+export class Arq03 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "API Request",
+    id: "ARQ.03",
+  };
+  description = "Alla API:er BÖR supportera följande request headers: Accept, Accept-Charset, Date, Cache-Control, ETag, Connection och Cookie.";
+  message = this.description;
+  given = "$.paths.*.*";
+  then = {
+    function: (targetVal: object, _opts: string, paths: string[]) => {
+
+      let isValid = true;
+      if (targetVal['parameters'] !== undefined) {
+        targetVal['parameters'].forEach(element => {
+          if (element['in'] == 'header') {
+            if (element['name'] == 'Date' && element['schema']['format'] !== 'date-time') {
+              isValid = false;
+            }
+            if (element['name'] == 'Cache-Control' && element['schema']['enum'].length  == 0) {
+              isValid = false;
+            }
+            if (element['name'] == 'ETag' && element['schema']['format'] !== 'etag') {
+              isValid = false;
+            }
+            if (element['name'] == 'Connection' && !element['schema']['enum'].includes('keep-alive')) {
+              isValid = false;
+            }
+          }
+          if (element['in'] === 'cookie' && element['schema']['type'] == undefined) {
+            isValid = false;
+          }
+        });
+      }
+      if (!isValid) {
+        return [
+          {
+            message: this.message,
+            severity: this.severity,
+          },
+        ];
+      } else {
+        return []; 
+      }
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+export default { Arq05ComplexStructure, Arq05StringBinary, Arq05NestedStructure, Arq03, Arq01 };
