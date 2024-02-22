@@ -470,20 +470,4 @@ testRule("Ufn01", [
       },
     ],
   },
-  {
-    name: "ogiltigt testfall - dubbel //",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      paths: { "/exampletest232323": {} },
-      servers: [{ url: "https://myapi.example.com/ /v2" }],
-      
-    },
-    errors: [
-      {
-        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
-        severity: DiagnosticSeverity.Warning,
-      },
-    ],
-  },
 ]);

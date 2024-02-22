@@ -14,31 +14,10 @@ export class Ufn01 extends BaseRuleset {
   message = "En URL för ett API BÖR följa namnstandarden nedan: " + this.description;
 
   then = {
-    // function: (targetVal: string, _opts: string, paths: string[]):object[] => {
-
-    //   let url:URL
-    //   try{
-    //     url = new URL(targetVal);
-    //   }catch(err){
-    //     return [this]
-    //   }
-    //   let validUrl = (...tests:boolean[]):boolean => {
-    //     for(let t of tests){
-    //       if (t === false){
-    //         return false;
-    //       }
-    //     }
-    //     return true;
-    //   }
-
-      
-    //   return validUrl(/(?<version>\/v[0-9]*($|\/$))/.test(url.pathname),/(?<protocol>^[a-z0-9]+:\/\/)/.test(targetVal),/^(?<domain>^[a-z0-9\.-]*(?<!\.)$)/.test(url.hostname)),/.*api.*/.test(url.hostname+url.pathname)? [] : [this];
-    // }
     function: pattern,
     functionOptions: {
-      match: "^(?<protocol>^[\\S^\/]*:\/\/)+(?<host>(?<=:\/\/)[\\S^\/]+\/)+(?<api>(?<=\/)[\\S^\/]+?\/)(?<version>(?<=\/)v+[0-9]+)+(?<end>\/$|$)"
+      match: "^(?<protocol>^[^\/]*:\/\/)+(?<host>(?<=:\/\/)[^\/]+\/)+(?<api>(?<=\/)[^\/]+?\/)(?<version>(?<=\/)v+[0-9]+)+(?<end>\/$|$)"
     },
-  // }
   }
   severity = DiagnosticSeverity.Warning;
 }
