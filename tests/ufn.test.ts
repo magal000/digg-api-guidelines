@@ -364,7 +364,7 @@ testRule("Ufn01", [
       openapi: "3.1.0",
       info: { version: "1.0" },
       paths: { "/exampletest232323": {} },
-      servers: [{ url: "htt/p://petstore.swwagger.com/api/v2" }],
+      servers: [{ url: "htt//petstore.swwagger.com/api/v2" }],
       
     },
     errors: [
@@ -461,6 +461,22 @@ testRule("Ufn01", [
       info: { version: "1.0" },
       paths: { "/exampletest232323": {} },
       servers: [{ url: "https://myapi.example.com//v2" }],
+      
+    },
+    errors: [
+      {
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - dubbel //",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: { "/exampletest232323": {} },
+      servers: [{ url: "https://myapi.example.com/ /v2" }],
       
     },
     errors: [
