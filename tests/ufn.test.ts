@@ -369,7 +369,7 @@ testRule("Ufn01", [
     },
     errors: [
       {
-        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
         severity: DiagnosticSeverity.Warning,
       },
     ],
@@ -385,7 +385,7 @@ testRule("Ufn01", [
     },
     errors: [
       {
-        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
         severity: DiagnosticSeverity.Warning,
       },
     ],
@@ -401,7 +401,7 @@ testRule("Ufn01", [
     },
     errors: [
       {
-        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
         severity: DiagnosticSeverity.Warning,
       },
     ],
@@ -417,7 +417,7 @@ testRule("Ufn01", [
     },
     errors: [
       {
-        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
         severity: DiagnosticSeverity.Warning,
       },
     ],
@@ -433,7 +433,7 @@ testRule("Ufn01", [
     },
     errors: [
       {
-        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
         severity: DiagnosticSeverity.Warning,
       },
     ],
@@ -449,7 +449,7 @@ testRule("Ufn01", [
     },
     errors: [
       {
-        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
         severity: DiagnosticSeverity.Warning,
       },
     ],
@@ -465,7 +465,7 @@ testRule("Ufn01", [
     },
     errors: [
       {
-        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
+        message: "En URL för ett API BÖR följa namnstandarden nedan: {protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}",
         severity: DiagnosticSeverity.Warning,
       },
     ],

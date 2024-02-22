@@ -9,7 +9,7 @@ export class Ufn01 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.01",
   };
-  description = "{protokoll}://{domännamn }/{api}/{version}/{resurs}/{identifierare}?{parametrar}"
+  description = "{protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}"
   given = "$.servers.[url]";
   message = "En URL för ett API BÖR följa namnstandarden nedan: " + this.description;
 
@@ -185,4 +185,4 @@ export class Ufn11 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn05, Ufn06, Ufn08, Ufn09, Ufn10, Ufn11 };
+export default { Ufn02, Ufn05, Ufn06, Ufn07, Ufn08, Ufn09, Ufn10, Ufn11 };
