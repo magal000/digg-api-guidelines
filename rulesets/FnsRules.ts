@@ -37,20 +37,193 @@ export class Fns03 extends BaseRuleset {
   severity = DiagnosticSeverity.Error;
 }
 
-export class Fns04 extends BaseRuleset {
+export class Fns09 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Filtrering, paginering och sökparametrar",
-    id: "FNS.04",
+    id: "FNS.09",
   };
-  description = "Sökparametrar BÖR använda enbart gemener";
-  message = "Sökparametrar BÖR använda enbart gemener";
-  given = "$.paths.[*].parameters[?(@.in=='query')].name";
+  description = "Defaultvärde för limit BÖR vara 20";
+  message = "Defaultvärde för limit BÖR vara 20";
+  given = "$.paths..parameters";
   then = {
-    function: pattern,
-    functionOptions: {
-      match: "^[a-z_]+$"
+    function: (targetVal, _opts, paths) => {
+
+      let isValid = true;
+      targetVal.forEach(function (item, index) {
+        if (item["in"] == "query" &&
+          (item["name"] == "page" || item["name"] == "offset")) {
+
+          // check for existense of 'limit' parameter
+          const limit = targetVal.find(param => param.name === 'limit');
+          if (limit) {
+            if (limit.schema.default != 20) {
+              isValid = false;
+            } else {
+              isValid = true;
+            }
+          } else {
+            isValid = true;
+          }
+        }
+      });
+
+      if (!isValid) {
+        return [
+          {
+            message: this.message,
+            severity: this.severity
+          }
+        ];
+      } else {
+         return []
+      }
     }
   }
   severity = DiagnosticSeverity.Warning;
 }
-export default { Fns01, Fns03 , Fns04};
+export class Fns05 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.05",
+  };
+  description = "Sökparametrar BÖR vara frivilliga.";
+  message = "Sökparametrar BÖR vara frivilliga.";
+  given = "$.paths.[*].parameters[?(@.in=='query')].required";
+  
+  then = {
+    
+    function: (targetVal) => {
+      return false === targetVal? [] : 
+      [
+        {
+          message: this.message,
+          severity: this.severity
+        }
+      ];
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+
+
+export class Fns06 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.06",
+  };
+  description = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-'', '.', '_' samt '~', se vidare i RFC 3986)";
+  message = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)";
+  given = "$.paths.[*].parameters[?(@.in=='query')].name";
+  then = {
+    function: pattern,
+    functionOptions: {
+      match: "^(?:[a-zA-Z0-9-._~])+$"
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+
+export class Fns07 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.07",
+  };
+  description = "";
+  message = "Vid användande av paginering, SKALL följande parametrar ingå i request: 'limit' och någon av 'page' eller 'offset'";
+  given = "$.paths..parameters";
+  then = {
+    function: (targetVal: any, _opts: string, paths: string[]) => {
+
+      let isValid = true;
+      let hasLimit = false;
+      let hasPage = false;
+      let hasOffset = false;
+
+      targetVal.forEach(function (parameter, index) {
+        if (parameter["in"] == "query") {
+
+          if (parameter["name"] == "page") {
+            hasPage = true;
+          }
+          if (parameter["name"] == "offset") {
+            hasOffset = true;
+          }
+          if (parameter["name"] == "limit") {
+            hasLimit = true;
+          }
+        }
+      });
+
+      if (hasPage && hasOffset) {
+        isValid = false;
+      }
+      if (!hasLimit) {
+        isValid = false;
+      }
+
+      if (isValid) {
+        return [];
+      } else {
+        return [
+            {
+              message: this.message,
+              severity: this.severity
+           },
+        ]
+      }
+    }
+  }
+  severity = DiagnosticSeverity.Error;
+}
+
+export class Fns08 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.08",
+  };
+  description = "";
+  message = "'page' SKALL alltid starta med värde 1";
+  given = "$.paths..parameters";
+  then = {
+    function: (targetVal: any, _opts: string, paths: string[]) => {
+
+      let isValidDefaultValue = true;
+      let pageDefaultValue = -1;
+
+      let hasLimit = false;
+      let hasPage = false;
+
+      targetVal.forEach(function (parameter, index) {
+        if (parameter["in"] == "query") {
+
+          if (parameter["name"] == "page") {
+            hasPage = true;
+            pageDefaultValue = parameter["schema"]["default"];
+          }
+          if (parameter["name"] == "limit") {
+            hasLimit = true;
+          }
+        }
+      });
+
+      if (hasPage && hasLimit) {
+        isValidDefaultValue = (pageDefaultValue == 1);
+      }
+
+      if (isValidDefaultValue) {
+        return [];
+      } else {
+        return [
+            {
+              message: this.message,
+              severity: this.severity
+           },
+        ]
+      }
+    }
+  }
+  severity = DiagnosticSeverity.Error;
+}
+
+export default { Fns01, Fns03, Fns05, Fns06, Fns07, Fns08 };
+
