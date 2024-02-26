@@ -19,15 +19,8 @@ export class Ver06 extends BaseRuleset {
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-        // Implement custom logic here for the same rule
-        console.log("<<<We are in the mood!>>>")
-    
-        //return [];
-        //this.customFunction.bind(this,targetVal, _opts, paths, this.constructor.name, Ver06.customProperties);
-        this.customFunction(targetVal, _opts, paths,  this.constructor.name, Ver06.customProperties);
-        // Implement custom logic here for the same rule
-        //this.customFunction.bind,args: [null, null, null, this.constructor.name, Ver06.customProperties]
-        console.log("<<<We are in the mood again !>>>")
+        // Implement custom log func here
+        this.customFunction(targetVal, _opts, paths,this.severity,this.constructor.name, "Verules.ts",Ver06.customProperties);
         },
     }
   ];
@@ -74,13 +67,8 @@ export class Ver05 extends BaseRuleset {
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
       // Implement custom logic here for the same rule
-      console.log("<<<We are in the mood!>>>")
-      //return [];
-      //this.customFunction.bind(this,targetVal, _opts, paths, this.constructor.name, Ver06.customProperties);
-      this.customFunction(targetVal, _opts, paths, this.constructor.name, Ver05.customProperties);
+      this.customFunction(targetVal, _opts, paths, this.severity,this.constructor.name, "VerRules.ts", Ver05.customProperties);
       // Implement custom logic here for the same rule
-      //this.customFunction.bind,args: [null, null, null, this.constructor.name, Ver06.customProperties]
-      console.log("<<<We are in the mood again !>>>")
       },
   }
   ]  

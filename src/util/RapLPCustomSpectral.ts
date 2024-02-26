@@ -1,4 +1,6 @@
 import * as SpectralCore from '@stoplight/spectral-core';
+import { ruleExecutionStatus,RuleExecutionLog,ruleExecutionLogDictionary } from './RuleExecutionStatusModule.ts';
+
 
 import { ISpectralDiagnostic } from '@stoplight/spectral-core';
 import spectralCore from "@stoplight/spectral-core";
@@ -28,6 +30,7 @@ class RapLPCustomSpectral {
   }
   async run(document: any): Promise<CustomSpectralDiagnostic[]> {
     const spectralResults = await this.spectral.run(document);
+    this.processRuleExecutionLog(ruleExecutionLogDictionary,spectralResults);
     return this.modifyResults(spectralResults);
   }
 
@@ -89,6 +92,33 @@ private mapResultToCustom(result: ISpectralDiagnostic): CustomSpectralDiagnostic
     sökväg: path,
     omfattning: range,
   };
+}
+private processRuleExecutionLog(log: RuleExecutionLog, spectralResults: CustomSpectralDiagnostic[]) {
+  for (const key in log) {
+    const rules = log[key];
+    const { moduleName, className } = rules[0]; // Get module and class name from the first entry
+    
+    console.log(`Rule execution status for ${moduleName}:${className}:`);
+    
+    rules.forEach(rule => {
+      const { customProperties, severity, passed } = rule;
+      const status = passed ? 'PASSED' : 'FAILED';
+      const severityText = severity.toUpperCase();
+      console.log("Område/ID:" + customProperties.område + "/ " + customProperties.id);
+      // Check if rule is found in Spectral results
+      const spectralResult = spectralResults.find(result => {
+        return result.område === customProperties.område && result.id === customProperties.id;
+      });
+      console.log("Spectral result: " + spectralResult);
+      if (spectralResult) {
+        console.log(`${status} - ID: ${customProperties.id}, Area: ${customProperties.område}, Severity: ${severityText} (Spectral: ${spectralResult.allvarlighetsgrad})`);
+      } else {
+        console.log(`${status} - ID: ${customProperties.id}, Area: ${customProperties.område}, Severity: ${severityText} (Spectral: Not Found)`);
+      }
+    });
+    
+    console.log('\n'); // Add newline for better readability
+  }
 }
 }
 export {RapLPCustomSpectral};
