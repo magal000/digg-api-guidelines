@@ -133,11 +133,12 @@ export class Fns07 extends BaseRuleset {
   given = "$.paths..parameters";
   then = {
     function: (targetVal: any, _opts: string, paths: string[]) => {
-      const xor = (a, b) => (a && !b) || (!a && b);
-      let isValid = false;
+
+      let isValid = true;
       let hasLimit = false;
       let hasPage = false;
       let hasOffset = false;
+
       targetVal.forEach(function (parameter, index) {
         if (parameter["in"] == "query") {
 
@@ -152,11 +153,12 @@ export class Fns07 extends BaseRuleset {
           }
         }
       });
-      // if there is a limit paramenter, check for existence of one of 'page' or 'offset' parameter
-      if (hasLimit && xor(hasPage, hasOffset)) {
-        isValid = true;
-      } else if (hasLimit && !(hasPage || hasOffset)) {
-        isValid = true;
+
+      if (hasPage && hasOffset) {
+        isValid = false;
+      }
+      if (!hasLimit) {
+        isValid = false;
       }
 
       if (isValid) {
@@ -174,4 +176,54 @@ export class Fns07 extends BaseRuleset {
   severity = DiagnosticSeverity.Error;
 }
 
-export default { Fns01, Fns03, Fns06, Fns07,Fns05 };
+export class Fns08 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "FNS.08",
+  };
+  description = "";
+  message = "'page' SKALL alltid starta med värde 1";
+  given = "$.paths..parameters";
+  then = {
+    function: (targetVal: any, _opts: string, paths: string[]) => {
+
+      let isValidDefaultValue = true;
+      let pageDefaultValue = -1;
+
+      let hasLimit = false;
+      let hasPage = false;
+
+      targetVal.forEach(function (parameter, index) {
+        if (parameter["in"] == "query") {
+
+          if (parameter["name"] == "page") {
+            hasPage = true;
+            pageDefaultValue = parameter["schema"]["default"];
+          }
+          if (parameter["name"] == "limit") {
+            hasLimit = true;
+          }
+        }
+      });
+
+      if (hasPage && hasLimit) {
+        isValidDefaultValue = (pageDefaultValue == 1);
+      }
+
+      if (isValidDefaultValue) {
+        return [];
+      } else {
+        return [
+            {
+              message: this.message,
+              severity: this.severity
+           },
+        ]
+      }
+    }
+  }
+  severity = DiagnosticSeverity.Error;
+}
+
+export default { Fns01, Fns03, Fns05, Fns06, Fns07, Fns08 };
+

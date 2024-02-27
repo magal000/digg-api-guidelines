@@ -50,6 +50,7 @@ export class Sak18 extends BaseRuleset {
       notMatch: "^http:",
     }
   }
-  severity = DiagnosticSeverity.Warning;
+  severity = DiagnosticSeverity.Warning; 
 }
-export default { Sak09, Sak10, Sak18 };
+
+export default { Sak09, Sak10, Sak18  };
