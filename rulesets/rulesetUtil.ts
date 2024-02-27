@@ -43,8 +43,8 @@ export class Arq05Base extends BaseRuleset {
         for(let baseUrl of targetVal.servers){
           
           urlArray.push({
-            "baseUrl":baseUrl.url.slice(baseUrl.url.indexOf("://")+3)+path,
-            "protocol":baseUrl.url.slice(0, baseUrl.url.indexOf("://")+3)
+            "baseUrl":baseUrl.url.slice(baseUrl.url.indexOf(":")+1)+path,
+            "protocol":baseUrl.url.slice(0, baseUrl.url.indexOf(":")+1)
           });
         }
       }

@@ -111,9 +111,10 @@ export class Ufn07 extends UfnUrlBase {
   then = {
     function: (targetVal) => {
       const pattern:RegExp = new RegExp(/^[a-zA-Z0-9\/\-,._~{}]*$/);
+      const patternForProtocol:RegExp = new RegExp(/^[a-zA-Z0-9\/\-,._~{}]*:$/);
       const urls:any[] = this.getBaseUrlAndPath(targetVal);
       for(const url of urls){
-        if (!pattern.test(url.baseUrl)){
+        if (!pattern.test(url.baseUrl) && !pattern.test(url.protocol)){
           return [
             {
               message: this.message,
