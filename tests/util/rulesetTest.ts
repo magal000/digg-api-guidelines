@@ -9,7 +9,7 @@ import * as FnsRules from "../../rulesets/FnsRules.ts";
 import * as ArqRules from "../../rulesets/ArqRules.ts";
 import * as DokRules from "../../rulesets/DokRules.ts";
 import * as AmeRules from "../../rulesets/AmeRules.ts";
-import * as ForRules from "../../rulesets/ForRules.ts"; 
+import * as ForRules from "../../rulesets/ForRules.ts";
 
 const ruleInstances: Record<string, any> = {};
 
@@ -18,6 +18,7 @@ const ruleInstances: Record<string, any> = {};
  */
 const ruleTypes = [
   ForRules.For01,
+  ForRules.For02,
   AmeRules.Ame01,
   AmeRules.Ame02,
   ArqRules.Arq01,
@@ -43,6 +44,8 @@ const ruleTypes = [
   FnsRules.Fns09,
   FnsRules.Fns07,
   FnsRules.Fns06,
+  DokRules.Dok23,
+  ForRules.For02,
   FnsRules.Fns08,
   DokRules.Dok23
 ];
