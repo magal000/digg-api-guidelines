@@ -30,7 +30,7 @@ class RapLPCustomSpectral {
   }
   async run(document: any): Promise<CustomSpectralDiagnostic[]> {
     const spectralResults = await this.spectral.run(document);
-    this.processRuleExecutionLog(ruleExecutionLogDictionary,spectralResults);
+    this.processRuleExecutionLog(ruleExecutionLogDictionary,this.modifyResults(spectralResults));
     return this.modifyResults(spectralResults);
   }
 
@@ -106,13 +106,17 @@ private processRuleExecutionLog(log: RuleExecutionLog, spectralResults: CustomSp
       const severityText = severity.toUpperCase();
       console.log("Område/ID:" + customProperties.område + "/ " + customProperties.id);
       // Check if rule is found in Spectral results
+      console.log("SpectralResult:\n"+ JSON.stringify(spectralResults,null,2));
       const spectralResult = spectralResults.find(result => {
         return result.område === customProperties.område && result.id === customProperties.id;
       });
-      console.log("Spectral result: " + spectralResult);
+      //console.log("Spectral result: " + spectralResult);
       if (spectralResult) {
+        //We have a match, that means there is an error
+        console.log("<<<Error>>>");
         console.log(`${status} - ID: ${customProperties.id}, Area: ${customProperties.område}, Severity: ${severityText} (Spectral: ${spectralResult.allvarlighetsgrad})`);
       } else {
+        console.log("<<<No Error>>>");
         console.log(`${status} - ID: ${customProperties.id}, Area: ${customProperties.område}, Severity: ${severityText} (Spectral: Not Found)`);
       }
     });
