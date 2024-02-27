@@ -1,7 +1,10 @@
 import { Rule } from "@stoplight/spectral-core";
+import { UfnUrlBase} from "./rulesetUtil.ts"
 import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
+import { Url } from "url";
+import { get } from "http";
 
 export class Ufn02 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -99,17 +102,27 @@ export class Ufn08 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
-export class Ufn07 extends BaseRuleset {
+export class Ufn07 extends UfnUrlBase {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
     id: "UFN.07",
   };
-  given = "$.paths[*]~";
   message = "URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).";
   then = {
-    function: pattern,
-    functionOptions: {
-      match: "^[a-zA-Z0-9/\\\-\\\,\\\.\\\_\\\~{}]*$",
+    function: (targetVal) => {
+      const pattern:RegExp = new RegExp(/^[a-zA-Z0-9\/\-,._~{}]*$/);
+      const urls:any[] = this.getBaseUrlAndPath(targetVal);
+      for(const url of urls){
+        if (!pattern.test(url.baseUrl)){
+          return [
+            {
+              message: this.message,
+              severity: this.severity
+            },
+          ];
+        }
+      }
+      return [];     
     }
   }
   severity = DiagnosticSeverity.Error;

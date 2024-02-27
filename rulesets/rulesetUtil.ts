@@ -1,6 +1,7 @@
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset,CustomProperties } from "./BaseRuleset.ts"
+import { stringify } from "querystring";
 
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {
@@ -27,4 +28,28 @@ export class Arq05Base extends BaseRuleset {
       return false;    
     }
   }
-  export default { Arq05Base};
+  export class UfnUrlBase extends BaseRuleset {
+    static customProperties: CustomProperties = {
+      område: "API Request",
+      id: "ARQ.05",
+    };
+    constructor() {
+      super();
+      this.given = "$.";
+    }
+    protected getBaseUrlAndPath (targetVal:any):any[] {
+      const urlArray: any[]  = [];
+      for (let path in targetVal.paths){
+        for(let baseUrl of targetVal.servers){
+          
+          urlArray.push({
+            "baseUrl":baseUrl.url.slice(baseUrl.url.indexOf("://")+3)+path,
+            "protocol":baseUrl.url.slice(0, baseUrl.url.indexOf("://")+3)
+          });
+        }
+      }
+      return urlArray;
+    }
+    
+  }
+  export default { Arq05Base, UfnUrlBase};

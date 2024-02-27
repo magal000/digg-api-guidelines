@@ -34,6 +34,7 @@ testRule("Ufn07", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
+        servers: [{ url: "http://api.example.com" }],
         paths: { "/abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ-._~": {} },
       },
       errors: [],
@@ -43,13 +44,27 @@ testRule("Ufn07", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/a-*-is-not-allowed": {} },
+        servers: [{ url: "http://api.example.com" }],
+        paths: { "/a-*:-is-not-allowed": {} },
       },
       errors: [
         {
-          message:
-            "URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).",
-          path: ["paths", "/a-*-is-not-allowed"],
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, "-", ".", "_" samt "~", se vidare i RFC 3986).',
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    {
+      name: "ogiltigt testfall med asterisk i server url",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [{ url: "http://api.exa*mple.com" }],
+        paths: { "/a--is-not-allowed": {} },
+      },
+      errors: [
+        {
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, "-", ".", "_" samt "~", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
