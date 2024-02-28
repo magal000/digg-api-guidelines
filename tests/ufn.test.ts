@@ -43,7 +43,7 @@ testRule("Ufn07", [
       errors: [],
     },
     {
-      name: "ogiltigt testfall med asterisk",
+      name: "ogiltigt testfall med asterisk i path",
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
@@ -73,7 +73,7 @@ testRule("Ufn07", [
       ],
     },
     {
-      name: "ogiltigt testfall med asterisk i server url",
+      name: "ogiltigt testfall med : i server url",
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
@@ -91,7 +91,7 @@ testRule("Ufn07", [
       ],
     },
     {
-      name: "ogiltigt testfall med asterisk i server url",
+      name: "ogiltigt testfall med : i server path",
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },

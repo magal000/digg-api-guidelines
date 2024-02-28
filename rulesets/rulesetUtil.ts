@@ -44,7 +44,7 @@ export class Arq05Base extends BaseRuleset {
           
           urlArray.push({
             "baseUrl":baseUrl.url.slice(baseUrl.url.indexOf(":")+1)+path,
-            "protocol":baseUrl.url.slice(0, baseUrl.url.indexOf(":")+1)
+            "protocol":baseUrl.url.slice(0, baseUrl.url.indexOf(":"))
           });
         }
       }
