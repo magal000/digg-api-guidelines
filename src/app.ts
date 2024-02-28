@@ -69,12 +69,12 @@ try {
     /**
      * CustomSpectral
      */
-    console.log('Rule execution status:', JSON.stringify(ruleExecutionStatus,null,2) + "before running spectral...");
+    //console.log('Rule execution status:', JSON.stringify(ruleExecutionStatus,null,2) + "before running spectral...");
     const customSpectral = new RapLPCustomSpectral();
     customSpectral.setCategorys(enabledRulesAndCategorys.instanceCategoryMap);
     customSpectral.setRuleset(enabledRulesAndCategorys.rules);
     const result = await customSpectral.run(apiSpecDocument);
-    console.log('Rule execution status:', JSON.stringify(ruleExecutionStatus,null,2) + "after running spectral...");
+    //console.log('Rule execution status:', JSON.stringify(ruleExecutionStatus,null,2) + "after running spectral...");
 
     /**
      * Chalk impl.

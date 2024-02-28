@@ -30,8 +30,10 @@ class RapLPCustomSpectral {
   }
   async run(document: any): Promise<CustomSpectralDiagnostic[]> {
     const spectralResults = await this.spectral.run(document);
-    this.processRuleExecutionLog(ruleExecutionLogDictionary,this.modifyResults(spectralResults));
-    return this.modifyResults(spectralResults);
+    const modifiedResults = this.modifyResults(spectralResults); 
+    this.processRuleExecutionLog(ruleExecutionLogDictionary,modifiedResults);
+    return modifiedResults;
+    //return this.modifyResults(spectralResults);
   }
 
   private modifyRuleset(enabledRules: EnabledRules): Record<string,any> {
@@ -94,6 +96,15 @@ private mapResultToCustom(result: ISpectralDiagnostic): CustomSpectralDiagnostic
   };
 }
 private processRuleExecutionLog(log: RuleExecutionLog, spectralResults: CustomSpectralDiagnostic[]) {
+  const executedRuleIds = new Set<string>(); // Set to track executed rule IDs
+  const executedRuleIdsWithError = new Set<string>();
+  const ruleIdsNotApplicable = new Set<string>();
+
+  console.log("<<<<!!!!!>>>>>");
+ 
+  const notApplicableRules: { id: string; område: string }[] = [];
+  const executedRules: {id: string; område: string}[] = [];
+  const exercutedRulesWithError: {id: string; område: string}[] = [];
   for (const key in log) {
     const rules = log[key];
     const { moduleName, className } = rules[0]; // Get module and class name from the first entry
@@ -113,16 +124,55 @@ private processRuleExecutionLog(log: RuleExecutionLog, spectralResults: CustomSp
       //console.log("Spectral result: " + spectralResult);
       if (spectralResult) {
         //We have a match, that means there is an error
+        executedRuleIdsWithError.add(customProperties.id);
+        exercutedRulesWithError.push({ id: customProperties.id, område: customProperties.område }); // Rules
+
         console.log("<<<Error>>>");
         console.log(`${status} - ID: ${customProperties.id}, Area: ${customProperties.område}, Severity: ${severityText} (Spectral: ${spectralResult.allvarlighetsgrad})`);
       } else {
+        //We dont have a match, that means there is not an error and 'only' a rule diagnostic executed
         console.log("<<<No Error>>>");
+        executedRuleIds.add(customProperties.id);
+        executedRules.push({ id: customProperties.id, område: customProperties.område }); // Rules
+
         console.log(`${status} - ID: ${customProperties.id}, Area: ${customProperties.område}, Severity: ${severityText} (Spectral: Not Found)`);
       }
     });
     
     console.log('\n'); // Add newline for better readability
   }
+  /*
+  console.log("Enabled rules: " + JSON.stringify(this.enabledRules,null,2));
+  //console.log("InstanceCategoryMap:" + JSON.stringify(this.instanceCategoryMap.entries,null,2));
+
+  console.log("<<<<Executed RuleIds set>>>");
+  executedRuleIds.forEach((value) => {
+    console.log("ExecutedRuleId set value: " + value);
+  });
+  console.log("<<<<Executed RuleIdsWithError set>>>");
+  executedRuleIdsWithError.forEach((value) => {
+    console.log("ExecutedRuleIdWithError set value: " + value);
+  });
+  */
+  const mergedSet = new Set([...executedRuleIds, ...executedRuleIdsWithError]);
+  /*
+  console.log("<<<<Merged set>>>");
+  mergedSet.forEach((value) => {
+    console.log("Merged set value: " + value);
+  });
+  */
+  for (const key of this.instanceCategoryMap.keys()) {
+    //console.log("Key is: " + key);
+    const customProperties = this.instanceCategoryMap.get(key).customProperties;
+    if (!mergedSet.has(customProperties.id)) {
+      // If not present, store the id and område in the missingIds array
+      notApplicableRules.push({ id: customProperties.id, område: customProperties.område }); // Rules
+    }
+  }
+  console.log("<<<Executed Rules - RAP-LP>>> ", executedRules);
+  console.log("<<<Executed Rules with Error - RAP-LP>>> ", exercutedRulesWithError);
+  console.log("<<<Not applicable Rules - RAP-LP>>> ", notApplicableRules);
+     //console.log("CustomProperties ID is : " + this.instanceCategoryMap.get(key).customProperties.id);
 }
 }
 export {RapLPCustomSpectral};

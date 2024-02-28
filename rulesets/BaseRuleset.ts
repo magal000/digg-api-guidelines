@@ -19,12 +19,7 @@ export class BaseRuleset implements RulesetInterface {
 
   customFunction(targetVal: string, _opts: string, paths: string[],serverity: DiagnosticSeverity, subclassInfo: any, moduleName: any,
     subclassProperties: CustomProperties) {
-    // Implement custom logic here for the same rule
-    //console.log("Modulename: " + moduleName);
-    //console.log("<<<We are in the mood in the super!>>>");
-    //console.log("SubclassInfo: " + subclassInfo);
-    //console.log("DiagnosticSeverity: " + serverity);
-    registerRuleExecutionStatus(moduleName, subclassInfo, subclassProperties,serverity.toString());
+    //registerRuleExecutionStatus(moduleName, subclassInfo, subclassProperties,serverity.toString());
     logRuleExecution(moduleName,subclassInfo,subclassProperties,this.severity.toString(),true);
     
     //logRuleExecution('Verules.ts', 'Ver06', { id: 'VER.06', area: 'Version management' }, 'Error', true);

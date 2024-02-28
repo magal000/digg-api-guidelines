@@ -3,8 +3,6 @@ import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset } from "./BaseRuleset.ts"
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 
-
-
 export class Ver06 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Versionhantering",
@@ -21,7 +19,7 @@ export class Ver06 extends BaseRuleset {
       function: (targetVal: string, _opts: string, paths: string[]) => {
         // Implement custom log func here
         this.customFunction(targetVal, _opts, paths,this.severity,this.constructor.name, "Verules.ts",Ver06.customProperties);
-        },
+      },
     }
   ];
   severity = DiagnosticSeverity.Error;
@@ -69,7 +67,7 @@ export class Ver05 extends BaseRuleset {
       // Implement custom logic here for the same rule
       this.customFunction(targetVal, _opts, paths, this.severity,this.constructor.name, "VerRules.ts", Ver05.customProperties);
       // Implement custom logic here for the same rule
-      },
+    },
   }
   ]  
   severity = DiagnosticSeverity.Warning;
