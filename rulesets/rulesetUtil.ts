@@ -29,10 +29,7 @@ export class Arq05Base extends BaseRuleset {
     }
   }
   export class UfnUrlBase extends BaseRuleset {
-    static customProperties: CustomProperties = {
-      område: "API Request",
-      id: "ARQ.05",
-    };
+
     constructor() {
       super();
       this.given = "$.";
