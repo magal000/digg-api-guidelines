@@ -28,25 +28,5 @@ export class Arq05Base extends BaseRuleset {
       return false;    
     }
   }
-  export class UfnUrlBase extends BaseRuleset {
 
-    constructor() {
-      super();
-      this.given = "$.";
-    }
-    protected getBaseUrlAndPath (targetVal:any):any[] {
-      const urlArray: any[]  = [];
-      for (let path in targetVal.paths){
-        for(let baseUrl of targetVal.servers){
-          
-          urlArray.push({
-            "baseUrl":baseUrl.url.slice(baseUrl.url.indexOf(":")+1)+path,
-            "protocol":baseUrl.url.slice(0, baseUrl.url.indexOf(":"))
-          });
-        }
-      }
-      return urlArray;
-    }
-    
-  }
-  export default { Arq05Base, UfnUrlBase};
+  export default { Arq05Base};
