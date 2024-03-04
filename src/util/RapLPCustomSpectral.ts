@@ -1,9 +1,9 @@
 import * as SpectralCore from '@stoplight/spectral-core';
 import { ruleExecutionStatus,RuleExecutionLog,ruleExecutionLogDictionary } from './RuleExecutionStatusModule.ts';
-
-
 import { ISpectralDiagnostic } from '@stoplight/spectral-core';
 import spectralCore from "@stoplight/spectral-core";
+
+
 const { Spectral, Document } = spectralCore;
 
 interface EnabledRules {
@@ -15,12 +15,27 @@ class RapLPCustomSpectral {
   private enabledRules: EnabledRules = {
     rules: {},
 };
+  private _ruleSets: {
+    notApplicableRules: { id: string; område: string; }[];
+    executedRules: { id: string; område: string, sökväg: string  }[];
+    executedRulesWithError: { id: string; område: string, sökväg: string  }[];
+  } = {
+    notApplicableRules: [],
+    executedRules: [],
+    executedRulesWithError: [],
+  };
   private instanceCategoryMap: Map<string, any>;
   constructor() {
     this.spectral = new Spectral();
     this.rules = {};
     this.instanceCategoryMap = new Map<string,any>();
   }
+  public get ruleSets(): {
+    notApplicableRules: { id: string; område: string; }[];
+    executedRules: { id: string; område: string, sökväg: string  }[];
+    executedRulesWithError: { id: string; område: string, sökväg: string  }[];
+  } {return this._ruleSets;}
+
   setRuleset(enabledRules: Record<string,any>): void {
     this.enabledRules.rules = enabledRules;
     this.spectral.setRuleset(this.enabledRules);
@@ -102,9 +117,9 @@ private processRuleExecutionLog(log: RuleExecutionLog, spectralResults: CustomSp
 
   console.log("<<<<!!!!!>>>>>");
  
-  const notApplicableRules: { id: string; område: string }[] = [];
-  const executedRules: {id: string; område: string}[] = [];
-  const exercutedRulesWithError: {id: string; område: string}[] = [];
+  let notApplicableRules: { id: string; område: string }[] = [];
+  let executedRules: {id: string; område: string}[] = [];
+  let exercutedRulesWithError: {id: string; område: string}[] = [];
   for (const key in log) {
     const rules = log[key];
     const { moduleName, className } = rules[0]; // Get module and class name from the first entry
@@ -112,7 +127,7 @@ private processRuleExecutionLog(log: RuleExecutionLog, spectralResults: CustomSp
     console.log(`Rule execution status for ${moduleName}:${className}:`);
     
     rules.forEach(rule => {
-      const { customProperties, severity, passed } = rule;
+      const { customProperties, severity, passed,targetVal} = rule;
       const status = passed ? 'PASSED' : 'FAILED';
       const severityText = severity.toUpperCase();
       console.log("Område/ID:" + customProperties.område + "/ " + customProperties.id);
@@ -125,17 +140,17 @@ private processRuleExecutionLog(log: RuleExecutionLog, spectralResults: CustomSp
       if (spectralResult) {
         //We have a match, that means there is an error
         executedRuleIdsWithError.add(customProperties.id);
-        exercutedRulesWithError.push({ id: customProperties.id, område: customProperties.område }); // Rules
-
-        console.log("<<<Error>>>");
-        console.log(`${status} - ID: ${customProperties.id}, Area: ${customProperties.område}, Severity: ${severityText} (Spectral: ${spectralResult.allvarlighetsgrad})`);
+        //exercutedRulesWithError.push({ id: customProperties.id, område: customProperties.område }); // Rules
+        this._ruleSets.executedRulesWithError.push({ id: customProperties.id, område: customProperties.område, sökväg:targetVal }); // Rules                
+        console.log("<<<Error>>> FOR ID: " + customProperties.id);
+        //console.log(`${status} - ID: ${customProperties.id}, Area: ${customProperties.område}, Severity: ${severityText} (Spectral: ${spectralResult.allvarlighetsgrad})`);
       } else {
         //We dont have a match, that means there is not an error and 'only' a rule diagnostic executed
-        console.log("<<<No Error>>>");
+        console.log("<<<No Error>>> for ID: " + customProperties.id);
         executedRuleIds.add(customProperties.id);
-        executedRules.push({ id: customProperties.id, område: customProperties.område }); // Rules
-
-        console.log(`${status} - ID: ${customProperties.id}, Area: ${customProperties.område}, Severity: ${severityText} (Spectral: Not Found)`);
+        //executedRules.push({ id: customProperties.id, område: customProperties.område }); // Rules
+        this._ruleSets.executedRules.push({ id: customProperties.id, område: customProperties.område, sökväg: targetVal }); // Rules
+        //console.log(`${status} - ID: ${customProperties.id}, Area: ${customProperties.område}, Severity: ${severityText} (Spectral: Not Found)`);
       }
     });
     
@@ -166,13 +181,17 @@ private processRuleExecutionLog(log: RuleExecutionLog, spectralResults: CustomSp
     const customProperties = this.instanceCategoryMap.get(key).customProperties;
     if (!mergedSet.has(customProperties.id)) {
       // If not present, store the id and område in the missingIds array
-      notApplicableRules.push({ id: customProperties.id, område: customProperties.område }); // Rules
+      //notApplicableRules.push({ id: customProperties.id, område: customProperties.område }); // Rules
+      this._ruleSets.notApplicableRules.push({ id: customProperties.id, område: customProperties.område}); // Rules
+      console.log();
     }
   }
-  console.log("<<<Executed Rules - RAP-LP>>> ", executedRules);
-  console.log("<<<Executed Rules with Error - RAP-LP>>> ", exercutedRulesWithError);
-  console.log("<<<Not applicable Rules - RAP-LP>>> ", notApplicableRules);
+  /*
+  console.log("<<<Executed approved Rules - RAP-LP>>> \n", this._ruleSets.executedRules);
+  console.log("<<<Executed not approved Rules - RAP-LP>>> \n", this._ruleSets.executedRulesWithError);
+  console.log("<<<Not applicable Rules - RAP-LP>>> \n", this._ruleSets.notApplicableRules);
      //console.log("CustomProperties ID is : " + this.instanceCategoryMap.get(key).customProperties.id);
+  */
 }
 }
 export {RapLPCustomSpectral};

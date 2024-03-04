@@ -6,6 +6,7 @@ interface RuleExecutionInfo {
     customProperties: CustomProperties;
     severity: string;
     passed: boolean;
+    targetVal: string;
   }
   
 export interface RuleExecutionLog {
@@ -21,12 +22,12 @@ export function registerRuleExecutionStatus(moduleName: string, className: strin
     const key = `${moduleName}:${customProperties.id}:${customProperties.område}:${severity}`;
     ruleExecutionStatus[key] = true;
 }
-export function logRuleExecution(moduleName: string, className: string, customProperties: CustomProperties, severity: string, passed: boolean) {
+export function logRuleExecution(moduleName: string, className: string, customProperties: CustomProperties, severity: string, passed: boolean, targetVal: string) {
     const key = `${moduleName}:${customProperties.id}:${customProperties.område}:${severity}`;
     
     if (!ruleExecutionLogDictionary[key]) {
         ruleExecutionLogDictionary[key] = [];
     }
     
-    ruleExecutionLogDictionary[key].push({ moduleName, className, customProperties, severity, passed });
+    ruleExecutionLogDictionary[key].push({ moduleName, className, customProperties, severity, passed, targetVal });
   }

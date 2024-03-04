@@ -1,6 +1,6 @@
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import { BaseRuleset } from "./BaseRuleset.ts"
+import { BaseRuleset } from "./BaseRuleset.ts";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 
 export class Ver06 extends BaseRuleset {
@@ -18,7 +18,8 @@ export class Ver06 extends BaseRuleset {
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
         // Implement custom log func here
-        this.customFunction(targetVal, _opts, paths,this.severity,this.constructor.name, "Verules.ts",Ver06.customProperties);
+
+        this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,this.constructor.name, import.meta.url,Ver06.customProperties);
       },
     }
   ];
@@ -65,7 +66,7 @@ export class Ver05 extends BaseRuleset {
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
       // Implement custom logic here for the same rule
-      this.customFunction(targetVal, _opts, paths, this.severity,this.constructor.name, "VerRules.ts", Ver05.customProperties);
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths, this.severity,this.constructor.name, import.meta.url, Ver05.customProperties);
       // Implement custom logic here for the same rule
     },
   }

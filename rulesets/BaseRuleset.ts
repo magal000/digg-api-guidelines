@@ -17,13 +17,9 @@ export class BaseRuleset implements RulesetInterface {
   description: string = '';
   severity: DiagnosticSeverity = DiagnosticSeverity.Error;
 
-  customFunction(targetVal: string, _opts: string, paths: string[],serverity: DiagnosticSeverity, subclassInfo: any, moduleName: any,
+  trackRuleExecutionHandler(targetVal: string, _opts: string, paths: string[],serverity: DiagnosticSeverity, subclassInfo: any, moduleName: any,
     subclassProperties: CustomProperties) {
-    //registerRuleExecutionStatus(moduleName, subclassInfo, subclassProperties,serverity.toString());
-    logRuleExecution(moduleName,subclassInfo,subclassProperties,this.severity.toString(),true);
-    
-    //logRuleExecution('Verules.ts', 'Ver06', { id: 'VER.06', area: 'Version management' }, 'Error', true);
-    //logRuleExecution('Verules.ts', 'Ver05', { id: 'VER.05', area: 'Version management' }, 'Warning', false);
+    logRuleExecution(moduleName,subclassInfo,subclassProperties,this.severity.toString(),true,targetVal);
     return [];
   }  
 }

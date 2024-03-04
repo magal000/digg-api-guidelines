@@ -69,12 +69,10 @@ try {
     /**
      * CustomSpectral
      */
-    //console.log('Rule execution status:', JSON.stringify(ruleExecutionStatus,null,2) + "before running spectral...");
     const customSpectral = new RapLPCustomSpectral();
     customSpectral.setCategorys(enabledRulesAndCategorys.instanceCategoryMap);
     customSpectral.setRuleset(enabledRulesAndCategorys.rules);
     const result = await customSpectral.run(apiSpecDocument);
-    //console.log('Rule execution status:', JSON.stringify(ruleExecutionStatus,null,2) + "after running spectral...");
 
     /**
      * Chalk impl.
@@ -97,6 +95,9 @@ try {
       const formatLintingResult = (result: any) => {
         return `allvarlighetsgrad: ${colorizeSeverity(result.allvarlighetsgrad)} \nid: ${result.id} \nkrav: ${result.krav} \nområde: ${result.område} \nsökväg:[${result.sökväg}] \nomfattning:${JSON.stringify(result.omfattning,null,2)} `;
       };
+      /*const formatLintingExecutedRules = (result: any) => {
+        return `allvarlighetsgrad: ${colorizeSeverity(result.område)} \nid: ${result.id} \nkrav: ${result.krav} \nområde: ${result.område} \nsökväg:[${result.sökväg}] \nomfattning:${JSON.stringify(result.omfattning,null,2)} `;
+      };*/
       const content = JSON.stringify(result, null, 2);
       //Check specified option from yargs input
       if (logFilePath) {
@@ -110,8 +111,27 @@ try {
         console.log(chalk.green(`Writing linting results from RAP-LP to ${logFilePath}`));
         }
       }else {
+
         //Log to stdout
-        console.log('<<Regelutfall RAP-LP>> \n');
+        if (customSpectral.ruleSets.executedRules!=undefined && customSpectral.ruleSets.executedRules.length>0) {
+          console.log(chalk.green("<<<Executed approved rules - RAP-LP>>>\r"));
+          customSpectral.ruleSets.executedRules.forEach(item => {
+            console.log(chalk.bgGreen("PASS") + "\t" + item.område + "/" + item.id + "/"+ item.sökväg) ;
+          });
+        }
+        if (customSpectral.ruleSets.executedRulesWithError!=undefined && customSpectral.ruleSets.executedRulesWithError.length>0) {
+          console.log(chalk.red("<<<Executed not approved rules - RAP-LP>>>\r"));
+            customSpectral.ruleSets.executedRulesWithError.forEach(item => {
+              console.log(chalk.bgRed("NOT PASS") + "\t" + item.område + "/" + item.id + "/" + item.sökväg);
+            });
+        }
+        if (customSpectral.ruleSets.notApplicableRules!=undefined && customSpectral.ruleSets.notApplicableRules.length>0) {
+          console.log(chalk.grey("<<<Not applicable rules - RAP-LP>>>\r"));
+          customSpectral.ruleSets.notApplicableRules.forEach(item => {
+            console.log(chalk.bgGrey("NOT APPLICABLE ") + "\t" + item.område + "/" + item.id);
+          });
+      }
+      console.log('<<Regelutfall RAP-LP>> \n');
         result.forEach(item => {
           console.log(formatLintingResult(item));
         });

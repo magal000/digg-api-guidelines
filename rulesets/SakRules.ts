@@ -21,7 +21,7 @@ export class Sak09 extends BaseRuleset {
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
         // Implement custom log func here
-        this.customFunction(targetVal, _opts, paths,this.severity,this.constructor.name, "Verules.ts",Sak09.customProperties);
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,this.constructor.name, import.meta.url,Sak09.customProperties);
         },
     }
   ];  
@@ -46,7 +46,7 @@ export class Sak10 extends BaseRuleset {
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
         // Implement custom log func here
-        this.customFunction(targetVal, _opts, paths,this.severity,this.constructor.name, "Verules.ts",Sak10.customProperties);
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,this.constructor.name, import.meta.url,Sak10.customProperties);
       },
     }
   ];  
@@ -70,7 +70,7 @@ export class Sak18 extends BaseRuleset {
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
         // Implement custom log func here
-        this.customFunction(targetVal, _opts, paths,this.severity,this.constructor.name, "Verules.ts",Sak18.customProperties);
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,this.constructor.name, import.meta.url,Sak18.customProperties);
         },
     }
   ];  
