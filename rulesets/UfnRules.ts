@@ -1,10 +1,25 @@
-import { Rule } from "@stoplight/spectral-core";
 import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length} from "@stoplight/spectral-functions";
+import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length, alphabetical} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import { Url } from "url";
-import { get } from "http";
 
+export class Ufn01 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.01",
+  };
+  description = "{protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}"
+  given = "$.servers.[url]";
+  message = "En URL för ett API BÖR följa namnstandarden nedan: " + this.description;
+
+  then = {
+    function: pattern,
+    functionOptions: {
+      match: "^(?<protocol>^[^\/]*:\/\/)+(?<host>(?<=:\/\/)[^\/]+\/)+(?<api>(?<=\/)[^\/]+?\/)(?<version>(?<=\/)v+[0-9]+)+(?<end>\/$|$)"
+    },
+  }
+  severity = DiagnosticSeverity.Warning;
+}
+ 
 export class Ufn02 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -204,4 +219,4 @@ export class Ufn11 extends BaseRuleset {
   }
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn05, Ufn06, Ufn08, Ufn09, Ufn10, Ufn11 };
+export default { Ufn02, Ufn05, Ufn06, Ufn07, Ufn08, Ufn09, Ufn10, Ufn11 };

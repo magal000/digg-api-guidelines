@@ -192,3 +192,178 @@ testRule("Arq05ComplexStructure", [
       ],
     },
   ]);
+
+  testRule("Arq01", [
+    {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: {
+          "/": {
+            get: {
+              requestBody: {
+                description: "JSON och CSV tillåtet",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                    },
+                  },
+                  "text/csv": {
+                    schema: {
+                      type: "string",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: {
+          "/": {
+            get: {
+              requestBody: {
+                description:
+                  "Om endast något annat format än JSON, så bör en varning ges",
+                content: {
+                  "text/csv": {
+                    schema: {
+                      type: "string",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message:
+            "Ett API request BÖR skickas i UTF-8 format",
+          path: ["paths", "/", "get", "requestBody", "content"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },    
+  ]);
+testRule("Arq03", [
+  {
+    name: "giltigt testfall - Connection: keep-alive",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/foo": {
+          post: {
+            parameters: [
+              {
+                name: "Connection",
+                in: "header",
+                description: "Connection type",
+                required: true,
+                schema: {
+                  type: "string",
+                  enum: ["keep-alive", "close", "upgrade"],
+                }
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - Date: ska ha format som är definierat i RFC 3339",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/foo": {
+          post: {
+            parameters: [
+              {
+                name: "Date",
+                in: "header",
+                description: "Date",
+                required: true,
+                schema: {
+                  type: "string",
+                  format: "date-time",
+                }
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - ETag: etag",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/foo": {
+          post: {
+            parameters: [
+              {
+                name: "ETag",
+                in: "header",
+                description: "ETag",
+                required: true,
+                schema: {
+                  type: "string",
+                  format: "etag",
+                }
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - Connection: keep-alive saknas",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/foo": {
+          post: {
+            parameters: [
+              {
+                name: "Connection",
+                in: "header",
+                required: true,
+                schema: {
+                  type: "string",
+                  enum: ["close", "upgrade"],
+                }
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message:
+          "Alla API:er BÖR supportera följande request headers: Accept, Accept-Charset, Date, Cache-Control, ETag, Connection och Cookie.",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);

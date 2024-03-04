@@ -1,13 +1,13 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0
-  title: AME
-  description: API message
-  termsOfService: http://swagger.io/terms/
+  title: SAK
+  description: Säkerhet RAP-LP
   contact:
-    name: Swagger API Team
-    email: apiteam@swagger.io
-    url: http://swagger.io
+    name: RAP-LP
+    email: rap-lp@example.com
+    url: http://example.com
+  termsOfService: http://swagger.io/terms/
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -20,11 +20,20 @@ paths:
       description: For testing
       operationId: exampleRequest
       tags:
-        [tag1, tag2]
+        - tag1
+        - tag2
+      parameters:
+        - name: Date
+          in: header
+          schema:
+            type: object
+            properties:
+              data:
+                type: string
       requestBody:
         required: true
         content:
-          application/json; charset=utf-8:
+          application/json:
             schema:
               type: object
               properties:
@@ -34,7 +43,7 @@ paths:
         '200':
           description: example response
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Error'
   /example2:
@@ -48,18 +57,30 @@ paths:
       requestBody:
         required: true
         content:
-          application/json; charset=utf-8:
+          application/json:
             schema:
               type: object
               properties:
                 data:
-                  type: integer
-          application/json; charset=utf-16:
-            schema:
-              type: object
-              properties:
-                data:
-                  type: integer
+                  type: string
+      responses:
+        '200':
+          description: example response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /example3:
+    get:
+      summary: Example API with Payload in Headers Allowed
+      description: For testing
+      operationId: exampleRequest3
+      security:
+        - oAuth2:
+          - write:pets
+      tags:
+        - tag1
+        - tag2
       responses:
         '200':
           description: example response
@@ -67,13 +88,21 @@ paths:
             text/plain:
               schema:
                 $ref: '#/components/schemas/Error'
-
-
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
 components:
   securitySchemes:
-    bearerAuth:     # <-- arbitrary name for the security scheme
-      type: http
-      scheme: bearer
+    oAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: http://example.com/api/oauth/token
+          refreshUrl: http://example.com/api/oauth/refresh
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
   schemas:
     Error:
       type: object
@@ -86,7 +115,6 @@ components:
           format: int32
         message:
           type: string
-
 tags:
   - name: tag1
     description: Everything about tag1
