@@ -1,8 +1,6 @@
-import { Rule } from "@stoplight/spectral-core";
 import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length, alphabetical} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import { Url } from "url";
 
 export class Ufn01 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -140,14 +138,50 @@ export class Ufn07 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.07",
   };
-  given = "$.paths[*]~";
   message = "URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).";
-  then = {
-    function: pattern,
-    functionOptions: {
-      match: "^[a-zA-Z0-9/\\\-\\\,\\\.\\\_\\\~{}]*$",
+  given = "$."
+  then = [{
+    field: 'servers',
+    function:(targetVal, _opts, paths) => {
+      const pattern:RegExp = /^[a-zA-Z0-9\/\-,._~]+$/;
+      const delimiter:RegExp = /:/g;
+      const property:string = "url";
+      const result:any = [];
+
+      for (let i = 0; i < targetVal.length; i++) {
+        const url = targetVal[i][property].replace(delimiter,'');
+        if (!pattern.test(url)){
+          result.push(
+            {
+              path: [...paths.path, i, property],
+              message: this.message,
+              severity: this.severity
+            }
+          )
+        }
+      }   
+      return result;
     }
-  }
+  },
+  {
+    field: 'paths',
+    function:(targetVal, _opts, paths) => {
+      const pattern:RegExp = /^[a-zA-Z0-9\/\-,._~{}]+$/;
+      const result:any = [];
+      for(const path in targetVal){
+        if(!pattern.test(path)){
+          result.push(
+            {
+              path: [...paths.path, path],
+              message: this.message,
+              severity: this.severity
+            }
+          )
+        }
+      }
+      return result;
+    }
+  }]
   severity = DiagnosticSeverity.Error;
 }
 
