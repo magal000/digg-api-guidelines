@@ -39,7 +39,7 @@ export class Ufn02 extends BaseRuleset {
       if (protocollPattern.test(targetVal)){
         if(port != null){
           if(port.groups.port === ':443'){
-            return result
+            return result;
           }
         }else{
           return result;
