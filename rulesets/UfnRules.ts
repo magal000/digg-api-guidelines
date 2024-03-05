@@ -25,14 +25,31 @@ export class Ufn02 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.02",
   };
-  given = "$.servers[?(@.url.startsWith('http'))]";
+  given = "$.servers.[url]";
   message = "Alla API:er SKALL exponeras via HTTPS på port 443.";
   then = {
-    field: 'url',
-    function: pattern,
-    functionOptions: {
-      match: "/^https:/"
-    },
+    function: (targetVal):any=>{
+      const protocollPattern = /^https:/;
+      const portPattern = /(?<port>:[0-9]+)\//;
+      const port = targetVal.match(portPattern);
+      const result:any = [];
+      
+      if (protocollPattern.test(targetVal)){
+        if(port != null){
+          if(port.groups.port === ':443'){
+            return result;
+          }
+        }else{
+          return result;
+        }
+      }
+      
+      return [{
+          message: this.message,
+          severity: this.severity
+        },
+      ]
+    }
   }
   severity = DiagnosticSeverity.Error;
 }
@@ -149,7 +166,7 @@ export class Ufn07 extends BaseRuleset {
   {
     field: 'paths',
     function:(targetVal, _opts, paths) => {
-      const pattern:RegExp = /^[a-zA-Z0-9\/\-,._~]+$/;
+      const pattern:RegExp = /^[a-zA-Z0-9\/\-,._~{}]+$/;
       const result:any = [];
       for(const path in targetVal){
         if(!pattern.test(path)){
