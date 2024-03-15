@@ -12,11 +12,9 @@ class RapLPDiagnostic {
     public get diagnosticInformation():DiagnosticRuleinfoSet {
     return this._ruleSets;
     }
-
     constructor() {
 
     }
-
     processRuleExecutionInformation(raplpCustomResult: RapLPCustomSpectralDiagnostic[],
         instanceCategoryMap: Map<string,any>): void {
             this.processRuleExecutionLog(ruleExecutionLogDictionary,raplpCustomResult,instanceCategoryMap);
@@ -66,7 +64,10 @@ class RapLPDiagnostic {
         ruleIdsNotApplicable = new Set([...executedRuleIds, ...executedRuleIdsWithError]);
         for (const key of instanceCategoryMap.keys()) {
           const customProperties = instanceCategoryMap.get(key).customProperties;
-          if (!ruleIdsNotApplicable.has(customProperties.id)) {
+          const exists = this._ruleSets.notApplicableRules.some(rule => {
+            return rule.id === customProperties.id && rule.område === customProperties.område;
+        });
+          if (!ruleIdsNotApplicable.has(customProperties.id) && !exists) {
             // If not present, store the id and område in the not applicableRules
             this._ruleSets.notApplicableRules.push({ id: customProperties.id, område: customProperties.område}); // Rules
           }
