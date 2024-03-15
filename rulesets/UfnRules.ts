@@ -1,9 +1,8 @@
-import { Rule } from "@stoplight/spectral-core";
 import { BaseRuleset} from "./BaseRuleset.ts"
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length} from "@stoplight/spectral-functions";
+import { undefined as undefinedFunc, pattern,length} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
-
+const moduleName: string = "UfnRules.ts";
 
 export class Ufn02 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -22,10 +21,9 @@ export class Ufn02 extends BaseRuleset {
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-        console.log("Where in the document:UFN02--->" + JSON.stringify(targetVal,null,2));
-
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,this.constructor.name, import.meta.url,Ufn02.customProperties);
-      },
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,Ufn02.customProperties);
+      }
     }
   ];
   severity = DiagnosticSeverity.Error;
@@ -49,8 +47,9 @@ export class Ufn05 extends BaseRuleset {
   },
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,this.constructor.name, import.meta.url,Ufn05.customProperties);
-    },
+      this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,this.constructor.name, 
+        moduleName,Ufn05.customProperties);
+    }
   }
  ];
   severity = DiagnosticSeverity.Warning;
@@ -72,8 +71,9 @@ export class Ufn06 extends BaseRuleset {
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,this.constructor.name, import.meta.url,Ufn06.customProperties);
-      },
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Ufn06.customProperties);
+      }
     }
   ];
   severity = DiagnosticSeverity.Error;
@@ -125,8 +125,9 @@ export class Ufn08 extends BaseRuleset {
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,this.constructor.name, import.meta.url,Ufn08.customProperties);
-      },
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,Ufn08.customProperties);
+      }
     }
 ];
   severity = DiagnosticSeverity.Error;
@@ -147,8 +148,9 @@ export class Ufn07 extends BaseRuleset {
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,this.constructor.name, import.meta.url,Ufn07.customProperties);
-      },
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,Ufn07.customProperties);
+      }
     }
   ];
   severity = DiagnosticSeverity.Error;
@@ -171,8 +173,9 @@ export class Ufn09 extends BaseRuleset {
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,this.constructor.name, import.meta.url,Ufn09.customProperties);
-      },
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,Ufn09.customProperties);
+      }
     }
   ];
   severity = DiagnosticSeverity.Error;
@@ -195,8 +198,9 @@ export class Ufn10 extends BaseRuleset {
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,this.constructor.name, import.meta.url,Ufn10.customProperties);
-      },
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,Ufn10.customProperties);
+      }
     }
   ];
   severity = DiagnosticSeverity.Error;
@@ -220,8 +224,9 @@ export class Ufn11 extends BaseRuleset {
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-        return this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,this.constructor.name, import.meta.url,Ufn11.customProperties);
-      },
+        return this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,Ufn11.customProperties);
+      }
     }
   ];
   severity = DiagnosticSeverity.Error;

@@ -1,6 +1,7 @@
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import { BaseRuleset,CustomProperties } from "./BaseRuleset.ts"
+import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
+import { BaseRuleset} from "./BaseRuleset.ts";
 
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {

@@ -98,7 +98,6 @@ export async function importAndCreateRuleInstances(ruleCategories?: string[]): P
       try {
         const instance = new RuleClass();
         ruleInstances[RuleClass.name] = instance;
-        console.log(RuleClass.name + "/" + JSON.stringify(RuleClass,null,2));
         instanceCategoryMap.set(RuleClass.name, RuleClass); // Do we have name of ruleClass ?
       } catch (error: any) {
         console.error(`Error creating instance of rule class ${RuleClass.name}:`, error.message);

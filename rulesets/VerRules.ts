@@ -2,6 +2,7 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset } from "./BaseRuleset.ts";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
+const moduleName: string = "VerRules.ts";
 
 export class Ver06 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -19,8 +20,9 @@ export class Ver06 extends BaseRuleset {
       function: (targetVal: string, _opts: string, paths: string[]) => {
         // Implement custom log func here
 
-        this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,this.constructor.name, import.meta.url,Ver06.customProperties);
-      },
+        this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,
+          this.constructor.name, moduleName,Ver06.customProperties);
+      }
     }
   ];
   severity = DiagnosticSeverity.Error;
@@ -65,10 +67,9 @@ export class Ver05 extends BaseRuleset {
   },
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
-      // Implement custom logic here for the same rule
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths, this.severity,this.constructor.name, import.meta.url, Ver05.customProperties);
-      // Implement custom logic here for the same rule
-    },
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths, 
+      this.severity,this.constructor.name, moduleName, Ver05.customProperties);
+    }
   }
   ]  
   severity = DiagnosticSeverity.Warning;
