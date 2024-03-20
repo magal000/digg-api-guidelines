@@ -2,6 +2,23 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
 
+
+export class Ame07 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "API Message",
+    id: "AME.07",
+  };
+  description = "Fältnamn BÖR använda tecken som är alfanumeriska.";
+  message = "Fältnamn BÖR använda tecken som är alfanumeriska.";
+  given = "$.components.schemas..properties[*]~";
+  then = {
+    function: pattern,
+    functionOptions: {
+      match: "^[a-zA-Z0-9]+$"
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
 export class Ame01 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "API Message",
@@ -66,4 +83,4 @@ export class Ame02 extends BaseRuleset {
   severity = DiagnosticSeverity.Warning;
 }
 
-export default { Ame01, Ame02 };
+export default { Ame01, Ame02, Ame07};

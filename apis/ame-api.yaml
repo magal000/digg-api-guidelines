@@ -81,7 +81,7 @@ components:
         - code
         - message
       properties:
-        code:
+        "_code":
           type: integer
           format: int32
         message:
