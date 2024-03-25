@@ -28,31 +28,4 @@ export class Arq05Base extends BaseRuleset {
       return false;    
     }
   }
-  export function parsePropertyNames(input: string):string[] {
-    const result: string[] = [];
-    console.log("About to parse...");
-    const data = JSON.parse(JSON.stringify(input,null,2));  
-    console.log("After parse data: " + data);
-    try {
-        // Iterate over each top-level property
-        for (const key in data) {
-          if (Object.prototype.hasOwnProperty.call(data, key)) {
-            const obj = data[key];
-            const properties = obj.properties;
-
-            // Iterate over properties of each object
-            for (const prop in properties) {
-              if (Object.prototype.hasOwnProperty.call(properties, prop)) {
-                result.push(prop);
-              }
-            }
-          }
-        }
-        console.log("Result is: "+ result);
-    }catch(error ) {
-      console.error("Error parsing JSON:", error);
-    }
-    return result;
-  }
-
   export default { Arq05Base};
