@@ -1,7 +1,24 @@
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
+import { casing, truthy, falsy, undefined as undefinedFunc, pattern, schema,CasingOptions } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
 
+export class Ame04 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "API Message",
+    id: "AME.04",
+  };
+  description = "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.";
+  message = "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.";
+  given = "$.components.schemas..properties[*]~";
+  then = 
+    {
+      function: pattern,
+      functionOptions: {
+        match: '^(?:[a-z]+(?:_[a-z]+)*|[a-z]+(?:[A-Z][a-z]*)*)$',
+      }
+    }
+  severity = DiagnosticSeverity.Warning;
+}
 export class Ame01 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "API Message",
@@ -66,4 +83,4 @@ export class Ame02 extends BaseRuleset {
   severity = DiagnosticSeverity.Warning;
 }
 
-export default { Ame01, Ame02 };
+export default { Ame01, Ame02, Ame04 };

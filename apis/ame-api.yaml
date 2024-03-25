@@ -77,14 +77,23 @@ components:
   schemas:
     Error:
       type: object
-      required:
-        - code
-        - message
       properties:
-        code:
+        "veryLongcode":
           type: integer
           format: int32
-        message:
+        "verylongmessage":
+          type: string
+        "nest_this":
+          type: string
+    Error2:
+      type: object
+      properties:
+        "veryongcode":
+          type: integer
+          format: int32
+        "VeryLongmessage":
+          type: string
+        "nestthis_":
           type: string
 
 tags:

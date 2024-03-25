@@ -141,3 +141,117 @@ testRule("Ame02", [
     ],
   },
 ]);
+testRule("Ame04", [
+  {
+    name: "giltigt testfall - test av flatcase för snakecase / camelcase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "verylongmessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - test av snakecase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "verylong_message": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - test av camelcase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "verylongMessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - test av snakecase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "_verylongmessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.",
+        path: ["components", "schemas", "Error", "properties","_verylongmessage"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - test av camelCase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "VeryLongMessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.",
+        path: ["components", "schemas", "Error", "properties","VeryLongMessage"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  }
+]);
