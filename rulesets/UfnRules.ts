@@ -1,34 +1,73 @@
-import { BaseRuleset} from "./BaseRuleset.ts"
-import { undefined as undefinedFunc, pattern,length} from "@stoplight/spectral-functions";
+import { BaseRuleset} from "./BaseRuleset.ts";
+import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length, alphabetical} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 const moduleName: string = "UfnRules.ts";
 
-export class Ufn02 extends BaseRuleset {
+export class Ufn01 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
-    id: "UFN.02",
+    id: "UFN.01",
   };
-  given = "$.servers[?(@.url.startsWith('http'))]";
-  message = "Alla API:er SKALL exponeras via HTTPS på port 443.";
+  description = "{protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}"
+  given = "$.servers.[url]";
+  message = "En URL för ett API BÖR följa namnstandarden nedan: " + this.description;
   then = [
     {
-      field: 'url',
       function: pattern,
       functionOptions: {
-        match: "/^https:/"
+        match: "^(?<protocol>^[^\/]*:\/\/)+(?<host>(?<=:\/\/)[^\/]+\/)+(?<api>(?<=\/)[^\/]+?\/)(?<version>(?<=\/)v+[0-9]+)+(?<end>\/$|$)"
       },
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
         this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-        this.severity,this.constructor.name, moduleName,Ufn02.customProperties);
+        this.severity,this.constructor.name, moduleName,Ufn01.customProperties);
       }
     }
   ];
+  severity = DiagnosticSeverity.Warning;
+}
+ 
+export class Ufn02 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.02",
+  };
+  given = "$.servers.[url]";
+  message = "Alla API:er SKALL exponeras via HTTPS på port 443.";
+  then = [{
+    function: (targetVal):any=>{
+      const protocollPattern = /^https:/;
+      const portPattern = /(?<port>:[0-9]+)\//;
+      const port = targetVal.match(portPattern);
+      const result:any = [];
+      
+      if (protocollPattern.test(targetVal)){
+        if(port != null){
+          if(port.groups.port === ':443'){
+            return result;
+          }
+        }else{
+          return result;
+        }
+      }
+      return [{
+          message: this.message,
+          severity: this.severity
+        },
+      ]
+    }
+  },
+  {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,Ufn02.customProperties);
+      }
+  }
+];
   severity = DiagnosticSeverity.Error;
 }
-
 export class Ufn05 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -90,9 +129,7 @@ export class Ufn08 extends BaseRuleset {
   then = [
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-
         const split = targetVal.split("/").filter(removeEmpty => removeEmpty);
-
         const pathElements = split.filter(e => !e.startsWith("{"));
 
         var valid:boolean = true;
@@ -137,22 +174,57 @@ export class Ufn07 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.07",
   };
-  given = "$.paths[*]~";
   message = "URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).";
-  then = [
-    {
-      function: pattern,
-      functionOptions: {
-        match: "^[a-zA-Z0-9/\\\-\\\,\\\.\\\_\\\~{}]*$",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-        this.severity,this.constructor.name, moduleName,Ufn07.customProperties);
-      }
+  given = "$."
+  then = [{
+    field: 'servers',
+    function:(targetVal, _opts, paths) => {
+      const pattern:RegExp = /^[a-zA-Z0-9\/\-,._~]+$/;
+      const delimiter:RegExp = /:/g;
+      const property:string = "url";
+      const result:any = [];
+
+      for (let i = 0; i < targetVal.length; i++) {
+        const url = targetVal[i][property].replace(delimiter,'');
+        if (!pattern.test(url)){
+          result.push(
+            {
+              path: [...paths.path, i, property],
+              message: this.message,
+              severity: this.severity
+            }
+          )
+        }
+      }   
+      return result;
     }
-  ];
+  },
+  {
+    field: 'paths',
+    function:(targetVal, _opts, paths) => {
+      const pattern:RegExp = /^[a-zA-Z0-9\/\-,._~{}]+$/;
+      const result:any = [];
+      for(const path in targetVal){
+        if(!pattern.test(path)){
+          result.push(
+            {
+              path: [...paths.path, path],
+              message: this.message,
+              severity: this.severity
+            }
+          )
+        }
+      }
+      return result;
+    }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Ufn07.customProperties);
+    }
+  }
+];
   severity = DiagnosticSeverity.Error;
 }
 
@@ -231,4 +303,4 @@ export class Ufn11 extends BaseRuleset {
   ];
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn05, Ufn06, Ufn08, Ufn09, Ufn10, Ufn11 };
+export default { Ufn02, Ufn05, Ufn06, Ufn07, Ufn08, Ufn09, Ufn10, Ufn11 };

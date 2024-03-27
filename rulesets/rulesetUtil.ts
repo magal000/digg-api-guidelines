@@ -28,4 +28,5 @@ export class Arq05Base extends BaseRuleset {
       return false;    
     }
   }
+
   export default { Arq05Base};

@@ -24,7 +24,7 @@ export class Sak09 extends BaseRuleset {
       function: (targetVal: string, _opts: string, paths: string[]) => {
         this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
         this.severity,this.constructor.name, moduleName,Sak09.customProperties);
-        }
+      }
     }
   ];  
   severity = DiagnosticSeverity.Error;
@@ -63,19 +63,19 @@ export class Sak18 extends BaseRuleset {
   message = "OAuth version 2.0 eller senare BÖR användas för auktorisation.";
   given = "$..[securitySchemes][?(@ && @.type=='oauth2' && @.flows ? true : false)][*].[?(@property && @property.match(/Url$/i))]";
   then = [
-    {
-      function: pattern,
-      functionOptions: {
-        notMatch: "^http:",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, 
-        paths,this.severity,this.constructor.name, moduleName,Sak18.customProperties);
-      }
+  {
+    function: pattern,
+    functionOptions: {
+      notMatch: "^http:",
     }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, 
+      paths,this.severity,this.constructor.name, moduleName,Sak18.customProperties);
+    }
+  }
   ];  
-  severity = DiagnosticSeverity.Warning;
+  severity = DiagnosticSeverity.Warning; 
 }
-export default { Sak09, Sak10, Sak18 };
+export default { Sak09, Sak10, Sak18  };

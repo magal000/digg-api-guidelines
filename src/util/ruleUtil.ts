@@ -21,7 +21,8 @@ const ruleModules = [
   "FnsRules",
   "ArqRules",
   "DokRules",
-  "AmeRules"
+  "AmeRules",
+  "ForRules"
 ];
 /**
  * 
@@ -61,8 +62,9 @@ export async function importAndCreateRuleInstances(ruleCategories?: string[]):
         }
       } catch (error: any) {
         //Saftey check in case of error when loading module[s]
-        console.error(`Error importing rules for category ${category}:`, error.message);
-        return null;
+        throw new Error(`Error importing rules for category ${category}:, category ${error.message}`);
+        //console.error(`Error importing rules for category ${category}:`, error.message);
+        //return null;
       }
     }
     /**
@@ -89,6 +91,10 @@ export async function importAndCreateRuleInstances(ruleCategories?: string[]):
      * Load modules
      */
     if (ruleCategories && ruleCategories.length > 0) {
+      //Check if we gonna load PrerequisetRules or if it is specified
+      if (!ruleCategories.includes("ForRules")) {
+          ruleCategories.push("ForRules");
+      }
       await importRulesByCategory(ruleCategories);
     } else {
       await importAllRules();
