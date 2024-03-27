@@ -1,3 +1,5 @@
+import { Rule } from "@stoplight/spectral-core";
+
 // ruleUtil.ts
 interface CustomSchema {
   id: string;
@@ -35,7 +37,8 @@ export function getRuleModules() {
  * @param ruleCategories Defined category (optional)
  * @returns Promise object with enabled rules in RAP-LP to run
  */
-export async function importAndCreateRuleInstances(ruleCategories?: string[]): Promise<{ rules: Record<string, any>;instanceCategoryMap: Map<string, any> }> {
+export async function importAndCreateRuleInstances(ruleCategories?: string[]):
+ Promise<{ rules: Record<string, any>;instanceCategoryMap: Map<string, any> }> {
   const ruleInstances: Record<string, any> = {}; // store instances of rule classes
   const ruleTypes: any[] = []; // array to store rule classes.
   const instanceCategoryMap: Map<string, any> = new Map();
