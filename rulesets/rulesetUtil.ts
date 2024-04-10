@@ -28,5 +28,78 @@ export class Arq05Base extends BaseRuleset {
       return false;    
     }
   }
+// Define a type for the property objects
+export interface Property {
+  name: any;
+  type: any;
+  format?: any;
+  example?: any;
+}
+
+// Update the return type of the parsePropertyNames function
+export function parseProperties(key: string, data: any): Property[] {
+  const result: Property[] = [];
+  try {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+          const obj = data[key];
+          const properties = obj.properties;
+          // Iterate over properties of each object
+          for (const propName in properties) {
+              if (Object.prototype.hasOwnProperty.call(properties, propName)) {
+                  const property: any = properties[propName];
+                  const propType: any = property.type; // Ensure propType is of type string
+                  const propFormat: any | undefined = property.format; // Ensure propFormat is of type string or undefined
+                  const propExample: any | undefined = property.example; // Ensure propExample is of type string or undefined
+                  result.push({ name: propName, type: propType, format: propFormat, example: propExample });
+              }
+          }
+      }
+  } catch (error) {
+      console.error("Error parsing JSON:", error);
+  }
+  return result;
+}
+export function isValidRFC3339DateTime(dateTimeString) {
+// Use a regular expression to match the RFC 3339 date and time format
+const rfc3339Regex = /^(\d{4})-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])T([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])(\.\d{1,6})?(Z|([+-])([0-1][0-9]|2[0-3]):([0-5][0-9]))?$/;
+
+// Check if the input string matches the RFC 3339 format
+if (!rfc3339Regex.test(dateTimeString)) {
+  return false; // Format doesn't match, return false
+}
+
+// Extract date and time components from the string
+const [, year, month, day, hour, minute, second, fractionalSeconds] = dateTimeString.match(rfc3339Regex);
+
+// Convert components to integers
+const yearInt = parseInt(year, 10);
+const monthInt = parseInt(month, 10);
+const dayInt = parseInt(day, 10);
+const hourInt = parseInt(hour, 10);
+const minuteInt = parseInt(minute, 10);
+const secondInt = parseInt(second, 10);
+
+// Check if date and time components are within valid ranges
+if (
+  isNaN(yearInt) ||
+  isNaN(monthInt) ||
+  isNaN(dayInt) ||
+  isNaN(hourInt) ||
+  isNaN(minuteInt) ||
+  isNaN(secondInt) ||
+  yearInt < 0 ||
+  monthInt < 1 || monthInt > 12 ||
+  dayInt < 1 || dayInt > 31 ||
+  hourInt < 0 || hourInt > 23 ||
+  minuteInt < 0 || minuteInt > 59 ||
+  secondInt < 0 || secondInt > 59
+) {
+  return false; // Invalid date or time components, return false
+}
+// If all checks pass, the date and time is considered valid
+return true;
+}
+
+
 
   export default { Arq05Base};
