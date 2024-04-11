@@ -75,42 +75,42 @@ export class Ufn05 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.05",
   };
-  static baseurls: any = [];
+  static baseurls:any = [];
   description = "En URL BÖR INTE vara längre än 2048 tecken.";
   given = "$.";
   message = "En URL BÖR INTE vara längre än 2048 tecken.";
   then = [
     {
       field: "servers",
-      function: (targetVal, _opts: string, paths) => {
-        Ufn05.baseurls = targetVal;
+      function: (targetVal:any, _opts: string, paths) => {
+        
+        
+        Ufn05.baseurls = targetVal? targetVal: [{url:''}];
+        console.log(Ufn05.baseurls)
       }
     },
     {
       field: "paths",
-      function: (targetVal, _opts: string, paths) => {
-        let result: any = [];
-        let regexp = /{.[^{}]*}/;
+      function: (targetVal:any, _opts: string, paths) => {
+        const result: any = [];
+        const regexp = /{.[^{}]*}/;
         for (let i = 0; Ufn05.baseurls.length > i; i++) {
-          let jsonPath:any =[]
-          let url:any = Ufn05.baseurls[i].url;
-          if(targetVal){
+          const jsonPath:any =[]
+          let url:any = Ufn05.baseurls[i].url;          
+          if(targetVal){            
             Object.keys(targetVal).forEach((path) => {
-              url = Ufn05.baseurls[i].url
               jsonPath.push(path);
               url += path;
-              let methods:any = targetVal[path];              
-              let params:any = [];
-              let paramsStr:String = "";
+              const methods:any = targetVal[path];              
+              const params:any = [];
               if(methods){
                 Object.keys(methods).forEach((path) => {
                 
-                  let method:any = methods[path];
+                  const method:any = methods[path];
                   jsonPath.push(path);
                   let queryParams:any = [];
                   if (method.parameters){
                     jsonPath.push("parameters")
-                    paramsStr = "?";
                     queryParams = method.parameters.filter((param) => param.in == "query");
                     queryParams.forEach((element) => {
                       params.push(element.schema.maximum? `${element.name}=${element.schema.maximum}`:`${element.name}=`);
@@ -119,6 +119,7 @@ export class Ufn05 extends BaseRuleset {
                   }
                 });    
               }
+              
               if (url.split(regexp).join("").length > 2048) {
                 result.push(
                   {
