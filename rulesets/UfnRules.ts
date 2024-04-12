@@ -83,10 +83,7 @@ export class Ufn05 extends BaseRuleset {
     {
       field: "servers",
       function: (targetVal:any, _opts: string, paths) => {
-        
-        
         Ufn05.baseurls = targetVal? targetVal: [{url:''}];
-        console.log(Ufn05.baseurls)
       }
     },
     {
