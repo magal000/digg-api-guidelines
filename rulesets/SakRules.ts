@@ -21,6 +21,13 @@ export class Sak09 extends BaseRuleset {
       }
     },
     {
+      field:"scheme",
+      function: pattern,
+      functionOptions: {
+        notMatch: "digest",
+      }
+    },
+    {
       function: (targetVal: string, _opts: string, paths: string[]) => {
         this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
         this.severity,this.constructor.name, moduleName,Sak09.customProperties);
