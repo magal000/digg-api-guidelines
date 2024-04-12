@@ -16,7 +16,7 @@ interface State {
   casingTypeName: CasingType;
 }
 
-export interface StateExecutionLog {
+interface StateExecutionLog {
   [key: string]: State[];
 }
 export class Ame01 extends BaseRuleset {
@@ -124,25 +124,59 @@ export class Ame05 extends BaseRuleset {
               }
             });
           }
-          // Search the stateExecutionLogDictionary for items with casingCamelState or casingSnakeState set to true
-          for (const stateKey in stateExecutionLogDictionary) {
-            const properties = stateExecutionLogDictionary[stateKey];
-            const hasCamelOrSnakeState = properties.some(property => property.casingCamelState || property.casingSnakeState);
-            if (hasCamelOrSnakeState) {
+          //Find possible vialoations
+          const possibleViolations: string[] =  this.findPropertyViolations(stateExecutionLogDictionary);
+          // Notify the user if both snake case and camel case patterns are present or [] if ok
+          for (const key of possibleViolations) {
+            const properties = stateExecutionLogDictionary[key];
               // Push items with casingCamelState or casingSnakeState set to true to the result array
                 properties.forEach(property => {
                     result.push({
-                        path: [...paths.path, property.schemaKey],
+                        path: [...paths.path, property.schemaKey,"properties",property.propertyName],
                         message: this.message,
                         severity: this.severity
                     });
                 });
-            }
           }          
-          // Notify the user if both snake case and camel case patterns are present or [] if ok
-            return result;
+          return result;
       }
     }  
-    severity = DiagnosticSeverity.Warning;
+    severity = DiagnosticSeverity.Error;
+    /**
+     * Search a dictionary for possbile vialoations.
+     * Rule is you cant mix casing types[snake/camel] within the same schemaObject
+     * Dictionary contains the look of interface State, declared in module 
+     * @param log 
+     * @returns array of keys in the dictionary that violates the conditon
+     */
+    private findPropertyViolations(log: StateExecutionLog): string[] {
+      const violations: string[] = [];
+      const invalidEntries = new Set<string>();
+
+      // Iterate over each entry in the dictionary
+      const schemaKeys = Object.keys(log);
+      for (let i = 0; i < schemaKeys.length - 1; i++) {
+        const schemaKey1 = schemaKeys[i];
+        const states1 = log[schemaKey1];
+
+        for (let j = i + 1; j < schemaKeys.length; j++) {
+          const schemaKey2 = schemaKeys[j];
+          const states2 = log[schemaKey2];
+      
+          // Check if there are states with the same schemaKey value and mix of casing types
+          for (const state1 of states1) {
+            for (const state2 of states2) {
+              if (state1.schemaKey === state2.schemaKey &&
+                ((state1.casingCamelState && state2.casingSnakeState) || (state1.casingSnakeState && state2.casingCamelState))) {
+                invalidEntries.add(schemaKey1);
+                invalidEntries.add(schemaKey2);
+                break;
+              }
+            }
+          }
+        }
+      }
+      return Array.from(invalidEntries)
+    }
 }
 export default { Ame01, Ame02,Ame05 };

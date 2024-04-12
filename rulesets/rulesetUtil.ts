@@ -47,6 +47,7 @@ export class Arq05Base extends BaseRuleset {
     }
     return result;
   }
+  
 /*
   export function parsePropertyNames(input: string):string[] {
     const result: string[] = [];
