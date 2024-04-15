@@ -1,12 +1,14 @@
+import { Arq05Base } from "./rulesetUtil.ts";
 import { schema} from "@stoplight/spectral-functions";
-import { Arq05Base } from "./rulesetUtil.ts"
 import { DiagnosticSeverity } from "@stoplight/types";
-import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
+import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
+import { BaseRuleset} from "./BaseRuleset.ts";
+const moduleName: string = "ArqRules.ts";
 
 export class Arq05NestedStructure extends Arq05Base {
   description ="Om en header använder nästlade strukturer, är en requestbody mer lämplig.";
   message ="[" + super.messageValue  + "] " + this.description;
-  then = {
+  then = [{
     function: (targetVal, _opts, paths) => {
       if (this.checkSchema(targetVal, 'object') && targetVal.schema.properties) {
         return [
@@ -18,13 +20,19 @@ export class Arq05NestedStructure extends Arq05Base {
       }
       return [];
     },
-  };
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      return this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Arq05NestedStructure.customProperties);
+    }
+  }
+];
 }
-
 export class Arq05StringBinary extends Arq05Base {
   description ="Om en header förväntas innehålla data med ovanliga MIME-typer kan det indikera en okonventionell användning av headers.";
   message ="[" + super.messageValue  + "] " + this.description;
-  then = {
+  then = [{
     function: (targetVal, _opts, paths) => {
 
       if (this.checkSchema(targetVal, 'string', 'binary')) {
@@ -38,24 +46,38 @@ export class Arq05StringBinary extends Arq05Base {
 
       return [];
     },
-  };
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      return this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Arq05StringBinary.customProperties);
+    }
+  }
+];
 }
 export class Arq05ComplexStructure extends Arq05Base {
   description ="Om en header förväntas innehålla komplexa datastrukturer, såsom JSON eller XML, kan det indikera en okonventionell användning av headers.";
   message ="[" + super.messageValue  + "] " + this.description;
-  then = {
-    function: (targetVal, _opts, paths) => {
-      if (this.checkSchema(targetVal, 'object')) {
-        return [
-          {
-            message: this.message,
-            severity: this.severity,
-          },
-        ];
-      }
-      return [];
+    then = [{
+      function: (targetVal, _opts, paths) => {
+        if (this.checkSchema(targetVal, 'object')) {
+          return [
+            {
+              message: this.message,
+              severity: this.severity,
+            },
+          ];
+        }
+        return [];
+      },
     },
-  };
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        return this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,Arq05ComplexStructure.customProperties);
+      }
+    }
+  ];
 }
 export class Arq01 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -65,7 +87,7 @@ export class Arq01 extends BaseRuleset {
   description = "Ett API request BÖR skickas i UTF-8 format";
   message = "Ett API request BÖR skickas i UTF-8 format";
   given = "$.paths[*][*].requestBody.content";
-  then = {
+  then = [{
     function: schema,
     functionOptions: {
       schema: {
@@ -76,11 +98,16 @@ export class Arq01 extends BaseRuleset {
         required: ["application/json"],
       },
     },
+  },
+  {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        return this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,Arq01.customProperties);
+      }
   }
+];
   severity = DiagnosticSeverity.Warning;
 }
-
-
 export class Arq03 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "API Request",
@@ -89,7 +116,7 @@ export class Arq03 extends BaseRuleset {
   description = "Alla API:er BÖR supportera följande request headers: Accept, Accept-Charset, Date, Cache-Control, ETag, Connection och Cookie.";
   message = this.description;
   given = "$.paths.*.*";
-  then = {
+  then = [{
     function: (targetVal: object, _opts: string, paths: string[]) => {
 
       let isValid = true;
@@ -124,8 +151,15 @@ export class Arq03 extends BaseRuleset {
       } else {
         return []; 
       }
+    },
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      return this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Arq03.customProperties);
     }
   }
+];
   severity = DiagnosticSeverity.Warning;
 }
 export default { Arq05ComplexStructure, Arq05StringBinary, Arq05NestedStructure, Arq03, Arq01 };
