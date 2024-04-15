@@ -142,98 +142,7 @@ testRule("Ame02", [
   },
 ]);
 
-testRule("Ame05", [
-  {
-    name: "giltigt testfall - test med flatcase",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      components: {
-        schemas: {
-          Error: {
-            type: "object",
-            properties: {
-              "verylonoooooooooooongflatcaseingmessage": {
-                type: "string",
-              },
-              "veryshortflatcaseingmessage": {
-                type: "string",
-              },
-            },
-          },
-        },
-      },
-    },
-    errors: [],
-  },
-  {
-    name: "ogiltigt testfall - test med snakecase och camelcase inom samme schemaobjekt",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      components: {
-        schemas: {
-          Error: {
-            type: "object",
-            properties: {
-              "very_long_message": {
-                type: "string"
-              },
-              "veryLongMessage": {
-                type: "string",
-              },
-            },
-          },
-        },
-      },
-    },
-    errors: [
-      {
-        message: "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.",
-        path: ["components", "schemas", "Error"],
-        severity: DiagnosticSeverity.Warning,
-      },
-    ],
-  },
-  {
-    name: "ogiltigt testfall - test med snakecase och camelcase med flera schemaobjekt",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      components: {
-        schemas: {
-          Error: {
-            type: "object",
-            properties: {
-              "verylong": {
-                type: "string"              },
-              "message": {
-                type: "string"
-              },
-            },
-          },
-          Error2: {
-            type: "object",
-            properties: {
-              "very_short": {
-                type: "string",
-              },
-              "veryLongg": {
-                type: "string"
-              },
-            },
-          },
-        },
-      },
-    },
-    errors: [
-      {
-        message: "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.",
-        path: ["components", "schemas", "Error2"],
-        severity: DiagnosticSeverity.Warning,
-      },
-    ],
-  }]);
+
   
 testRule("Ame04", [
   {
@@ -349,3 +258,106 @@ testRule("Ame04", [
     ],
   }
 ]);
+testRule("Ame05", [
+  {
+    name: "giltigt testfall - test med flatcase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "verylonoooooooooooongflatcaseingmessage": {
+                type: "string",
+              },
+              "veryshortflatcaseingmessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - test med snakecase och camelcase inom samme schemaobjekt",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "very_long_message": {
+                type: "string"
+              },
+              "veryLongMessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.",
+        path: ["components", "schemas", "Error","properties","very_long_message"],
+        severity: DiagnosticSeverity.Error,
+      },
+      {
+        message: "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.",
+        path: ["components", "schemas", "Error","properties","veryLongMessage"],
+        severity: DiagnosticSeverity.Error,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - test med snakecase och camelcase med flera schemaobjekt",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "verylong": {
+                type: "string"              },
+              "message": {
+                type: "string"
+              },
+            },
+          },
+          Error2: {
+            type: "object",
+            properties: {
+              "very_short": {
+                type: "string",
+              },
+              "veryLongg": {
+                type: "string"
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.",
+        path: ["components", "schemas", "Error2","properties","very_short"],
+        severity: DiagnosticSeverity.Error,
+      },
+      {
+        message: "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.",
+        path: ["components", "schemas", "Error2","properties","veryLongg"],
+        severity: DiagnosticSeverity.Error,
+
+      },
+    ],
+  }]);
