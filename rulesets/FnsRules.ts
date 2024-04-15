@@ -1,7 +1,8 @@
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, casing } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import { BaseRuleset, CustomProperties } from "./BaseRuleset.ts"
-
+import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
+import { BaseRuleset} from "./BaseRuleset.ts";
+const moduleName: string = "FnsRules.ts";
 
 export class Fns01 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -11,12 +12,19 @@ export class Fns01 extends BaseRuleset {
   description = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase.";
   message = "Parameternamn SKALL anges med en konsekvent namnkonvention exempelvis antingen snake_case eller camelCase";
   given = "$.paths.*.*.parameters[?(@.in=='query')].name";
-  then = {
-    function: pattern,
-    functionOptions: {
-      match: "^(?:[a-z0-9]+(?:_[a-z0-9]+)*|[a-z]+(?:[A-Z][a-z]*)*)$"
+  then = [{
+      function: pattern,
+      functionOptions: {
+        match: "^(?:[a-z0-9]+(?:_[a-z0-9]+)*|[a-z]+(?:[A-Z][a-z]*)*)$"
+      }
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Fns01.customProperties);
+      }
     }
-  }
+  ];
   severity = DiagnosticSeverity.Error;
 }
 
@@ -28,12 +36,19 @@ export class Fns03 extends BaseRuleset {
   description = "Sökparametrar SKALL starta med en bokstav";
   message = "Sökparametrar SKALL starta med en bokstav.";
   given = "$.paths.*.*.parameters[?(@.in=='query')].name";
-  then = {
+  then = [{
     function: pattern,
     functionOptions: {
       match: "^[a-zA-Z].*$"
     }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Fns03.customProperties);
+    }
   }
+];
   severity = DiagnosticSeverity.Error;
 }
 
@@ -45,7 +60,7 @@ export class Fns09 extends BaseRuleset {
   description = "Defaultvärde för limit BÖR vara 20";
   message = "Defaultvärde för limit BÖR vara 20";
   given = "$.paths..parameters";
-  then = {
+  then = [{
     function: (targetVal, _opts, paths) => {
 
       let isValid = true;
@@ -78,7 +93,14 @@ export class Fns09 extends BaseRuleset {
          return []
       }
     }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Fns09.customProperties);
+    }
   }
+];
   severity = DiagnosticSeverity.Warning;
 }
 export class Fns05 extends BaseRuleset {
@@ -90,7 +112,7 @@ export class Fns05 extends BaseRuleset {
   message = "Sökparametrar BÖR vara frivilliga.";
   given = "$.paths.[*].parameters[?(@.in=='query')].required";
   
-  then = {
+  then = [{
     
     function: (targetVal) => {
       return false === targetVal? [] : 
@@ -101,26 +123,38 @@ export class Fns05 extends BaseRuleset {
         }
       ];
     }
-  }
-  severity = DiagnosticSeverity.Warning;
-}
-
-
-export class Fns06 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "Filtrering, paginering och sökparametrar",
-    id: "FNS.06",
-  };
-  description = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-'', '.', '_' samt '~', se vidare i RFC 3986)";
-  message = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)";
-  given = "$.paths.[*].parameters[?(@.in=='query')].name";
-  then = {
-    function: pattern,
-    functionOptions: {
-      match: "^(?:[a-zA-Z0-9-._~])+$"
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Fns05.customProperties);
     }
   }
+];
   severity = DiagnosticSeverity.Warning;
+}
+export class Fns06 extends BaseRuleset {
+    static customProperties: CustomProperties = {
+      område: "Filtrering, paginering och sökparametrar",
+      id: "FNS.06",
+    };
+    description = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-'', '.', '_' samt '~', se vidare i RFC 3986)";
+    message = "Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986)";
+    given = "$.paths.[*].parameters[?(@.in=='query')].name";
+    then = [{
+      function: pattern,
+      functionOptions: {
+        match: "^(?:[a-zA-Z0-9-._~])+$"
+      }
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Fns06.customProperties);
+      }
+    }
+  ];
+    severity = DiagnosticSeverity.Warning;
 }
 
 export class Fns07 extends BaseRuleset {
@@ -131,7 +165,7 @@ export class Fns07 extends BaseRuleset {
   description = "";
   message = "Vid användande av paginering, SKALL följande parametrar ingå i request: 'limit' och någon av 'page' eller 'offset'";
   given = "$.paths..parameters";
-  then = {
+  then = [{
     function: (targetVal: any, _opts: string, paths: string[]) => {
 
       let isValid = true;
@@ -172,7 +206,14 @@ export class Fns07 extends BaseRuleset {
         ]
       }
     }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Fns07.customProperties);
+    }
   }
+];
   severity = DiagnosticSeverity.Error;
 }
 
@@ -184,7 +225,7 @@ export class Fns08 extends BaseRuleset {
   description = "";
   message = "'page' SKALL alltid starta med värde 1";
   given = "$.paths..parameters";
-  then = {
+  then = [{
     function: (targetVal: any, _opts: string, paths: string[]) => {
 
       let isValidDefaultValue = true;
@@ -221,9 +262,15 @@ export class Fns08 extends BaseRuleset {
         ]
       }
     }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Fns08.customProperties);
+    }
   }
+];
   severity = DiagnosticSeverity.Error;
 }
 
 export default { Fns01, Fns03, Fns05, Fns06, Fns07, Fns08 };
-

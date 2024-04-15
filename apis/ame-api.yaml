@@ -81,7 +81,22 @@ components:
         "thi_srue":
           type: integer
           format: int32
-        "veryonMgessage":
+        "veryLongcode":
+          type: integer
+          format: int32
+        "verylongmessage":
+          type: string
+        "nest_this":
+          type: string
+    Error2:
+      type: object
+      properties:
+        "veryongcode":
+          type: integer
+          format: int32
+        "VeryLongmessage":
+          type: string
+        "nestthis_":
           type: string
         "nes_tthis":
           type: string
