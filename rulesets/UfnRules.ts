@@ -246,34 +246,39 @@ export class Ufn07 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.07",
   };
-  message = "URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).";
+  message = "URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).";
   given = "$."
   then = [{
     field: 'servers',
     function:(targetVal, _opts, paths) => {
-      const removeTemplating:RegExp = /{.[^{}]*}/;
-      const pattern:RegExp = /^[a-z0-9\/\-,._~]+$/;
-      const delimiter:RegExp = /:/g;
-      const property:string = "url";
       const result:any = [];
-
-      for (let i = 0; i < targetVal.length; i++) {
-        if(targetVal[i].hasOwnProperty(property)){
-          const url = targetVal[i][property].replace(delimiter,'').split(removeTemplating).join("");
-          if (!pattern.test(url)){
-            result.push(
-              {
-                path: [...paths.path, i, property],
-                message: this.message,
-                severity: this.severity
-              }
-            )
+      if(targetVal){
+        const removeTemplating:RegExp = /{.[^{}]*}/;
+        const pattern:RegExp = /^[a-z0-9\/\-,._~]+$/;
+        const delimiter:RegExp = /:/g;
+        const property:string = "url";
+        
+        
+        for (let i = 0; i < targetVal.length; i++) {
+          if(targetVal[i].hasOwnProperty(property)){
+            const url = targetVal[i][property].replace(delimiter,'').split(removeTemplating).join("");
+            if (!pattern.test(url)){
+              result.push(
+                {
+                  path: [...paths.path, i, property],
+                  message: this.message,
+                  severity: this.severity
+                }
+              )
+            }
           }
-        }
-
-      }   
+  
+        }   
+        
+      }
       return result;
     }
+
   },
   {
     field: 'paths',
