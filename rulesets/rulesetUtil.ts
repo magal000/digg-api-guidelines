@@ -1,7 +1,7 @@
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import { BaseRuleset,CustomProperties } from "./BaseRuleset.ts"
-import { stringify } from "querystring";
+import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
+import { BaseRuleset} from "./BaseRuleset.ts";
 
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {
@@ -28,5 +28,24 @@ export class Arq05Base extends BaseRuleset {
       return false;    
     }
   }
+  export function parsePropertyNames(key:string, data: any):string[] {
+    const result: string[] = [];
+    try {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
+            const obj = data[key];
+            const properties = obj.properties;
 
+            // Iterate over properties of each object
+            for (const prop in properties) {
+              if (Object.prototype.hasOwnProperty.call(properties, prop)) {
+                result.push(prop);
+              }
+            }
+        }
+    }catch(error ) {
+      console.error("Error parsing JSON:", error);
+    }
+    return result;
+  }
+  
   export default { Arq05Base};
