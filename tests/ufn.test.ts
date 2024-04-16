@@ -28,6 +28,7 @@ testRule("Ufn09", [
         ],
       },
 ]);
+
 testRule("Ufn07", [
   {
       name: "giltigt testfall",
@@ -38,7 +39,7 @@ testRule("Ufn07", [
           { url: "http://api.example.com" },
           { url: "http://api.example.com" }
         ],
-        paths: { "/abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ-._~": {} },
+        paths: { "/abcdefghijklmnopqrstuvxyz-._~": {} },
       },
       errors: [],
     },
@@ -52,7 +53,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, "-", ".", "_" samt "~", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -67,7 +68,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, "-", ".", "_" samt "~", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -85,7 +86,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, "-", ".", "_" samt "~", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -103,12 +104,13 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, "-", ".", "_" samt "~", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
     },
 ]);
+
 testRule("Ufn08", [
   {
     name: "giltigt testfall - bara gemener och bindestreck ('-')",
