@@ -126,22 +126,26 @@ export class Ufn07 extends BaseRuleset {
   then = [{
     field: 'servers',
     function:(targetVal, _opts, paths) => {
-      const pattern:RegExp = /^[a-zA-Z0-9\/\-,._~]+$/;
+      const removeTemplating:RegExp = /{.[^{}]*}/;
+      const pattern:RegExp = /^[a-z0-9\/\-,._~]+$/;
       const delimiter:RegExp = /:/g;
       const property:string = "url";
       const result:any = [];
 
       for (let i = 0; i < targetVal.length; i++) {
-        const url = targetVal[i][property].replace(delimiter,'');
-        if (!pattern.test(url)){
-          result.push(
-            {
-              path: [...paths.path, i, property],
-              message: this.message,
-              severity: this.severity
-            }
-          )
+        if(targetVal[i].hasOwnProperty(property)){
+          const url = targetVal[i][property].replace(delimiter,'').split(removeTemplating).join("");
+          if (!pattern.test(url)){
+            result.push(
+              {
+                path: [...paths.path, i, property],
+                message: this.message,
+                severity: this.severity
+              }
+            )
+          }
         }
+
       }   
       return result;
     }
@@ -149,9 +153,11 @@ export class Ufn07 extends BaseRuleset {
   {
     field: 'paths',
     function:(targetVal, _opts, paths) => {
-      const pattern:RegExp = /^[a-zA-Z0-9\/\-,._~]+$/;
+      const removeTemplating:RegExp = /{.[^{}]*}/;
+      const pattern:RegExp = /^[a-z0-9\/\-,._~]+$/;
       const result:any = [];
-      for(const path in targetVal){
+      for(let path in targetVal){
+        path = path.split(removeTemplating).join("");
         if(!pattern.test(path)){
           result.push(
             {
