@@ -87,6 +87,6 @@ export class Dot02 extends BaseRuleset {
             return result;
           }
         }
-      severity = DiagnosticSeverity.Warning;
+      severity = DiagnosticSeverity.Error;
 }
 export default { Dot02 };

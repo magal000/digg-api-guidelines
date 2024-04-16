@@ -58,12 +58,12 @@ testRule("Dot02", [
         {
           message: "Datum och tid SKALL anges enligt RFC 3339 som bygger på ISO-8601.",
           path: ["components", "schemas", "DateRequest","properties","postedDate","example"],
-          severity: DiagnosticSeverity.Warning,
+          severity: DiagnosticSeverity.Error,
         },
         {
           message: "Datum och tid SKALL anges enligt RFC 3339 som bygger på ISO-8601.",
           path: ["components", "schemas", "DateRequest","properties","postedTime","example"],
-          severity: DiagnosticSeverity.Warning,
+          severity: DiagnosticSeverity.Error,
         },
       ],
     }]);
