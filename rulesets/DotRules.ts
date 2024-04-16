@@ -28,12 +28,13 @@ export class Dot02 extends BaseRuleset {
       message = "Datum och tid SKALL anges enligt RFC 3339 som bygger på ISO-8601.";
       given = "$.components.schemas";
       then = {
-          function: (targetVal: string, _opts: string, paths) => {
+          function: (targetVal: any, _opts: string, paths) => {
     
               const result:any = [];
               let isTrackRuleExecution = false;
               const dotStateExecutionLogDictionary: DotStateExecutionLog = {};
-              const data = JSON.parse(JSON.stringify(targetVal,null,2));  // Need to use both stringfy and parse in order to parse to JSON correctly here...hm ?
+              //const data = JSON.parse(JSON.stringify(targetVal,null,2));  // Need to use both stringfy and parse in order to parse to JSON correctly here...hm ?
+              const data = targetVal;
               for (const key in data ) { // Loop throough each Schema object found in given expression
                 const propertys: Property[] = parseProperties(key,data); // Pick out properties of object
                 propertys.forEach(prop => {
