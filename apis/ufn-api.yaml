@@ -6,10 +6,10 @@ info:
   license:
     name:  EUPL-1.2 license
 servers:
-  -	url: https://petstore.swagger.io:443/dsadadas
+  -	urls: https://petstore.swagger.io:443/dsadadas
   -	url: https://petstore.swagger.io:443/dsadadas/v1 
 paths:
-  /pets:
+  /p_ets:
     get:
       summary: List all pets
       operationId: listPets

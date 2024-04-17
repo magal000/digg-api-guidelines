@@ -306,13 +306,41 @@ export class Ufn09 extends BaseRuleset {
     id: "UFN.09",
   };
   description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
-  given = "$.paths[*]~";
+  given = "$.";
   message = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
   then = [
     {
-      function: pattern,
-      functionOptions: {
-        match: "^(/|[a-z0-9-.]+|{[a-zA-Z0-9_]+})+$"
+      field: "servers",
+      function: (targetVal: any, _opts: string, paths:any) => {
+        const result:any = [];
+        targetVal.forEach((server, i) => {
+          if(server.hasOwnProperty("url") && !/^[^_\s]*$/.test(server.url)){
+            result.push({
+                path: [...paths.path, i],
+                message: this.message,
+                severity: this.severity
+              })
+          }
+        });
+      }
+    },
+    {
+      field: "paths",
+      function: (targetVal: any, _opts: string, paths:any) => {
+        const result:any = [];
+        for (const path in targetVal){
+          
+          if(!/^[^_\s]*$/.test(path)){
+            result.push({
+                path: [...paths.path, path],
+                message: this.message,
+                severity: this.severity
+              })
+          }
+          
+        }
+        
+        return result;
       }
     },
     {
@@ -324,6 +352,7 @@ export class Ufn09 extends BaseRuleset {
   ];
   severity = DiagnosticSeverity.Error;
 }
+
 
 export class Ufn10 extends BaseRuleset {
   static customProperties: CustomProperties = {
