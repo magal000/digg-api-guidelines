@@ -23,11 +23,11 @@ paths:
             type: integer
             maximum: 100
             format: int32
-      requestBody:
-        content:
-          'application/json':
-            schema:
-              $ref: '#/components/schemas/Pets'            
+#      requestBody:
+#        content:
+#          'application/json':
+#            schema:
+#              $ref: '#/components/schemas/Pets'            
       responses:
         '200':
           description: A paged array of pets
@@ -73,6 +73,11 @@ paths:
           description: The id of the pet to retrieve
           schema:
             type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Pet'            
       responses:
         '200':
           description: Expected response to a valid request

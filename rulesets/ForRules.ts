@@ -4,6 +4,8 @@ import { oas2 } from "@stoplight/spectral-formats";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
+
+
 const moduleName: string = "ForRules.ts";
 /**
  * Module contains classes with functions that are need
@@ -36,17 +38,26 @@ export class For02 extends BaseRuleset {
   };
   description = "EN GET -förfrågan SKALL INTE acceptera en body";
   message = "EN GET -förfrågan SKALL INTE acceptera en body";
-  given = "$.paths..get.requestBody";
-  then =  [{
-    function: undefinedFunc,
-  },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-        this.severity,this.constructor.name, moduleName,For02.customProperties);
+  given = "$.paths..get";
+  then =  {
+      function: (targetVal: any, _opts: string, paths: any) => {
+
+        const result:any = [];
+        const data = targetVal;
+        for (const key in data ) { // Loop throough each Schema object found in given expression
+          if (key === 'requestBody') {
+            result.push({
+              path: [...paths.path, key],
+              message: this.message,
+              severity: this.severity
+            });
+          }
+        }
+        this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,
+        this.constructor.name, moduleName,For02.customProperties);
+        return result;
       }
     }
-  ];
     severity = DiagnosticSeverity.Error
 }
 export default { For01, For02 };
