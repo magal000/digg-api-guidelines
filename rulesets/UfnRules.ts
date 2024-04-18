@@ -171,16 +171,59 @@ export class Ufn06 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.06",
   };
-  given = "$.paths[*]~";
+  given = "$.";
   message = "Bokstäver i URL:n SKALL bestå av enbart gemener.";
   then = [
     {
-      function: pattern,
-      functionOptions: {
-        notMatch: "[A-Z]"
+      field: "paths",
+      function: (targetVal: any, _opts: string, paths:any) => {
+        const result:any = [];
+        const regexp = /{.[^{}]*}/;
+        for (const item in targetVal){
+          let path:string = item.split(regexp).join("");
+          if(/[A-Z]/.test(path)){
+            result.push({
+              message: this.message,
+              severity: this.severity,
+              path:["paths", item]
+            })
+          }
+        }
+        return result;
       }
     },
     {
+      field: "servers",
+      function: (targetVal: any, _opts: string, paths:any) => {
+        const result:any = [];
+        const regexp = /{.[^{}]*}/;
+        if(Array.isArray(targetVal)){
+          targetVal.forEach((server, i) => {
+            if(server.hasOwnProperty("url") && /[A-Z]/.test(server.url.split(regexp).join(""))){
+              result.push({
+                  path: [...paths.path, i],
+                  message: this.message,
+                  severity: this.severity
+                })
+            }
+            
+          });
+
+        }
+        
+        return result;
+      }
+      
+    },
+    {
+      field: "servers",
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths, this.severity,
+          this.constructor.name, moduleName, Ufn06.customProperties);
+      }
+    },
+    {
+      field: "paths",
       function: (targetVal: string, _opts: string, paths: string[]) => {
         this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths, this.severity,
           this.constructor.name, moduleName, Ufn06.customProperties);

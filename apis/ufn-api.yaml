@@ -6,9 +6,10 @@ info:
   license:
     name:  EUPL-1.2 license
 servers:
+  - url: https://wdssadSa.se/v1/{dsaDdsa}
 
 paths:
-  /petAs:
+  /pets{dsadsaD}:
     get:
       summary: List all pets
       operationId: listPets
@@ -55,7 +56,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /dsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadadadsadadasdasdadadaadada:
+  /asdasdadadaadadadsadadasdasdadada:
     get:
       summary: Info for a specific pet
       operationId: showPetById

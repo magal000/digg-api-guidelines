@@ -216,7 +216,7 @@ testRule("Ufn06", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/this-is-not/{an_upper_case_url}": {} },
+        paths: { "/this-is-not/": {} },
       },
       errors: [],
     },
@@ -241,13 +241,32 @@ testRule("Ufn06", [
       document: {
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/lower/{PathParam}": {} },
+        paths: { "/lOwer/{PathParam}": {} },
       },
       errors: [
         {
           message:
             "Bokstäver i URL:n SKALL bestå av enbart gemener.",
-          path: ["paths", "/lower/{PathParam}"],
+          path: ["paths", "/lOwer/{PathParam}"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    {
+      name: "ogiltigt testfall - upper case path param",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers:[{
+          url:"http://API.se"
+        }],
+        paths: { "/lwer/": {} },
+      },
+      errors: [
+        {
+          message:
+            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
+          path: ["servers", "0"],
           severity: DiagnosticSeverity.Error,
         }
       ],
