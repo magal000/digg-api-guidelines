@@ -7,6 +7,9 @@ testRule("Ufn09", [
         document: {
           openapi: "3.1.0",
           info: { version: "1.0" },
+          servers: [
+            {url:"https://test.se/v1/dsa"}
+          ],
           paths: { "/this-is-kebab-case": {} },
         },
         errors: [],
@@ -16,6 +19,9 @@ testRule("Ufn09", [
         document: {
           openapi: "3.1.0",
           info: { version: "1.0" },
+          servers: [
+            {url:"https://test.se/v1/dsa"}
+          ],
           paths: { "/Detta_e_snake_case": {} },
         },
         errors: [
@@ -23,6 +29,25 @@ testRule("Ufn09", [
             message:
               "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
             path: ["paths", "/Detta_e_snake_case"],
+            severity: DiagnosticSeverity.Error,
+          }
+        ],
+      },
+      {
+        name: "ogiltigt testfall - understreck i server url",
+        document: {
+          openapi: "3.1.0",
+          info: { version: "1.0" },
+          servers: [
+            {url:"https://test.se/v1_/dsa"}
+          ],
+          paths: { "/Dettacase": {} },
+        },
+        errors: [
+          {
+            message:
+              "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
+            path: ["servers", "0"],
             severity: DiagnosticSeverity.Error,
           }
         ],

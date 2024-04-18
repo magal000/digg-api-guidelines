@@ -325,15 +325,18 @@ export class Ufn09 extends BaseRuleset {
       function: (targetVal: any, _opts: string, paths:any) => {
         const result:any = [];
         targetVal.forEach((server, i) => {
-          if(server.hasOwnProperty("url") && !/^[^_\s]*$/.test(server.url)){
+          if(server.url && /_|\s/.test(server.url)){
             result.push({
                 path: [...paths.path, i],
                 message: this.message,
                 severity: this.severity
               })
           }
+          
         });
+        return result;
       }
+      
     },
     {
       field: "paths",
