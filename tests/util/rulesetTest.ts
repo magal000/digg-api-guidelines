@@ -10,6 +10,7 @@ import * as ArqRules from "../../rulesets/ArqRules.ts";
 import * as DokRules from "../../rulesets/DokRules.ts";
 import * as AmeRules from "../../rulesets/AmeRules.ts";
 import * as ForRules from "../../rulesets/ForRules.ts";
+import * as DotRules from "../../rulesets/DotRules.ts";
 
 const ruleInstances: Record<string, any> = {};
 
@@ -49,7 +50,8 @@ const ruleTypes = [
   DokRules.Dok23,
   ForRules.For02,
   FnsRules.Fns08,
-  DokRules.Dok23
+  DokRules.Dok23,
+  DotRules.Dot02
 ];
 ruleTypes.forEach((RuleClass) => {
   const instance = new RuleClass();
