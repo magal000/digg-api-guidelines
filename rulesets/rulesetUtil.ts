@@ -101,5 +101,24 @@ return true;
 }
 
 
+  export function parsePropertyNames(key:string, data: any):string[] {
+    const result: string[] = [];
+    try {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
+            const obj = data[key];
+            const properties = obj.properties;
 
+            // Iterate over properties of each object
+            for (const prop in properties) {
+              if (Object.prototype.hasOwnProperty.call(properties, prop)) {
+                result.push(prop);
+              }
+            }
+        }
+    }catch(error ) {
+      console.error("Error parsing JSON:", error);
+    }
+    return result;
+  }
+  
   export default { Arq05Base};

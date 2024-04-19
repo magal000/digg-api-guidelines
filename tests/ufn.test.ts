@@ -28,6 +28,7 @@ testRule("Ufn09", [
         ],
       },
 ]);
+
 testRule("Ufn07", [
   {
       name: "giltigt testfall",
@@ -38,7 +39,7 @@ testRule("Ufn07", [
           { url: "http://api.example.com" },
           { url: "http://api.example.com" }
         ],
-        paths: { "/abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ-._~": {} },
+        paths: { "/abcdefghijklmnopqrstuvxyz-._~": {} },
       },
       errors: [],
     },
@@ -52,7 +53,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, "-", ".", "_" samt "~", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -67,7 +68,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, "-", ".", "_" samt "~", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -85,7 +86,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, "-", ".", "_" samt "~", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -103,12 +104,13 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, "-", ".", "_" samt "~", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
     },
 ]);
+
 testRule("Ufn08", [
   {
     name: "giltigt testfall - bara gemener och bindestreck ('-')",
@@ -282,6 +284,9 @@ testRule("Ufn05", [
     {
       name: "giltigt testfall",
       document: {
+        servers: [{
+          url:"https://pets.se/dsa/v1"
+        }],
         openapi: "3.1.0",
         info: { version: "1.0" },
         paths: { "/pets/{id}": {} },
@@ -291,18 +296,101 @@ testRule("Ufn05", [
     {
       name: "ogiltigt testfall",
       document: {
+        servers: [{
+          url:"https://pets.se/dsa/v1"
+        }],
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}": {} },
+        paths: { "/asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf": {} },
       },
       errors: [
         {
-          message:"En URL BÖR INTE vara längre än 2048 tecken.",
-          path: ["paths","/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}/petshamta/{id}"],
+          message: 'En URL BÖR INTE vara längre än 2048 tecken.',
           severity: DiagnosticSeverity.Warning,
+          path: ['servers', "0"]
+        },
+        {
+          message: 'En URL BÖR INTE vara längre än 2048 tecken.',
+          severity: DiagnosticSeverity.Warning,
+          path: ['paths','/asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf']
         }
       ],
     },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        servers: [{
+          url:"https://pets.se/dsa/v1"
+        }],
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: { "/testpath": {
+          "get": {
+            "summary": "List all pets",
+            "operationId": "listPets",
+            "tags": [
+              "pets"
+            ],
+            "parameters": [
+              {
+                "name": "PAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAram",
+                "in": "query",
+                "description": "How many items to return at one time (max 100)",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "maximum": 100,
+                  "format": "int32"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "A paged array of pets",
+                "headers": {
+                  "x-next": {
+                    "description": "A link to the next page of responses",
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Pets"
+                    }
+                  }
+                }
+              },
+              "default": {
+                "description": "unexpected error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } },
+      },
+      errors: [
+        {
+          message: 'En URL BÖR INTE vara längre än 2048 tecken.',
+          severity: DiagnosticSeverity.Warning,
+          path: ['servers', "0"]
+        },
+        {
+          message: 'En URL BÖR INTE vara längre än 2048 tecken.',
+          severity: DiagnosticSeverity.Warning,
+          path: ['paths','/testpath','get','parameters']
+        }
+      ],
+    }
+  
 ]);
 
 testRule("Ufn10", [
