@@ -3,6 +3,19 @@ import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
 
+export class Ufn09Base extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.09",
+  };
+  constructor() {
+    super();
+    this.message = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+    this.severity = DiagnosticSeverity.Error;
+    this.description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+    }
+}
+
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {
       område: "API Request",
@@ -48,4 +61,4 @@ export class Arq05Base extends BaseRuleset {
     return result;
   }
   
-  export default { Arq05Base};
+  export default { Arq05Base, Ufn09Base};
