@@ -320,7 +320,6 @@ export class Ufn09Server extends Ufn09Base {
 }
 export class Ufn09InPathParameters extends Ufn09Base {
   given = "$.paths.*.*.parameters[?(@.in=='path')].name";
-  
 }
 export class Ufn09Path extends Ufn09Base {
   given = "$.paths[*]~";
@@ -378,4 +377,4 @@ export class Ufn11 extends BaseRuleset {
   ];
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn05, Ufn06, Ufn07, Ufn08,Ufn09Base, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10, Ufn11 };
+export default { Ufn02, Ufn05, Ufn06, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10, Ufn11 };
