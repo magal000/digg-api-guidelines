@@ -12,6 +12,7 @@ import * as AmeRules from "../../rulesets/AmeRules.ts";
 import * as ForRules from "../../rulesets/ForRules.ts";
 import * as DotRules from "../../rulesets/DotRules.ts";
 
+
 const ruleInstances: Record<string, any> = {};
 
 /**
@@ -33,7 +34,7 @@ const ruleTypes = [
   UfnRules.Ufn06,
   UfnRules.Ufn07,
   UfnRules.Ufn08,
-  UfnRules.Ufn09,
+  UfnRules.Ufn09Path, UfnRules.Ufn09Server, UfnRules.Ufn09InPathParameters,
   UfnRules.Ufn10,
   UfnRules.Ufn11,
   SakRules.Sak09,

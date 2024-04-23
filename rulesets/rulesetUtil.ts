@@ -2,7 +2,35 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
+const moduleName: string = "UfnRules.ts";
 
+
+export class Ufn09Base extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.09",
+  };
+  constructor() {
+    super();
+    this.message = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+    this.severity = DiagnosticSeverity.Error;
+    this.description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+    this.then = [
+      {
+        function: pattern,
+        functionOptions: {
+          notMatch: "/[\\s_]/",
+        }
+      },
+      {
+        function: (targetVal: string, _opts: string, paths: string[]) => {
+          this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+            this.severity, this.constructor.name, moduleName, Ufn09Base.customProperties);
+        }
+      }
+    ];
+    }
+}
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {
       område: "API Request",
@@ -121,4 +149,4 @@ return true;
     return result;
   }
   
-  export default { Arq05Base};
+  export default { Arq05Base, Ufn09Base};
