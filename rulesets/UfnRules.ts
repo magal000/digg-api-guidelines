@@ -1,4 +1,4 @@
-import { Ufn09Base } from "./rulesetUtil.ts";
+
 import { BaseRuleset } from "./BaseRuleset.ts";
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length, alphabetical } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
@@ -310,61 +310,46 @@ export class Ufn07 extends BaseRuleset {
   }
   ];
   severity = DiagnosticSeverity.Error;
+}  
+
+export class Ufn09Base extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.09",
+  };
+  constructor() {
+    super();
+    this.message = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+    this.severity = DiagnosticSeverity.Error;
+    this.description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+    this.then = [
+      {
+        function: pattern,
+        functionOptions: {
+          notMatch: "/[\\s_]/",
+        }
+      },
+      {
+        function: (targetVal: string, _opts: string, paths: string[]) => {
+          console.log(targetVal)
+          this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+            this.severity, this.constructor.name, moduleName, Ufn09Base.customProperties);
+        }
+      }
+    ];
+    }
 }
-
-
 
 export class Ufn09Server extends Ufn09Base {
   given = '$.servers.[url]';
-  then = [
-    {
-      function: pattern,
-      functionOptions: {
-        notMatch: "/[\\s_]/",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-          this.severity, this.constructor.name, moduleName, Ufn09Server.customProperties);
-      }
-    }
-  ];
 }
 export class Ufn09InPathParameters extends Ufn09Base {
   given = "$.paths.*.*.parameters[?(@.in=='path')].name";
-  then = [
-    {
-      function: pattern,
-      functionOptions: {
-        notMatch: "/[\\s_]/",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-          this.severity, this.constructor.name, moduleName, Ufn09InPathParameters.customProperties);
-      }
-    }
-  ];
+  
 }
 export class Ufn09Path extends Ufn09Base {
-  given = "$.paths";
-  then = [
-    {
-      field: "@key",
-      function: pattern,
-      functionOptions: {
-        notMatch: "/[\\s_]/",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-          this.severity, this.constructor.name, moduleName, Ufn09Path.customProperties);
-      }
-    }
-  ];
+  given = "$.paths[*]~";
+
 }
 
 
@@ -418,4 +403,4 @@ export class Ufn11 extends BaseRuleset {
   ];
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn05, Ufn06, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10, Ufn11 };
+export default { Ufn02, Ufn05, Ufn06, Ufn07, Ufn08,Ufn09Base, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10, Ufn11 };

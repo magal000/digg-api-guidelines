@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./util/helperTest.ts";
 
-testRule("Ufn09", [
+testRule("Ufn09Path", [
     {
         name: "giltigt testfall",
         document: {
@@ -33,26 +33,101 @@ testRule("Ufn09", [
           }
         ],
       },
-      {
-        name: "ogiltigt testfall - understreck i server url",
-        document: {
-          openapi: "3.1.0",
-          info: { version: "1.0" },
-          servers: [
-            {url:"https://test.se/v1_/dsa"}
-          ],
-          paths: { "/Dettacase": {} },
-        },
-        errors: [
-          {
-            message:
-              "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
-            path: ["servers", "0"],
-            severity: DiagnosticSeverity.Error,
-          }
-        ],
-      },
+      
 ]);
+
+testRule("Ufn09Server", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1/dsa"}
+        ],
+        paths: { "/this-is-kebab-case": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall - understreck i server url",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1_/dsa"}
+        ],
+        paths: { "/Dettacase": {} },
+      },
+      errors: [
+        {
+          message:
+            "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
+          path: ["servers", "0","url"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    
+]);
+testRule("Ufn09InPathParameters", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1/dsa"}
+        ],
+        paths: { "/this-is-kebab-case": {
+          get: {
+            description: "Ogiltigt testfall av CamelCase",
+            parameters: [
+              {
+                name: "VeryLongName",
+                in: "path",
+                required: false,
+              },
+            ],
+          },
+        } },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall - understreck i server url",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1_/dsa"}
+        ],
+        paths: { "/Dettacase": {
+          get: {
+            description: "Ogiltigt testfall av CamelCase",
+            parameters: [
+              {
+                name: "Very_LongName",
+                in: "path",
+                required: false,
+              },
+            ],
+          },
+        } },
+      },
+      errors: [
+        {
+          message:
+            "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
+          path: ["paths", "/Dettacase","get","parameters","0","name"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    
+]);
+
+
 
 testRule("Ufn07", [
   {
