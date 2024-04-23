@@ -24,7 +24,6 @@ export class Ufn09Base extends BaseRuleset {
       },
       {
         function: (targetVal: string, _opts: string, paths: string[]) => {
-          console.log(targetVal)
           this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
             this.severity, this.constructor.name, moduleName, Ufn09Base.customProperties);
         }
