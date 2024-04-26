@@ -31,33 +31,32 @@ export class For01 extends BaseRuleset {
 ];
  severity = DiagnosticSeverity.Error;
 }
+/**
+ * Rule for detect   
+ */
 export class For02 extends BaseRuleset {
   static customProperties: CustomProperties = {
-    område: "Förutsättningar",
-    id: "FOR.02",
+  område: "Förutsättningar",
+  id: "FOR.02",
   };
   description = "EN GET -förfrågan SKALL INTE acceptera en body";
   message = "EN GET -förfrågan SKALL INTE acceptera en body";
   given = "$.paths..get";
-  then =  {
-      function: (targetVal: any, _opts: string, paths: any) => {
-
-        const result:any = [];
-        const data = targetVal;
-        for (const key in data ) { // Loop throough each Schema object found in given expression
-          if (key === 'requestBody') {
-            result.push({
-              path: [...paths.path, key],
-              message: this.message,
-              severity: this.severity
-            });
-          }
-        }
-        this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,
-        this.constructor.name, moduleName,For02.customProperties);
-        return result;
-      }
+  then = [
+  {
+  field: "requestBody",
+  function: undefinedFunc
+  
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,For02.customProperties);
     }
-    severity = DiagnosticSeverity.Error
-}
+  }
+  ]
+  severity = DiagnosticSeverity.Error
+  }
+  
+  
 export default { For01, For02 };
