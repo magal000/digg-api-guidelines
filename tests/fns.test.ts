@@ -531,7 +531,7 @@ testRule("Fns07", [
           get: {
             parameters: [
               {
-                name: "limit",
+                name: "limit2",
                 in: "query",
                 required: false,
                 schema: {
@@ -565,6 +565,7 @@ testRule("Fns07", [
     errors: [
       {
         message: "Vid användande av paginering, SKALL följande parametrar ingå i request: 'limit' och någon av 'page' eller 'offset'",
+        path: ["paths", "/testpath", "get", "parameters"],
         severity: DiagnosticSeverity.Error,
       },
     ],
