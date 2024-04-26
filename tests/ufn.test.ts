@@ -310,49 +310,6 @@ testRule("Ufn08", [
     ],
   },
 ]);
-testRule("Ufn06", [
-  {
-      name: "giltigt testfall",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/this-is-not/{an_upper_case_url}": {} },
-      },
-      errors: [],
-    },
-    {
-      name: "ogiltigt testfall - upper case",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/This-IsAn_UpperCaseUrl": {} },
-      },
-      errors: [
-        {
-          message:
-            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
-          path: ["paths", "/This-IsAn_UpperCaseUrl"],
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-    {
-      name: "ogiltigt testfall - upper case path param",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/lower/{PathParam}": {} },
-      },
-      errors: [
-        {
-          message:
-            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
-          path: ["paths", "/lower/{PathParam}"],
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-]);
 testRule("Ufn02", [
   {
       name: "giltigt testfall",

@@ -167,31 +167,6 @@ export class Ufn05 extends BaseRuleset {
   ];
   severity = DiagnosticSeverity.Warning;
 }
-
-export class Ufn06 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.06",
-  };
-  given = "$.paths[*]~";
-  message = "Bokstäver i URL:n SKALL bestå av enbart gemener.";
-  then = [
-    {
-      function: pattern,
-      functionOptions: {
-        notMatch: "[A-Z]"
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths, this.severity,
-          this.constructor.name, moduleName, Ufn06.customProperties);
-      }
-    }
-  ];
-  severity = DiagnosticSeverity.Error;
-}
-
 export class Ufn08 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -377,4 +352,4 @@ export class Ufn11 extends BaseRuleset {
   ];
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn05, Ufn06, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10, Ufn11 };
+export default { Ufn02, Ufn05, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10, Ufn11 };
