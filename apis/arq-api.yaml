@@ -1,62 +1,80 @@
 openapi: "3.0.0"
 info:
-  version: 1.2.0
-  title: RAP-LP
-  description: OpenAPI Specification example to handle Rules for the category []Hypermedia] in the Swedish REST API-profil https://dev.dataportal.se/rest-api-profil
+  version: 1.0.0
+  title: AME
+  description: API message
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Swagger API Team
+    email: apiteam@swagger.io
+    url: http://swagger.io
   license:
-    name:  EUPL-1.2 license
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: http://petstore.swagger.io/v1
+  - url: https://example.com/myapi/v2
 paths:
   /example:
     post:
-      summary: API request SHOULD be sent in UTF-8 format.
+      summary: Example API with Payload in Headers Allowed
+      description: For testing
+      operationId: exampleRequest
+      tags:
+        [tag1, tag2]
       requestBody:
         required: true
         content:
-          application/json:
+          application/json; charset=utf-8:
             schema:
               type: object
               properties:
-                  data:
-                    type: string
-  
+                data:
+                  type: string
       responses:
-        '201':
-          description: Null response
-        default:
-          description: unexpected er:ror
+        '200':
+          description: example response
           content:
-            application/json:
+            application/json; charset=utf-8:
               schema:
-                $ref: "#/components/schemas/Error"
-<<<<<<< HEAD
+                $ref: '#/components/schemas/Error'
+  /example2:
+    post:
+      summary: Example API with Payload in Headers Allowed
+      description: For testing
+      operationId: exampleRequest2
+      tags:
+        - tag1
+        - tag2
+      requestBody:
+        required: true
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: integer
+          application/json; charset=utf-16:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: integer
+      responses:
+        '200':
+          description: example response
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Error'
 
-=======
->>>>>>> develop
+
 components:
+  securitySchemes:
+    bearerAuth:     # <-- arbitrary name for the security scheme
+      type: http
+      scheme: bearer
   schemas:
-    Pet:
-      type: object
-      required:
-        - id
-        - name
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        tag:
-          type: string
-<<<<<<< HEAD
-=======
-    Pets:
-      type: array
-      maxItems: 100
-      items:
-        $ref: "#/components/schemas/Pet"
->>>>>>> develop
     Error:
       type: object
       required:
@@ -67,11 +85,10 @@ components:
           type: integer
           format: int32
         message:
-<<<<<<< HEAD
-          type: string
-=======
           type: string
 
 tags:
-  - name: pets
->>>>>>> develop
+  - name: tag1
+    description: Everything about tag1
+  - name: tag2
+    description: Everything about tag2
