@@ -23,6 +23,7 @@ const ruleTypes = [
   ForRules.For02,
   AmeRules.Ame01,
   AmeRules.Ame02,
+  AmeRules.Ame07,
   AmeRules.Ame05,
   AmeRules.Ame04,
   ArqRules.Arq01,

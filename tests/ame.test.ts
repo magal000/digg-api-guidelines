@@ -361,3 +361,119 @@ testRule("Ame05", [
       },
     ],
   }]);
+  testRule("Ame07", [
+    {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          schemas: {
+            Error: {
+              type: "object",
+              properties: {
+                code: {
+                  type: "integer",
+                  format: "int32",
+                },
+                message: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          schemas: {
+            Error: {
+              type: "object",
+              properties: {
+                "co-de": {
+                  type: "integer",
+                  format: "int32",
+                },
+                "message": {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message: "Fältnamn BÖR använda tecken som är alfanumeriska.",
+          path: ["components", "schemas", "Error", "properties","co-de"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          schemas: {
+            Error: {
+              type: "object",
+              properties: {
+                "code": {
+                  type: "integer",
+                  format: "int32",
+                },
+                "mes%sage": {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message: "Fältnamn BÖR använda tecken som är alfanumeriska.",
+          path: ["components", "schemas", "Error", "properties","mes%sage"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          schemas: {
+            Error: {
+              type: "object",
+              properties: {
+                "code": {
+                  type: "integer",
+                  format: "int32",
+                },
+                "_message": {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message: "Fältnamn BÖR använda tecken som är alfanumeriska.",
+          path: ["components", "schemas", "Error", "properties","_message"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },
+  ]);
