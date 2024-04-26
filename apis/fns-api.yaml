@@ -87,13 +87,14 @@ paths:
           schema:
             type: integer
             format: int32
-            default: 0
-        - name: Aa@
+            default: 1
+        - name: page
           in: query
           description: Test
           required: false
           schema:
             type: string
+            default: 1
       responses:
         '200':
           description: person response

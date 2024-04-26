@@ -1,3 +1,5 @@
+
+import { Ufn09Base } from "./rulesetUtil.ts";
 import { BaseRuleset } from "./BaseRuleset.ts";
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length, alphabetical } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
@@ -165,74 +167,6 @@ export class Ufn05 extends BaseRuleset {
   ];
   severity = DiagnosticSeverity.Warning;
 }
-
-export class Ufn06 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.06",
-  };
-  given = "$.";
-  message = "Bokstäver i URL:n SKALL bestå av enbart gemener.";
-  then = [
-    {
-      field: "paths",
-      function: (targetVal: any, _opts: string, paths:any) => {
-        const result:any = [];
-        const regexp = /{.[^{}]*}/;
-        for (const item in targetVal){
-          let path:string = item.split(regexp).join("");
-          if(/[A-Z]/.test(path)){
-            result.push({
-              message: this.message,
-              severity: this.severity,
-              path:["paths", item]
-            })
-          }
-        }
-        return result;
-      }
-    },
-    {
-      field: "servers",
-      function: (targetVal: any, _opts: string, paths:any) => {
-        const result:any = [];
-        const regexp = /{.[^{}]*}/;
-        if(Array.isArray(targetVal)){
-          targetVal.forEach((server, i) => {
-            if(server.hasOwnProperty("url") && /[A-Z]/.test(server.url.split(regexp).join(""))){
-              result.push({
-                  path: [...paths.path, i],
-                  message: this.message,
-                  severity: this.severity
-                })
-            }
-            
-          });
-
-        }
-        
-        return result;
-      }
-      
-    },
-    {
-      field: "servers",
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths, this.severity,
-          this.constructor.name, moduleName, Ufn06.customProperties);
-      }
-    },
-    {
-      field: "paths",
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths, this.severity,
-          this.constructor.name, moduleName, Ufn06.customProperties);
-      }
-    }
-  ];
-  severity = DiagnosticSeverity.Error;
-}
-
 export class Ufn08 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -352,32 +286,21 @@ export class Ufn07 extends BaseRuleset {
   }
   ];
   severity = DiagnosticSeverity.Error;
+}  
+
+
+
+export class Ufn09Server extends Ufn09Base {
+  given = '$.servers.[url]';
+}
+export class Ufn09InPathParameters extends Ufn09Base {
+  given = "$.paths.*.*.parameters[?(@.in=='path')].name";
+}
+export class Ufn09Path extends Ufn09Base {
+  given = "$.paths[*]~";
+
 }
 
-export class Ufn09 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.09",
-  };
-  description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
-  given = "$.paths[*]~";
-  message = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
-  then = [
-    {
-      function: pattern,
-      functionOptions: {
-        match: "^(/|[a-z0-9-.]+|{[a-zA-Z0-9_]+})+$"
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-          this.severity, this.constructor.name, moduleName, Ufn09.customProperties);
-      }
-    }
-  ];
-  severity = DiagnosticSeverity.Error;
-}
 
 export class Ufn10 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -429,4 +352,4 @@ export class Ufn11 extends BaseRuleset {
   ];
   severity = DiagnosticSeverity.Error;
 }
-export default { Ufn02, Ufn05, Ufn06, Ufn07, Ufn08, Ufn09, Ufn10, Ufn11 };
+export default { Ufn02, Ufn05, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10, Ufn11 };

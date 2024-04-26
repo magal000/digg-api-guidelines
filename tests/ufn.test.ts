@@ -1,12 +1,15 @@
 import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./util/helperTest.ts";
 
-testRule("Ufn09", [
+testRule("Ufn09Path", [
     {
         name: "giltigt testfall",
         document: {
           openapi: "3.1.0",
           info: { version: "1.0" },
+          servers: [
+            {url:"https://test.se/v1/dsa"}
+          ],
           paths: { "/this-is-kebab-case": {} },
         },
         errors: [],
@@ -16,6 +19,9 @@ testRule("Ufn09", [
         document: {
           openapi: "3.1.0",
           info: { version: "1.0" },
+          servers: [
+            {url:"https://test.se/v1/dsa"}
+          ],
           paths: { "/Detta_e_snake_case": {} },
         },
         errors: [
@@ -27,7 +33,101 @@ testRule("Ufn09", [
           }
         ],
       },
+      
 ]);
+
+testRule("Ufn09Server", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1/dsa"}
+        ],
+        paths: { "/this-is-kebab-case": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall - understreck i server url",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1_/dsa"}
+        ],
+        paths: { "/Dettacase": {} },
+      },
+      errors: [
+        {
+          message:
+            "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
+          path: ["servers", "0","url"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    
+]);
+testRule("Ufn09InPathParameters", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1/dsa"}
+        ],
+        paths: { "/this-is-kebab-case": {
+          get: {
+            description: "Ogiltigt testfall av CamelCase",
+            parameters: [
+              {
+                name: "VeryLongName",
+                in: "path",
+                required: false,
+              },
+            ],
+          },
+        } },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall - understreck i server url",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1_/dsa"}
+        ],
+        paths: { "/Dettacase": {
+          get: {
+            description: "Ogiltigt testfall av CamelCase",
+            parameters: [
+              {
+                name: "Very_LongName",
+                in: "path",
+                required: false,
+              },
+            ],
+          },
+        } },
+      },
+      errors: [
+        {
+          message:
+            "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
+          path: ["paths", "/Dettacase","get","parameters","0","name"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    
+]);
+
+
 
 testRule("Ufn07", [
   {
@@ -209,68 +309,6 @@ testRule("Ufn08", [
       }
     ],
   },
-]);
-testRule("Ufn06", [
-  {
-      name: "giltigt testfall",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/this-is-not/": {} },
-      },
-      errors: [],
-    },
-    {
-      name: "ogiltigt testfall - upper case",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/This-IsAn_UpperCaseUrl": {} },
-      },
-      errors: [
-        {
-          message:
-            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
-          path: ["paths", "/This-IsAn_UpperCaseUrl"],
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-    {
-      name: "ogiltigt testfall - upper case path param",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/lOwer/{PathParam}": {} },
-      },
-      errors: [
-        {
-          message:
-            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
-          path: ["paths", "/lOwer/{PathParam}"],
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-    {
-      name: "ogiltigt testfall - upper case path param",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        servers:[{
-          url:"http://API.se"
-        }],
-        paths: { "/lwer/": {} },
-      },
-      errors: [
-        {
-          message:
-            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
-          path: ["servers", "0"],
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
 ]);
 testRule("Ufn02", [
   {

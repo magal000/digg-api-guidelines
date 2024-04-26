@@ -175,7 +175,6 @@ export class Fns07 extends BaseRuleset {
 
       targetVal.forEach(function (parameter, index) {
         if (parameter["in"] == "query") {
-
           if (parameter["name"] == "page") {
             hasPage = true;
           }
@@ -187,14 +186,9 @@ export class Fns07 extends BaseRuleset {
           }
         }
       });
-
-      if (hasPage && hasOffset) {
+      if (( hasPage || hasOffset) && !hasLimit ) {
         isValid = false;
       }
-      if (!hasLimit) {
-        isValid = false;
-      }
-
       if (isValid) {
         return [];
       } else {
