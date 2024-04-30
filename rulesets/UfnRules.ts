@@ -223,7 +223,7 @@ export class Ufn07 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.07",
   };
-  message = "URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).";
+  message = "URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).";
   given = "$."
   then = [{
     field: 'servers',
@@ -231,7 +231,7 @@ export class Ufn07 extends BaseRuleset {
       const result:any = [];
       if(targetVal){
         const removeTemplating:RegExp = /{.[^{}]*}/;
-        const pattern:RegExp = /^[a-z0-9\/\-,._~]+$/;
+        const pattern:RegExp = /^[a-z0-9\/\-,.~]+$/;
         const delimiter:RegExp = /:/g;
         const property:string = "url";
         
@@ -261,7 +261,7 @@ export class Ufn07 extends BaseRuleset {
     field: 'paths',
     function:(targetVal, _opts, paths) => {
       const removeTemplating:RegExp = /{.[^{}]*}/;
-      const pattern:RegExp = /^[a-z0-9\/\-,._~]+$/;
+      const pattern:RegExp = /^[a-z0-9\/\-,.~]+$/;
       const result:any = [];
       for(let path in targetVal){
         path = path.split(removeTemplating).join("");
@@ -300,56 +300,4 @@ export class Ufn09Path extends Ufn09Base {
   given = "$.paths[*]~";
 
 }
-
-
-export class Ufn10 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.10",
-  };
-  description = "Understreck '_' SKALL endast användas för att separera ord i parameternamn.";
-  given = "$.paths.*.*.parameters[?(@.in=='query')].name";
-  message = "Understreck '_' SKALL endast användas för att separera ord i parameternamn.";
-  then = [
-    {
-      function: pattern,
-      functionOptions: {
-        notMatch: "/[-.~]/",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-          this.severity, this.constructor.name, moduleName, Ufn10.customProperties);
-      }
-    }
-  ];
-  severity = DiagnosticSeverity.Error;
-}
-
-export class Ufn11 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.11",
-  };
-  description = "Understreck '_' SKALL INTE vara del av bas URL:en.";
-  given = "$.servers..url";
-  message = "Understreck '_' SKALL INTE vara del av bas URL:en.";
-  then = [
-    {
-      field: "url",
-      function: pattern,
-      functionOptions: {
-        notMatch: "/[_]/",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        return this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-          this.severity, this.constructor.name, moduleName, Ufn11.customProperties);
-      }
-    }
-  ];
-  severity = DiagnosticSeverity.Error;
-}
-export default { Ufn02, Ufn05, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10, Ufn11 };
+export default { Ufn01, Ufn02, Ufn05, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters};

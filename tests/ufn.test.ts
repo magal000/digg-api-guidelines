@@ -139,7 +139,7 @@ testRule("Ufn07", [
           { url: "http://api.example.com" },
           { url: "http://api.example.com" }
         ],
-        paths: { "/abcdefghijklmnopqrstuvxyz-._~": {} },
+        paths: { "/abcdefghijklmnopqrstuvxyz-.~": {} },
       },
       errors: [],
     },
@@ -153,7 +153,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -168,7 +168,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -186,7 +186,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -204,7 +204,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -448,90 +448,6 @@ testRule("Ufn05", [
       ],
     }
   
-]);
-
-testRule("Ufn10", [
-  {
-    name: "giltigt testfall",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      paths: {
-        "/foo": {
-          get: {
-            description: "get",
-            parameters: [
-              {
-                name: "tags",
-                in: "query",
-                required: false,
-              },
-            ],
-          },
-        },
-      },
-    },
-    errors: [],
-  },
-
-  {
-    name: "ogiltigt testfall",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      paths: {
-        "/pets": {
-          get: {
-            description: "get",
-            parameters: [
-              {
-                name: "t.a-g~s",
-                in: "query",
-                required: false,
-              },
-            ],
-          },
-        },
-      },
-    },
-    errors: [
-      {
-        message:
-          "Understreck '_' SKALL endast användas för att separera ord i parameternamn.",
-        path: ["paths", "/pets", "get", "parameters", "0","name"],
-        severity: DiagnosticSeverity.Error,
-      },
-    ],
-  },
-]);
-testRule("Ufn11", [
-  {
-      name: "giltigt testfall",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/": {} },
-        servers: [{ url: "http://petstore.swwagger.com/api/v2" }],        
-      },
-      errors: [],
-    },
-    {
-      name: "ogiltigt testfall",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/": {} },
-        servers: [{ url: "http://petstore.swwagger.com/a_pi/v_2" }],        
-      },
-      errors: [
-        {
-          message:
-            "Understreck '_' SKALL INTE vara del av bas URL:en.",
-          path: ["servers", "0","url"],
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
 ]);
 
 testRule("Ufn01", [
