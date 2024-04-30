@@ -78,7 +78,7 @@ components:
     Error1:
       type: object
       properties:
-        "thi_srue":
+        "_code":
           type: integer
           format: int32
         "veryLongcode":

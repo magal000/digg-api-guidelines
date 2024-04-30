@@ -4,6 +4,8 @@ import { parsePropertyNames } from "./rulesetUtil.ts";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
 
+
+
 const moduleName: string = "AmeRules.ts";
 
 enum CasingType {
@@ -21,7 +23,22 @@ interface State {
 interface StateExecutionLog {
   [key: string]: State[];
 }
-
+export class Ame07 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "API Message",
+    id: "AME.07",
+  };
+  description = "Fältnamn BÖR använda tecken som är alfanumeriska.";
+  message = "Fältnamn BÖR använda tecken som är alfanumeriska.";
+  given = "$.components.schemas..properties[*]~";
+  then = {
+    function: pattern,
+    functionOptions: {
+      match: "^[a-zA-Z0-9]+$"
+    }
+  }
+  severity = DiagnosticSeverity.Warning;
+}
 
 export class Ame04 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -214,5 +231,5 @@ export class Ame05 extends BaseRuleset {
       return Array.from(invalidEntries)
     }
 }
-export default { Ame01, Ame02,Ame05, Ame04 };
+export default { Ame01, Ame02,Ame05, Ame04, Ame07 };
 
