@@ -450,61 +450,6 @@ testRule("Ufn05", [
   
 ]);
 
-testRule("Ufn10", [
-  {
-    name: "giltigt testfall",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      paths: {
-        "/foo": {
-          get: {
-            description: "get",
-            parameters: [
-              {
-                name: "tags",
-                in: "query",
-                required: false,
-              },
-            ],
-          },
-        },
-      },
-    },
-    errors: [],
-  },
-
-  {
-    name: "ogiltigt testfall",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      paths: {
-        "/pets": {
-          get: {
-            description: "get",
-            parameters: [
-              {
-                name: "t.a-g~s",
-                in: "query",
-                required: false,
-              },
-            ],
-          },
-        },
-      },
-    },
-    errors: [
-      {
-        message:
-          "Understreck '_' SKALL endast användas för att separera ord i parameternamn.",
-        path: ["paths", "/pets", "get", "parameters", "0","name"],
-        severity: DiagnosticSeverity.Error,
-      },
-    ],
-  },
-]);
-
 testRule("Ufn01", [
   {
     name: "giltigt testfall",

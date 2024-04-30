@@ -300,30 +300,4 @@ export class Ufn09Path extends Ufn09Base {
   given = "$.paths[*]~";
 
 }
-
-
-export class Ufn10 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.10",
-  };
-  description = "Understreck '_' SKALL endast användas för att separera ord i parameternamn.";
-  given = "$.paths.*.*.parameters[?(@.in=='query')].name";
-  message = "Understreck '_' SKALL endast användas för att separera ord i parameternamn.";
-  then = [
-    {
-      function: pattern,
-      functionOptions: {
-        notMatch: "/[-.~]/",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-          this.severity, this.constructor.name, moduleName, Ufn10.customProperties);
-      }
-    }
-  ];
-  severity = DiagnosticSeverity.Error;
-}
-export default { Ufn02, Ufn05, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10 };
+export default { Ufn01, Ufn02, Ufn05, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters};
