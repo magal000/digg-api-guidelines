@@ -39,7 +39,7 @@ testRule("Ufn07", [
           { url: "http://api.example.com" },
           { url: "http://api.example.com" }
         ],
-        paths: { "/abcdefghijklmnopqrstuvxyz-._~": {} },
+        paths: { "/abcdefghijklmnopqrstuvxyz-.~": {} },
       },
       errors: [],
     },
@@ -53,7 +53,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -68,7 +68,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -86,7 +86,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -104,7 +104,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
