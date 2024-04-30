@@ -326,30 +326,4 @@ export class Ufn10 extends BaseRuleset {
   ];
   severity = DiagnosticSeverity.Error;
 }
-
-export class Ufn11 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.11",
-  };
-  description = "Understreck '_' SKALL INTE vara del av bas URL:en.";
-  given = "$.servers..url";
-  message = "Understreck '_' SKALL INTE vara del av bas URL:en.";
-  then = [
-    {
-      field: "url",
-      function: pattern,
-      functionOptions: {
-        notMatch: "/[_]/",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        return this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-          this.severity, this.constructor.name, moduleName, Ufn11.customProperties);
-      }
-    }
-  ];
-  severity = DiagnosticSeverity.Error;
-}
-export default { Ufn02, Ufn05, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10, Ufn11 };
+export default { Ufn02, Ufn05, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters , Ufn10 };
