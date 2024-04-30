@@ -36,7 +36,6 @@ const ruleTypes = [
   UfnRules.Ufn08,
   UfnRules.Ufn09Path, UfnRules.Ufn09Server, UfnRules.Ufn09InPathParameters,
   UfnRules.Ufn10,
-  UfnRules.Ufn11,
   SakRules.Sak09,
   SakRules.Sak10,
   SakRules.Sak18,
