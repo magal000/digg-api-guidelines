@@ -223,7 +223,7 @@ export class Ufn07 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.07",
   };
-  message = "URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).";
+  message = "URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).";
   given = "$."
   then = [{
     field: 'servers',
@@ -231,7 +231,7 @@ export class Ufn07 extends BaseRuleset {
       const result:any = [];
       if(targetVal){
         const removeTemplating:RegExp = /{.[^{}]*}/;
-        const pattern:RegExp = /^[a-z0-9\/\-,._~]+$/;
+        const pattern:RegExp = /^[a-z0-9\/\-,.~]+$/;
         const delimiter:RegExp = /:/g;
         const property:string = "url";
         
@@ -261,7 +261,7 @@ export class Ufn07 extends BaseRuleset {
     field: 'paths',
     function:(targetVal, _opts, paths) => {
       const removeTemplating:RegExp = /{.[^{}]*}/;
-      const pattern:RegExp = /^[a-z0-9\/\-,._~]+$/;
+      const pattern:RegExp = /^[a-z0-9\/\-,.~]+$/;
       const result:any = [];
       for(let path in targetVal){
         path = path.split(removeTemplating).join("");
