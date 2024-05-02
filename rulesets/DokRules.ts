@@ -26,6 +26,29 @@ export class Dok20 extends BaseRuleset {
   severity = DiagnosticSeverity.Error; 
 }
 
+export class Dok07 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.07",
+  };
+  given = "$.info";
+  message = "Dokumentationen av ett API BÖR innehålla övergripande information om API:et.";
+  then = [{
+    field:"description",
+    function: truthy
+    
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Dok07.customProperties);
+    }
+  }
+];
+  severity = DiagnosticSeverity.Warning; 
+}
+
+
 export class Dok23 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",

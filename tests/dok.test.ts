@@ -102,3 +102,61 @@ testRule("Dok20", [
   }
   
 ]);
+testRule("Dok07", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0",
+        description:"john"
+       },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+     
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      paths: { "/Dettacase": {
+        get: {
+          description: "Ogiltigt testfall av CamelCase",
+          parameters: [
+            {
+              name: "Very_LongName",
+              in: "path",
+              required: false,
+            },
+          ],
+          responses: {
+            '200': {
+              description: ""
+            }
+          }
+        },
+      } },
+     
+    },
+    errors: [
+      {
+        code: "Dok07",
+        message: "Dokumentationen av ett API BÖR innehålla övergripande information om API:et.",
+        path: ["info"],
+        severity: DiagnosticSeverity.Warning,
+        range: {"start": {
+            "line": 0,
+            "character": 26
+          },
+          "end": {
+            "line": 0,
+            "character": 42
+          }
+        }
+      },
+    ],
+  }
+  
+]);
