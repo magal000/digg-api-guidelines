@@ -239,6 +239,9 @@ export class Ufn07 extends BaseRuleset {
         for (let i = 0; i < targetVal.length; i++) {
           if(targetVal[i].hasOwnProperty(property)){
             const url = targetVal[i][property].replace(delimiter,'').split(removeTemplating).join("");
+            this.trackRuleExecutionHandler(JSON.stringify(targetVal[i], null, 2), _opts, paths,
+            this.severity, this.constructor.name, moduleName, Ufn07.customProperties);
+            
             if (!pattern.test(url)){
               result.push(
                 {
@@ -265,6 +268,9 @@ export class Ufn07 extends BaseRuleset {
       const result:any = [];
       for(let path in targetVal){
         path = path.split(removeTemplating).join("");
+          this.trackRuleExecutionHandler(JSON.stringify(targetVal[path], null, 2), _opts, paths,
+            this.severity, this.constructor.name, moduleName, Ufn07.customProperties);
+
         if(!pattern.test(path)){
           result.push(
             {
@@ -274,19 +280,16 @@ export class Ufn07 extends BaseRuleset {
             }
           )
         }
+        
+        
       }
       return result;
-    }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-        this.severity, this.constructor.name, moduleName, Ufn07.customProperties);
     }
   }
   ];
   severity = DiagnosticSeverity.Error;
 }  
+
 
 
 
