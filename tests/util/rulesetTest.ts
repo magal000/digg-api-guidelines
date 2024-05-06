@@ -50,7 +50,8 @@ const ruleTypes = [
   ForRules.For02,
   FnsRules.Fns08,
   DokRules.Dok23,
-  DotRules.Dot02
+  DotRules.Dot02,
+  DotRules.Dot04
 ];
 ruleTypes.forEach((RuleClass) => {
   const instance = new RuleClass();

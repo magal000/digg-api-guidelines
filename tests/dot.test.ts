@@ -67,3 +67,54 @@ testRule("Dot02", [
         },
       ],
     }]);
+    testRule("Dot04", [
+      {
+        name: "giltigt testfall - date/datetime",
+        document: {
+          openapi: "3.1.0",
+          info: { version: "1.0" },
+          components: {
+            schemas: {
+              DateRequest: {
+                type: "object",
+                properties: {
+                  "postedTime": {
+                      type: "string",
+                      format: "date-time",
+                      example: "2024-04-23T04:00:09.12+01:00" // Valid offset
+                    },
+                  },
+              },
+            },
+          },
+        },
+        errors: [],
+      },
+      {
+        name: "ogiltigt testfall - date/date-time",
+        document: {
+          openapi: "3.1.0",
+          info: { version: "1.0" },
+          components: {
+            schemas: {
+              DateRequest: {
+                type: "object",
+                properties: {
+                  "postedTime": {
+                      type: "string",
+                      format: "date-time",
+                      example: "2024-04-23T04:00:09.12" // No offset specified
+                    },
+                  },
+              },
+            },
+          },
+        },
+        errors: [
+          {
+            message: "När man använder RFC 3339 format BÖR tidszonen anges.",
+            path: ["components", "schemas", "DateRequest","properties","postedTime","example"],
+            severity: DiagnosticSeverity.Warning,
+          },
+        ],
+      }]);
