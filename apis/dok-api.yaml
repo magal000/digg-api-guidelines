@@ -67,6 +67,25 @@ paths:
             text/plain:
               schema:
                 $ref: '#/components/schemas/Error'
+    get:
+      summary: List all pets
+      operationId: listPets
+      description: Retrurn max 100 records
+      tags:
+        - pets
+      
+          required: false
+          schema:
+            type: integer
+            maximum: 100
+            format: int32
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
 
 
 components:
