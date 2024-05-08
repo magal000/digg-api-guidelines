@@ -1,4 +1,7 @@
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
+//import { oas2, oas3 } from "@stoplight/spectral-formats";
+import pkg from '@stoplight/spectral-formats';
+const { oas2,oas3} = pkg;
 import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset } from "./BaseRuleset.ts"
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
@@ -27,6 +30,8 @@ export class Sak09 extends BaseRuleset {
       }
     }
   ];  
+  formats = [oas3];
+
   severity = DiagnosticSeverity.Error;
 }  
 export class Sak10 extends BaseRuleset {
