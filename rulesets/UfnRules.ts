@@ -85,7 +85,7 @@ export class Ufn05 extends BaseRuleset {
     {
       field: "servers",
       function: (targetVal:any, _opts: string, paths) => {
-        Ufn05.baseurls = targetVal? targetVal: [{url:''}];
+        Ufn05.baseurls = targetVal? targetVal: [{url:''}]; 
       }
     },
     {
@@ -95,8 +95,8 @@ export class Ufn05 extends BaseRuleset {
         const regexp = /{.[^{}]*}/;
         for (let i = 0; Ufn05.baseurls.length > i; i++) {
           const jsonPath:any =[]
-          let url:any = Ufn05.baseurls[i].url;     
-          if(targetVal){            
+          let url:any = Ufn05.baseurls[i].url? Ufn05.baseurls[i].url: ""; 
+          if(targetVal){
             Object.keys(targetVal).forEach((path) => {
               jsonPath.push(path);
               url += path;
@@ -148,6 +148,7 @@ export class Ufn05 extends BaseRuleset {
           i++;
         }
         
+        
         return result
       }
     },
@@ -166,7 +167,7 @@ export class Ufn05 extends BaseRuleset {
     },
     {
       field: "paths",
-      function: (targetVal: string, _opts: string, paths: string[]) => {
+      function: (targetVal, _opts: string, paths: string[]) => {
         if (targetVal){
           this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths, this.severity,
           this.constructor.name, moduleName, Ufn05.customProperties);
