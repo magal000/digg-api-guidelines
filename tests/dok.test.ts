@@ -111,7 +111,7 @@ testRule("Dok19", [
       info: { version: "1.0" },
       servers: [{ url: "https://example.com/my-api/v1" }],
       paths: { "/thiscase": {
-        get: {
+        operation: {
           description: "description field test",
           responses: {
             '200': {
@@ -119,16 +119,8 @@ testRule("Dok19", [
             }
           }
         },
-        post: {
-          description: "description field test",
-          responses: {
-            '200': {
-              description: "test"
-            }
-          }
-        },
-      } },
-     
+        }     
+      }
     },
     errors: [],
   },
@@ -139,15 +131,8 @@ testRule("Dok19", [
       info: { version: "1.0" },
       servers: [{ url: "https://example.com/my-api/v1" }],
       paths: { "/thiscase": {
-        get: {
-          summery: "",
-          responses: {
-            '200': {
-              description: ""
-            }
-          }
-        },
-        post: {
+        operation: {
+          //description: "dfadfa",
           summery: "",
           responses: {
             '200': {
@@ -155,20 +140,14 @@ testRule("Dok19", [
             }
           }
         }
-      } },
-     
+        }
+      }
     },
     errors: [
       {
         code: "Dok19",
         message: "Kontroll om förekomst av fältet description finns i specifikationen under respektive operation get/post",
-        path: ["paths", "/thiscase", "get"],
-        severity: DiagnosticSeverity.Error,
-       },
-       {
-        code: "Dok19",
-        message: "Kontroll om förekomst av fältet description finns i specifikationen under respektive operation get/post",
-        path: ["paths", "/thiscase", "post"],
+        path: ["paths", "/thiscase","operation"],
         severity: DiagnosticSeverity.Error,
        },
     ],

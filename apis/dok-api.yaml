@@ -73,12 +73,11 @@ paths:
       description: Retrurn max 100 records
       tags:
         - pets
-      
-          required: false
-          schema:
-            type: integer
-            maximum: 100
-            format: int32
+      required: false
+        schema:
+          type: integer
+          maximum: 100
+          format: int32
       responses:
         '200':
           description: Expected response to a valid request
@@ -86,6 +85,70 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pet"
+  /pet/{id}:
+    delete:
+      operationId: deletepetbyid
+      tags:
+        - pets
+      description: delete pet by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: pet deleted
+        '404':
+          description: pet not found
+    put:  # PUT operation for updating a pet
+      summary: Update pet by id
+      description: update pet by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+    patch:
+      operationId: editTopet
+      tags:
+        - pet
+      description: edit pet with provided id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        204:
+          description: pet edited successfully
+        404:
+          description: pet not found
 
 
 components:

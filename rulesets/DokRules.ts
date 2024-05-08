@@ -55,7 +55,7 @@ export class Dok19 extends BaseRuleset {
     område: "Dokumentation",
     id: "DOK.19",
   };
-  given = "$.paths.*[?(@property ==='get' || @property === 'post')]"
+  given = "$.paths[*][*]"
   message = "Kontroll om förekomst av fältet description finns i specifikationen under respektive operation get/post";
   then = [{
     field: "description",
@@ -63,7 +63,6 @@ export class Dok19 extends BaseRuleset {
   },
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
-      console.log(targetVal)
       this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
       this.constructor.name, moduleName,Dok19.customProperties);
     }
