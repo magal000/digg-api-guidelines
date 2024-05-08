@@ -2,7 +2,6 @@ openapi: "3.0.0"
 info:
   version: 1.0.0
   title: AME
-  description: API message
   termsOfService: http://swagger.io/terms/
   contact:
     name: Swagger API Team
