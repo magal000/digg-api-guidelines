@@ -1,6 +1,7 @@
 import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./util/helperTest.ts";
 
+
 testRule("Dok23", [
     {
       name: "giltigt testfall",
@@ -98,6 +99,109 @@ testRule("Dok20", [
           }
         }
       },
+    ],
+  }
+  
+]);
+
+testRule("Dok15Get", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      paths: { "/Dettacase": {
+        get: {
+          description: "Ogiltigt testfall av CamelCase",
+          parameters: [
+            {
+              name: "Very_LongName",
+              in: "path",
+              required: false,
+            },
+          ],
+          
+          responses: {
+            '200': {
+              description: "test",
+              content: {
+                'application/json':{
+                  schema: {
+                    examples: "s"
+                  }
+                }
+              }
+            }
+          }
+        },
+      } },
+      components:{
+        schemas: {
+          Error1: {
+            examples:"test"
+          }
+        }
+      }
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      paths: { "/Dettacase": {
+        get: {
+          description: "Ogiltigt testfall av CamelCase",
+          parameters: [
+            {
+              name: "Very_LongName",
+              in: "path",
+              required: false,
+            },
+          ],
+          responses: {
+            "200": {
+              description: "",
+              content: {
+                "application/json":{
+                  schema: {
+                    test: "ds"
+                  }
+                }
+              }
+
+            }
+          }
+        },
+      } },
+      components:{
+        schemas: {
+          Error1: {
+            
+          }
+        }
+      }
+    },
+    errors: [
+      {
+        code: "Dok15Get",
+        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.",
+        path: ["paths", "/Dettacase", "get", "responses", "200", "content","application/json","schema"],
+        severity: DiagnosticSeverity.Error,
+        range: {"start": {
+            "line": 0,
+            "character": 319
+          },
+          "end": {
+            "line": 0,
+            "character": 331
+          }
+        }
+      },
+     
     ],
   }
   

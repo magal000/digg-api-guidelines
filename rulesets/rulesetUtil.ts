@@ -31,6 +31,36 @@ export class Ufn09Base extends BaseRuleset {
     ];
     }
 }
+
+export class Dok15Base extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.15",
+  };
+  constructor() {
+    super();
+    this.message = "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.";
+    this.severity = DiagnosticSeverity.Error;
+    this.description = '';
+    this.then = [
+      {
+        field: "examples",
+        function: truthy,
+      },
+      {
+        function: (targetVal: string, _opts: string, paths: string[]) => {
+          console.log(targetVal)
+          
+          this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+            this.severity, this.constructor.name, moduleName, Dok15Base.customProperties);
+        }
+      }
+    ];
+    }
+
+}
+
+
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {
       område: "API Request",

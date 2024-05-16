@@ -15,28 +15,21 @@ servers:
   - url: https://example.com/myapi/v2
 paths:
   /example:
-    post:
+    get:
       summary: Example API with Payload in Headers Allowed
       description: For testing
       operationId: exampleRequest
       tags:
         [tag1, tag2]
-      requestBody:
-        required: true
-        content:
-          application/json; charset=utf-8:
-            schema:
-              type: object
-              properties:
-                data:
-                  type: string
       responses:
         '200':
           description: example response
           content:
-            application/json; charset=utf-8:
+            application/json; charset=utf-8:    
               schema:
-                $ref: '#/components/schemas/Error'
+                examples: dsa
+                
+               
   /example2:
     post:
       summary: Example API with Payload in Headers Allowed
@@ -49,13 +42,16 @@ paths:
         required: true
         content:
           application/json; charset=utf-8:
+            examples: tre
             schema:
+
               type: object
               properties:
                 data:
                   type: integer
-          application/json; charset=utf-16:
-            schema:
+          application/json:
+            exampsles: tre
+            schema:           
               type: object
               properties:
                 data:
@@ -64,9 +60,11 @@ paths:
         '200':
           description: 
           content:
+            exampels: två
             text/plain:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error1'
+                
 
 
 components:
@@ -76,6 +74,7 @@ components:
       scheme: bearer
   schemas:
     Error1:
+      examples: test
       type: object
       properties:
         "_code":

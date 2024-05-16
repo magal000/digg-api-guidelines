@@ -2,7 +2,19 @@ import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
+
+import { Dok15Base } from "./rulesetUtil.ts";
 const moduleName: string = "DokRules.ts";
+
+export class Dok15Get extends Dok15Base {
+  given = '$.paths[*].get.responses[*].content.application/json.schema';
+}
+export class Dok15Responses extends Dok15Base {
+  given = '$.paths[*][?(@ != "get")].responses[*].content.application/json.schema';
+}
+export class Dok15ResBody extends Dok15Base {
+  given = '$.paths[*][?(@ != "get")].requestBody.content.application/json';
+}
 
 export class Dok20 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -49,4 +61,4 @@ export class Dok23 extends BaseRuleset {
 ];
   severity = DiagnosticSeverity.Error; 
 }
-export default { Dok23, Dok20 };
+export default { Dok23, Dok20, Dok15Get,Dok15ResBody,Dok15Responses };
