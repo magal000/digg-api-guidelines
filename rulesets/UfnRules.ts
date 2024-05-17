@@ -4,8 +4,8 @@ import { BaseRuleset } from "./BaseRuleset.ts";
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length, alphabetical } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
-import { METHODS } from "http";
-import { json } from "stream/consumers";
+import pkg from '@stoplight/spectral-formats';
+const { oas2,oas3} = pkg;
 const moduleName: string = "UfnRules.ts";
 
 export class Ufn01 extends BaseRuleset {
@@ -30,6 +30,7 @@ export class Ufn01 extends BaseRuleset {
       }
     }
   ];
+  formats = [oas3];
   severity = DiagnosticSeverity.Warning;
 }
 
@@ -70,7 +71,8 @@ export class Ufn02 extends BaseRuleset {
       }
   }
 ];
-  severity = DiagnosticSeverity.Error;
+formats = [oas3];
+severity = DiagnosticSeverity.Error;
 }
 export class Ufn05 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -165,6 +167,7 @@ export class Ufn05 extends BaseRuleset {
       }
     }
   ];
+  formats = [oas3];
   severity = DiagnosticSeverity.Warning;
 }
 export class Ufn08 extends BaseRuleset {
@@ -285,13 +288,12 @@ export class Ufn07 extends BaseRuleset {
     }
   }
   ];
+  formats = [oas3];
   severity = DiagnosticSeverity.Error;
 }  
-
-
-
 export class Ufn09Server extends Ufn09Base {
   given = '$.servers.[url]';
+  formats = [oas3];
 }
 export class Ufn09InPathParameters extends Ufn09Base {
   given = "$.paths.*.*.parameters[?(@.in=='path')].name";
