@@ -206,3 +206,108 @@ testRule("Dok15Get", [
   }
   
 ]);
+
+testRule("Dok15ReqBody", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      paths: { "/Dettacase": {
+        post: {
+          requestBody:{
+            content: {
+              'application/json':{
+                  examples: "s"
+                }
+            },
+          '200': {
+            description: "test",
+            }
+          },
+          description: "Ogiltigt testfall av CamelCase",
+          parameters: [
+            {
+              name: "Very_LongName",
+              in: "path",
+              required: false,
+            },
+          ],
+          
+          responses: {
+            
+          }
+        },
+      } },
+      components:{
+        schemas: {
+          Error1: {
+            examples:"test"
+          }
+        }
+      }
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      paths: { "/Dettacase": {
+        post: {
+          requestBody:{
+            content: {
+              'application/json':{
+                  inteexamples: "s"
+                }
+            },
+          description: "Ogiltigt testfall av CamelCase",
+          parameters: [
+            {
+              name: "Very_LongName",
+              in: "path",
+              required: false,
+            },
+          ],
+          
+          responses: {
+           
+            '200': {
+              description: "test",
+              }
+            }
+          }
+        },
+      } },
+      components:{
+        schemas: {
+          Error1: {
+            
+          }
+        }
+      }
+    },
+    errors: [
+      {
+        code: "Dok15ReqBody",
+        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.",
+        path: ["paths", "/Dettacase", "post", "requestBody", "content","application/json"],
+        severity: DiagnosticSeverity.Error,
+        range: {"start": {
+            "line": 0,
+            "character": 172
+          },
+          "end": {
+            "line": 0,
+            "character": 191
+          }
+        }
+      },
+     
+    ],
+  }
+  
+]);

@@ -7,12 +7,9 @@ import { Dok15Base } from "./rulesetUtil.ts";
 const moduleName: string = "DokRules.ts";
 
 export class Dok15Get extends Dok15Base {
-  given = '$.paths[*].get.responses[*].content.application/json.schema';
+  given = '$.paths[*][*].responses[*].content.application/json.schema';
 }
-export class Dok15Responses extends Dok15Base {
-  given = '$.paths[*][?(@ != "get")].responses[*].content.application/json.schema';
-}
-export class Dok15ResBody extends Dok15Base {
+export class Dok15ReqBody extends Dok15Base {
   given = '$.paths[*][?(@ != "get")].requestBody.content.application/json';
 }
 
@@ -61,4 +58,4 @@ export class Dok23 extends BaseRuleset {
 ];
   severity = DiagnosticSeverity.Error; 
 }
-export default { Dok23, Dok20, Dok15Get,Dok15ResBody,Dok15Responses };
+export default { Dok23, Dok20, Dok15Get,Dok15ReqBody };

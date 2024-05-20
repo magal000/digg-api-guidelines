@@ -318,3 +318,13 @@
     at Jsep.parse (C:\utv\rest-api-profil-lint-processor\node_modules\jsep\src\jsep.js:303:22)
     at Function.parse (C:\utv\rest-api-profil-lint-processor\node_modules\jsep\src\jsep.js:189:27)
     at Object.jsep [as default] (C:\utv\rest-api-profil-lint-processor\node_modules\nimma\dist\legacy\cjs\parser\jsep.js:20:46)
+2024-05-20T07:48:00.494Z - Error: Error importing rules for category DokRules:, category ⨯ Unable to compile TypeScript:
+[96mrulesets/DokRules.ts[0m:[93m61[0m:[93m54[0m - [91merror[0m[90m TS18004: [0mNo value exists in scope for the shorthand property 'Dok15Responses'. Either declare one or provide an initializer.
+
+[7m61[0m export default { Dok23, Dok20, Dok15Get,Dok15ResBody,Dok15Responses };
+[7m  [0m [91m                                                     ~~~~~~~~~~~~~~[0m
+
+    at importRuleModule (file:///C:/utv/rest-api-profil-lint-processor/src/util/ruleUtil.ts:66:15)
+    at async importRulesByCategory (file:///C:/utv/rest-api-profil-lint-processor/src/util/ruleUtil.ts:77:29)
+    at async importAndCreateRuleInstances (file:///C:/utv/rest-api-profil-lint-processor/src/util/ruleUtil.ts:99:7)
+    at async file:///C:/utv/rest-api-profil-lint-processor/src/app.ts:80:38
