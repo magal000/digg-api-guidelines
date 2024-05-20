@@ -47,11 +47,13 @@ const ruleTypes = [
   FnsRules.Fns07,
   FnsRules.Fns06,
   DokRules.Dok20,
+  DokRules.Dok07,
   ForRules.For02,
   FnsRules.Fns08,
   DokRules.Dok23,
   DotRules.Dot02,
-  DokRules.Dok15Get,DokRules.Dok15ReqBody
+  DokRules.Dok15Get,DokRules.Dok15ReqBody,
+  DokRules.Dok19,
 ];
 ruleTypes.forEach((RuleClass) => {
   const instance = new RuleClass();

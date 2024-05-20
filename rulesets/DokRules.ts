@@ -35,6 +35,29 @@ export class Dok20 extends BaseRuleset {
   severity = DiagnosticSeverity.Error; 
 }
 
+export class Dok07 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.07",
+  };
+  given = "$.info";
+  message = "Dokumentationen av ett API BÖR innehålla övergripande information om API:et.";
+  then = [{
+    field:"description",
+    function: truthy
+    
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Dok07.customProperties);
+    }
+  }
+];
+  severity = DiagnosticSeverity.Warning; 
+}
+
+
 export class Dok23 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
@@ -58,4 +81,25 @@ export class Dok23 extends BaseRuleset {
 ];
   severity = DiagnosticSeverity.Error; 
 }
-export default { Dok23, Dok20, Dok15Get,Dok15ReqBody };
+
+export class Dok19 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.19",
+  };
+  given = "$.paths[*][*]"
+  message = "Kontroll om förekomst av fältet description finns i specifikationen under respektive operation get/post";
+  then = [{
+    field: "description",
+    function: truthy
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Dok19.customProperties);
+    }
+  }
+];
+  severity = DiagnosticSeverity.Error; 
+}
+export default { Dok23, Dok20, Dok19, Dok07, Dok15Get, Dok15ReqBody };
