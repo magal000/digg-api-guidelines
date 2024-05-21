@@ -2,6 +2,9 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset } from "./BaseRuleset.ts";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
+import pkg from '@stoplight/spectral-formats';
+const { oas2,oas3} = pkg;
+
 const moduleName: string = "VerRules.ts";
 
 export class Ver06 extends BaseRuleset {
@@ -72,6 +75,7 @@ export class Ver05 extends BaseRuleset {
     }
   }
   ]  
+  formats = [oas3];
   severity = DiagnosticSeverity.Warning;
 }
 export default { Ver05, Ver06 };
