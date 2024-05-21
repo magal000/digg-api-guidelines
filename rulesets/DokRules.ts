@@ -93,4 +93,29 @@ export class Dok19 extends BaseRuleset {
 ];
   severity = DiagnosticSeverity.Error; 
 }
-export default { Dok23, Dok20, Dok19, Dok07 };
+
+export class Dok01 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.01",
+  };
+  given = "$.externalDocs"
+  message = "Dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online";
+  then = [{
+        field: 'description',
+        function: truthy,
+  },
+      {
+        field: 'url',
+        function: truthy,
+      },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Dok01.customProperties);
+    }
+  }
+];
+  severity = DiagnosticSeverity.Error; 
+}
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01};
