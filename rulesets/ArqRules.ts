@@ -4,6 +4,9 @@ import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
 const moduleName: string = "ArqRules.ts";
+import pkg from '@stoplight/spectral-formats';
+const { oas2,oas3} = pkg;
+
 
 export class Arq05NestedStructure extends Arq05Base {
   description ="Om en header använder nästlade strukturer, är en requestbody mer lämplig.";
@@ -106,6 +109,7 @@ export class Arq01 extends BaseRuleset {
       }
   }
 ];
+  formats = [oas3];
   severity = DiagnosticSeverity.Warning;
 }
 export class Arq03 extends BaseRuleset {

@@ -297,9 +297,10 @@ export class Ufn09Server extends Ufn09Base {
 }
 export class Ufn09InPathParameters extends Ufn09Base {
   given = "$.paths.*.*.parameters[?(@.in=='path')].name";
+  formats = [oas3];
 }
 export class Ufn09Path extends Ufn09Base {
   given = "$.paths[*]~";
-
+  formats = [oas3];
 }
 export default { Ufn01, Ufn02, Ufn05, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters};

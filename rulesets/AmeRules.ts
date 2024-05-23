@@ -3,9 +3,8 @@ import { DiagnosticSeverity } from "@stoplight/types";
 import { parsePropertyNames } from "./rulesetUtil.ts";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
-
-
-
+import pkg from '@stoplight/spectral-formats';
+const { oas2,oas3} = pkg;
 const moduleName: string = "AmeRules.ts";
 
 enum CasingType {
@@ -37,6 +36,7 @@ export class Ame07 extends BaseRuleset {
       match: "^[a-zA-Z0-9]+$"
     }
   }
+  formats = [oas3];
   severity = DiagnosticSeverity.Warning;
 }
 
@@ -55,6 +55,7 @@ export class Ame04 extends BaseRuleset {
         match: '^(?:[a-z]+(?:_[a-z]+)*|[a-z]+(?:[A-Z][a-z]*)*)$',
       }
     }
+  formats = [oas3];
   severity = DiagnosticSeverity.Warning;
 }
 export class Ame01 extends BaseRuleset {
@@ -193,6 +194,7 @@ export class Ame05 extends BaseRuleset {
           return result;
       }
     }  
+    formats = [oas3];
     severity = DiagnosticSeverity.Error;
     /**
      * Search a dictionary for possbile vialoations.
