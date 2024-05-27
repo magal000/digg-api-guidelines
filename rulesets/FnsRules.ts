@@ -267,4 +267,4 @@ export class Fns08 extends BaseRuleset {
   severity = DiagnosticSeverity.Error;
 }
 
-export default { Fns01, Fns03, Fns05, Fns06, Fns07, Fns08 };
+export default { Fns01, Fns03, Fns05, Fns06, Fns07, Fns08, Fns09 };

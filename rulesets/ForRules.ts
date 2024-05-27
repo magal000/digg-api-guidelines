@@ -1,7 +1,7 @@
 import { enumeration, falsy, undefined as undefinedFunc, pattern } from "@stoplight/spectral-functions";
-import { oas3 } from "@stoplight/spectral-formats";
-import { oas2 } from "@stoplight/spectral-formats";
 import { DiagnosticSeverity } from "@stoplight/types";
+import pkg from '@stoplight/spectral-formats';
+const { oas2,oas3} = pkg;
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
 
@@ -42,21 +42,18 @@ export class For02 extends BaseRuleset {
   description = "EN GET -förfrågan SKALL INTE acceptera en body";
   message = "EN GET -förfrågan SKALL INTE acceptera en body";
   given = "$.paths..get";
-  then = [
-  {
-  field: "requestBody",
-  function: undefinedFunc
-  
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-      this.severity,this.constructor.name, moduleName,For02.customProperties);
+  then = [{
+    field: "requestBody",
+    function: undefinedFunc
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,For02.customProperties);
+      }
     }
-  }
   ]
+  formats = [oas3];
   severity = DiagnosticSeverity.Error
-  }
-  
-  
+}
 export default { For01, For02 };

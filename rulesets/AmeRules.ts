@@ -93,7 +93,8 @@ export class Ame01 extends BaseRuleset {
     },
   }
 ];
-  severity = DiagnosticSeverity.Warning;
+formats = [oas3];
+severity = DiagnosticSeverity.Warning;
 }
 
 export class Ame02 extends BaseRuleset {
@@ -133,6 +134,7 @@ export class Ame02 extends BaseRuleset {
     }
   }
 ];
+  formats = [oas3];
   severity = DiagnosticSeverity.Warning;
 }
 export class Ame05 extends BaseRuleset {
