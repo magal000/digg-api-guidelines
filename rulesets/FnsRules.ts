@@ -242,6 +242,11 @@ export class Fns08 extends BaseRuleset {
       });
 
       if (hasPage && hasLimit) {
+        /**
+         * Track ruleexecution
+         */
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Fns08.customProperties);
         isValidDefaultValue = (pageDefaultValue == 1);
       }
 
@@ -256,15 +261,9 @@ export class Fns08 extends BaseRuleset {
         ]
       }
     }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Fns08.customProperties);
-    }
   }
 ];
   severity = DiagnosticSeverity.Error;
 }
 
-export default { Fns01, Fns03, Fns05, Fns06, Fns07, Fns08 };
+export default { Fns01, Fns03, Fns05, Fns06, Fns07, Fns08, Fns09 };
