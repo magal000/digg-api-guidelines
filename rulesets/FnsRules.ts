@@ -186,6 +186,11 @@ export class Fns07 extends BaseRuleset {
           }
         }
       });
+      if (( hasPage || hasOffset) ) { 
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Fns07.customProperties);
+      }
+
       if (( hasPage || hasOffset) && !hasLimit ) {
         isValid = false;
       }
@@ -201,12 +206,6 @@ export class Fns07 extends BaseRuleset {
       }
     }
   },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Fns07.customProperties);
-    }
-  }
 ];
   severity = DiagnosticSeverity.Error;
 }
