@@ -1,10 +1,9 @@
-import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
-import { BaseRuleset} from "./BaseRuleset.ts"
+import { oas3 } from "@stoplight/spectral-formats";
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
+import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
+import { BaseRuleset} from "./BaseRuleset.ts"
 const moduleName: string = "DokRules.ts";
-import pkg from '@stoplight/spectral-formats';
-const { oas2,oas3} = pkg;
 
 
 export class Dok20 extends BaseRuleset {

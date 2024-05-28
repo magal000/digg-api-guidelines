@@ -2,8 +2,7 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset } from "./BaseRuleset.ts";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
-import pkg from '@stoplight/spectral-formats';
-const { oas2,oas3} = pkg;
+import { oas3 } from "@stoplight/spectral-formats";
 
 const moduleName: string = "VerRules.ts";
 

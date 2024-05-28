@@ -2,8 +2,7 @@ import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
 import { parseProperties,Property,isValidRFC3339DateTime } from "./rulesetUtil.ts";
-import pkg from '@stoplight/spectral-formats';
-const { oas2,oas3} = pkg;
+import { oas3 } from "@stoplight/spectral-formats";
 
 const moduleName: string = "DotRules.ts";
 

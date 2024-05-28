@@ -3,10 +3,6 @@ import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { DiagnosticSeverity } from "@stoplight/types";
 import {logRuleExecution} from '../src/util/RuleExecutionStatusModule.ts';
 
-/*export interface CustomProperties {
-    område: string;
-    id: string;
-  }*/
 export class BaseRuleset implements RulesetInterface {
   static customProperties: CustomProperties = { område: undefined!, id: '' };
   static getCustomProperties(): CustomProperties {

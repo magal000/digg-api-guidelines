@@ -1,11 +1,10 @@
 import { Arq05Base } from "./rulesetUtil.ts";
 import { schema} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
+import { oas3 } from "@stoplight/spectral-formats";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
 const moduleName: string = "ArqRules.ts";
-import pkg from '@stoplight/spectral-formats';
-const { oas2,oas3} = pkg;
 
 
 export class Arq05NestedStructure extends Arq05Base {

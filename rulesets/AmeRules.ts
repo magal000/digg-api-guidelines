@@ -1,10 +1,9 @@
 import { casing, truthy, falsy, undefined as undefinedFunc, pattern, schema,CasingOptions } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
+import { oas3 } from "@stoplight/spectral-formats";
 import { parsePropertyNames } from "./rulesetUtil.ts";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
-import pkg from '@stoplight/spectral-formats';
-const { oas2,oas3} = pkg;
 const moduleName: string = "AmeRules.ts";
 
 enum CasingType {

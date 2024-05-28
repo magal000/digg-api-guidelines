@@ -1,7 +1,6 @@
 import { enumeration, falsy, undefined as undefinedFunc, pattern } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import pkg from '@stoplight/spectral-formats';
-const { oas2,oas3} = pkg;
+import { oas3 } from "@stoplight/spectral-formats";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
 
