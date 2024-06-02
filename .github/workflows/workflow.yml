@@ -7,6 +7,7 @@ on: # yamllint disable-line rule:truthy
       - v[0-9]+.[0-9]+.[0-9]+
 jobs:
   publish-package:
-    uses: ./.github/workflows/publish-package.yaml
+    #uses: ./.github/workflows/publish-package.yaml
+    uses: ./.github/workflows/publish-package-npm.yaml
   publish-image:
     uses: ./.github/workflows/publish-image.yaml
