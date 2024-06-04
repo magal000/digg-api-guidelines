@@ -99,16 +99,43 @@ export class Dok01 extends BaseRuleset {
     område: "Dokumentation",
     id: "DOK.01",
   };
-  given = "$.externalDocs"
+  given = "$"
   message = "Dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online";
-  then = [{
-        field: 'description',
-        function: truthy,
+  then = [
+    {
+      function:(targetVal, _opts, paths) => {
+        let obj:any = [];
+        if (targetVal.hasOwnProperty('externalDocs')) {
+          obj =  targetVal['externalDocs'];
+          if(obj === null) {
+            return [
+              {
+                message: this.message,
+                severity: this.severity
+              }
+            ]
+          }
+          if(obj.hasOwnProperty('description') && obj.hasOwnProperty('url')){
+              return [];
+          } else {
+              return [
+                      {
+                        message: this.message,
+                        severity: this.severity
+                      }
+                    ]
+                  }
+        } else {
+          return [
+            {
+              message: this.message,
+              severity: this.severity
+            }
+          ]
+        }            
+    }         
   },
-      {
-        field: 'url',
-        function: truthy,
-      },
+
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
       this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
@@ -116,6 +143,7 @@ export class Dok01 extends BaseRuleset {
     }
   }
 ];
-  severity = DiagnosticSeverity.Error; 
+  severity = DiagnosticSeverity.Warning; 
 }
+
 export default { Dok23, Dok20, Dok19, Dok07 , Dok01};

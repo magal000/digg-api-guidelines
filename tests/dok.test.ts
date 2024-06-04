@@ -216,7 +216,7 @@ testRule("Dok19", [
 
 testRule("Dok01", [
   {
-    name: "ogiltigt testfall",
+    name: "giltigt testfall",
     document: {
       openapi: "3.1.0",
       info: { version: "1.0" },
@@ -234,14 +234,12 @@ testRule("Dok01", [
       openapi: "3.1.0",
       info: { version: "1.0" },
       servers: [{ url: "https://example.com/my-api/v1" }],
-      externalDocs: {}
-    
-    },
+      },
     errors: [
       {
         code: "Dok01",
         message: "Dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online",
-        severity: DiagnosticSeverity.Error,
+        severity: DiagnosticSeverity.Warning,
       },
     ],
   },
