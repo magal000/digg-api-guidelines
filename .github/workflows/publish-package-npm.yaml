@@ -1,7 +1,5 @@
 name: Publish package to GitHub Packages
-
-on:
-  workflow_call: {}
+on: [workflow_call] # yamllint disable-line rule:truthy
 
 jobs:
   build:
@@ -23,12 +21,12 @@ jobs:
         id: get_latest_tag
         run: |
           latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
-          echo "::set-output name=LATEST_TAG::$latest_tag"
+          echo "LATEST_TAG=v${latest_tag}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Publish package
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm publish --tag=${{ steps.get_latest_tag.outputs.LATEST_TAG }}
+        run: npm publish --tag=${{ env.LATEST_TAG }}
