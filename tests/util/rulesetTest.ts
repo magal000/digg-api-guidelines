@@ -31,7 +31,7 @@ const ruleTypes = [
   ArqRules.Arq05ComplexStructure, ArqRules.Arq05NestedStructure, ArqRules.Arq05StringBinary,
   UfnRules.Ufn01,
   UfnRules.Ufn02,
-  UfnRules.Ufn05,
+  UfnRules.Ufn05Servers,UfnRules.Ufn05paths,
   UfnRules.Ufn07,
   UfnRules.Ufn08,
   UfnRules.Ufn09Path, UfnRules.Ufn09Server, UfnRules.Ufn09InPathParameters,
