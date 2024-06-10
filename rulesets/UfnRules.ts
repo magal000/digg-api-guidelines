@@ -78,7 +78,6 @@ export class Ufn05Servers extends Ufn05Base {
   then = [{
     function: (targetVal:any, _opts: string, paths:any) => {
       
-
       let result:any = []
       if(targetVal.length > 2048){
         
@@ -88,7 +87,6 @@ export class Ufn05Servers extends Ufn05Base {
           path: paths.path
         })
       }else{
-
         if(Ufn05Base.paths.length > 0){
           
           for(let path of Ufn05Base.paths){
@@ -108,9 +106,7 @@ export class Ufn05Servers extends Ufn05Base {
             }
           }
         }else{
-          
           Ufn05Base.baseurls.push({string:targetVal,jsonPath:paths.path})
-         
         }
 
       }
@@ -203,8 +199,6 @@ export class Ufn05paths extends Ufn05Base {
   },]
 
 }
-
-
 export class Ufn08 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
