@@ -233,7 +233,7 @@ export class Fns08 extends BaseRuleset {
 
           if (parameter["name"] == "page") {
             hasPage = true;
-            pageDefaultValue =pageDefaultValue = parameter.hasOwnProperty("schema")? parameter["schema"]["default"]: pageDefaultValue
+            pageDefaultValue = parameter.hasOwnProperty("schema")? parameter["schema"]["default"]: pageDefaultValue
           }
           if (parameter["name"] == "limit") {
             hasLimit = true;
