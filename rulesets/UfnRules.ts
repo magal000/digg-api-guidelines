@@ -117,7 +117,14 @@ export class Ufn05Servers extends Ufn05Base {
       return result;
       
     }
-  },]
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+        this.severity, this.constructor.name, moduleName, Ufn05Servers.customProperties);
+    }
+  }
+]
 
 }
 export class Ufn05paths extends Ufn05Base {
@@ -129,6 +136,8 @@ export class Ufn05paths extends Ufn05Base {
       let result:any = [];
       let pathArray:any = [];
       for (const [key] of Object.entries(targetVal)) {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+        this.severity, this.constructor.name, moduleName, Ufn05paths.customProperties);
         for(let method of Object.entries(targetVal[key])){
           
           if(method.length > 1){
