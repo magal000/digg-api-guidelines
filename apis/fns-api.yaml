@@ -111,6 +111,53 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /default_limit:
+    get:
+      summary: Returns all persons
+      operationId: findPersonal
+      tags:
+        - Persons
+      description: |
+        Returns all persons
+      parameters:
+        - name: limit
+          in: query
+          description: max number of persons to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 20
+        - name: offset
+          in: query
+          description: offset (persons are sorted by name)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: page
+          in: query
+          description: Test
+          required: false
+          schema:
+            type: string
+            default: 1
+      responses:
+        '200':
+          description: person response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 
 
