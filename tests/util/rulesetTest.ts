@@ -10,6 +10,8 @@ import * as ArqRules from "../../rulesets/ArqRules.ts";
 import * as DokRules from "../../rulesets/DokRules.ts";
 import * as AmeRules from "../../rulesets/AmeRules.ts";
 import * as ForRules from "../../rulesets/ForRules.ts";
+import * as DotRules from "../../rulesets/DotRules.ts";
+
 
 const ruleInstances: Record<string, any> = {};
 
@@ -21,18 +23,18 @@ const ruleTypes = [
   ForRules.For02,
   AmeRules.Ame01,
   AmeRules.Ame02,
+  AmeRules.Ame07,
+  AmeRules.Ame05,
+  AmeRules.Ame04,
   ArqRules.Arq01,
   ArqRules.Arq03,
   ArqRules.Arq05ComplexStructure, ArqRules.Arq05NestedStructure, ArqRules.Arq05StringBinary,
   UfnRules.Ufn01,
   UfnRules.Ufn02,
-  UfnRules.Ufn05,
-  UfnRules.Ufn06,
+  UfnRules.Ufn05Servers,UfnRules.Ufn05paths,
   UfnRules.Ufn07,
   UfnRules.Ufn08,
-  UfnRules.Ufn09,
-  UfnRules.Ufn10,
-  UfnRules.Ufn11,
+  UfnRules.Ufn09Path, UfnRules.Ufn09Server, UfnRules.Ufn09InPathParameters,
   SakRules.Sak09,
   SakRules.Sak10,
   SakRules.Sak18,
@@ -44,10 +46,13 @@ const ruleTypes = [
   FnsRules.Fns09,
   FnsRules.Fns07,
   FnsRules.Fns06,
-  DokRules.Dok23,
+  DokRules.Dok20,
+  DokRules.Dok07,
   ForRules.For02,
   FnsRules.Fns08,
-  DokRules.Dok23
+  DokRules.Dok23,
+  DotRules.Dot02,
+  DokRules.Dok19,
 ];
 ruleTypes.forEach((RuleClass) => {
   const instance = new RuleClass();

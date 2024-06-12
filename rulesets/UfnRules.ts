@@ -1,7 +1,11 @@
-import { BaseRuleset} from "./BaseRuleset.ts";
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length, alphabetical} from "@stoplight/spectral-functions";
+
+import { Ufn09Base,Ufn05Base } from "./rulesetUtil.ts";
+import { BaseRuleset } from "./BaseRuleset.ts";
+import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length, alphabetical } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
+import { METHODS } from "http";
+import { json } from "stream/consumers";
 const moduleName: string = "UfnRules.ts";
 
 export class Ufn01 extends BaseRuleset {
@@ -21,14 +25,14 @@ export class Ufn01 extends BaseRuleset {
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-        this.severity,this.constructor.name, moduleName,Ufn01.customProperties);
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+          this.severity, this.constructor.name, moduleName, Ufn01.customProperties);
       }
     }
   ];
   severity = DiagnosticSeverity.Warning;
 }
- 
+
 export class Ufn02 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -68,56 +72,133 @@ export class Ufn02 extends BaseRuleset {
 ];
   severity = DiagnosticSeverity.Error;
 }
-export class Ufn05 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.05",
-  };
-  description = "En URL BÖR INTE vara längre än 2048 tecken.";
-  given = "$.paths[*]~";
-  message = "En URL BÖR INTE vara längre än 2048 tecken.";
-  then = [
-    {
-    field: "url",
-    function: length,
-    functionOptions: {
-      max: 2048
+export class Ufn05Servers extends Ufn05Base {
+
+  given = "$.servers[*].url";
+  then = [{
+    function: (targetVal:any, _opts: string, paths:any) => {
+      
+      let result:any = []
+      if(targetVal.length > 2048){
+        
+        result.push({
+          message: this.message,
+          severity: this.severity,
+          path: paths.path
+        })
+      }else{
+        if(Ufn05Base.paths.length > 0){
+          
+          for(let path of Ufn05Base.paths){
+            
+            if(path.string.length+targetVal.length > 2048){
+               
+              result.push({
+                path: ["paths", path.jsonPath],
+                message: this.message,
+                severity: this.severity
+              },{
+                path: paths.path,
+                message: this.message,
+                severity: this.severity
+              })
+             
+            }
+          }
+        }else{
+          Ufn05Base.baseurls.push({string:targetVal,jsonPath:paths.path})
+        }
+
+      }
+      return result;
+      
     }
   },
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,this.constructor.name, 
-        moduleName,Ufn05.customProperties);
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+        this.severity, this.constructor.name, moduleName, Ufn05Servers.customProperties);
     }
   }
- ];
-  severity = DiagnosticSeverity.Warning;
-}
+]
 
-export class Ufn06 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.06",
-  };
-  given = "$.paths[*]~";
-  message = "Bokstäver i URL:n SKALL bestå av enbart gemener.";
-  then = [
-    {
-      function: pattern,
-      functionOptions: {
-        notMatch: "[A-Z]"
+}
+export class Ufn05paths extends Ufn05Base {
+
+  given = "$.paths";
+  then = [{
+    
+    function: (targetVal:any, _opts: string, paths:any) => {
+      let result:any = [];
+      let pathArray:any = [];
+      for (const [key] of Object.entries(targetVal)) {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+        this.severity, this.constructor.name, moduleName, Ufn05paths.customProperties);
+        for(let method of Object.entries(targetVal[key])){
+          
+          if(method.length > 1){
+           
+            let metodObj:any = method[1];
+            let pathStr = key;
+            let paramStr = '';
+            if(metodObj.hasOwnProperty("parameters")){
+        
+              
+              for(let parameter of metodObj.parameters){
+                if(parameter.hasOwnProperty("in") && parameter.in === "path" && parameter.hasOwnProperty("name")){
+                  paramStr += `${parameter.name}=&`;
+                }
+              }
+              pathStr += paramStr.length > 0? `?${paramStr}`:'';
+              
+            }
+            pathArray.push({string:pathStr,jsonPath:key});
+          }
+          
+        }
+          
       }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-        this.constructor.name, moduleName,Ufn06.customProperties);
+      for (let path of pathArray){
+        if (path.string.length > 2048){
+          result.push(
+            {
+            message: this.message,
+            severity: this.severity,
+            path: ["paths", path.jsonPath]
+            },
+          );
+        }else{
+          if(Ufn05Base.baseurls.length > 0){
+            for(let baseurl of Ufn05Base.baseurls){
+              
+              if (baseurl.string.length + path.string.length > 2048){
+                result.push(
+                  {
+                  message: this.message,
+                  severity: this.severity,
+                  path: ["paths", path.jsonPath]
+                  },
+                  {
+                    message: this.message,
+                    severity: this.severity,
+                    path: baseurl.jsonPath
+                  }
+                );
+              }
+            }
+          }else{
+            
+            Ufn05Base.paths.push(path);
+          }
+        }
       }
+      return result;
+  
+      
     }
-  ];
-  severity = DiagnosticSeverity.Error;
-}
+  },]
 
+}
 export class Ufn08 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -132,7 +213,7 @@ export class Ufn08 extends BaseRuleset {
         const split = targetVal.split("/").filter(removeEmpty => removeEmpty);
         const pathElements = split.filter(e => !e.startsWith("{"));
 
-        var valid:boolean = true;
+        var valid: boolean = true;
         pathElements.forEach(part => {
 
           //  regexp tillåter inte "-", ".", "_" samt "~"
@@ -162,11 +243,11 @@ export class Ufn08 extends BaseRuleset {
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-        this.severity,this.constructor.name, moduleName,Ufn08.customProperties);
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+          this.severity, this.constructor.name, moduleName, Ufn08.customProperties);
       }
     }
-];
+  ];
   severity = DiagnosticSeverity.Error;
 }
 export class Ufn07 extends BaseRuleset {
@@ -174,37 +255,54 @@ export class Ufn07 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.07",
   };
-  message = "URL:n SKALL använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).";
+  message = "URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).";
   given = "$."
   then = [{
     field: 'servers',
     function:(targetVal, _opts, paths) => {
-      const pattern:RegExp = /^[a-zA-Z0-9\/\-,._~]+$/;
-      const delimiter:RegExp = /:/g;
-      const property:string = "url";
       const result:any = [];
-
-      for (let i = 0; i < targetVal.length; i++) {
-        const url = targetVal[i][property].replace(delimiter,'');
-        if (!pattern.test(url)){
-          result.push(
-            {
-              path: [...paths.path, i, property],
-              message: this.message,
-              severity: this.severity
+      if(targetVal){
+        const removeTemplating:RegExp = /{.[^{}]*}/;
+        const pattern:RegExp = /^[a-z0-9\/\-,.~]+$/;
+        const delimiter:RegExp = /:/g;
+        const property:string = "url";
+        
+        
+        for (let i = 0; i < targetVal.length; i++) {
+          if(targetVal[i].hasOwnProperty(property)){
+            const url = targetVal[i][property].replace(delimiter,'').split(removeTemplating).join("");
+            this.trackRuleExecutionHandler(JSON.stringify(targetVal[i], null, 2), _opts, paths,
+            this.severity, this.constructor.name, moduleName, Ufn07.customProperties);
+            
+            if (!pattern.test(url)){
+              result.push(
+                {
+                  path: [...paths.path, i, property],
+                  message: this.message,
+                  severity: this.severity
+                }
+              )
             }
-          )
-        }
-      }   
+          }
+  
+        }   
+        
+      }
       return result;
     }
+
   },
   {
     field: 'paths',
     function:(targetVal, _opts, paths) => {
-      const pattern:RegExp = /^[a-zA-Z0-9\/\-,._~{}]+$/;
+      const removeTemplating:RegExp = /{.[^{}]*}/;
+      const pattern:RegExp = /^[a-z0-9\/\-,.~]+$/;
       const result:any = [];
-      for(const path in targetVal){
+      for(let path in targetVal){
+        path = path.split(removeTemplating).join("");
+          this.trackRuleExecutionHandler(JSON.stringify(targetVal[path], null, 2), _opts, paths,
+            this.severity, this.constructor.name, moduleName, Ufn07.customProperties);
+
         if(!pattern.test(path)){
           result.push(
             {
@@ -214,93 +312,27 @@ export class Ufn07 extends BaseRuleset {
             }
           )
         }
+        
+        
       }
       return result;
     }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-      this.severity,this.constructor.name, moduleName,Ufn07.customProperties);
-    }
   }
-];
+  ];
   severity = DiagnosticSeverity.Error;
-}
+}  
 
-export class Ufn09 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.09",
-  };
-  description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+
+
+
+export class Ufn09Server extends Ufn09Base {
+  given = '$.servers.[url]';
+}
+export class Ufn09InPathParameters extends Ufn09Base {
+  given = "$.paths.*.*.parameters[?(@.in=='path')].name";
+}
+export class Ufn09Path extends Ufn09Base {
   given = "$.paths[*]~";
-  message = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
-  then = [
-    {
-      function: pattern,
-      functionOptions: {
-        match: "^(/|[a-z0-9-.]+|{[a-zA-Z0-9_]+})+$"
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-        this.severity,this.constructor.name, moduleName,Ufn09.customProperties);
-      }
-    }
-  ];
-  severity = DiagnosticSeverity.Error;
-}
 
-export class Ufn10 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.10",
-  };
-  description = "Understreck '_' SKALL endast användas för att separera ord i parameternamn.";
-  given = "$.paths.*.*.parameters[?(@.in=='query')].name";
-  message = "Understreck '_' SKALL endast användas för att separera ord i parameternamn.";
-  then = [
-    {
-      function: pattern,
-      functionOptions: {
-          notMatch: "/[-.~]/",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-        this.severity,this.constructor.name, moduleName,Ufn10.customProperties);
-      }
-    }
-  ];
-  severity = DiagnosticSeverity.Error;
 }
-
-export class Ufn11 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "URL Format och namngivning",
-    id: "UFN.11",
-  };
-  description = "Understreck '_' SKALL INTE vara del av bas URL:en.";
-  given = "$.servers..url";
-  message = "Understreck '_' SKALL INTE vara del av bas URL:en.";
-  then = [
-    {
-      field: "url",
-      function: pattern,
-      functionOptions: {
-        notMatch: "/[_]/",
-      }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        return this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-        this.severity,this.constructor.name, moduleName,Ufn11.customProperties);
-      }
-    }
-  ];
-  severity = DiagnosticSeverity.Error;
-}
-export default { Ufn02, Ufn05, Ufn06, Ufn07, Ufn08, Ufn09, Ufn10, Ufn11 };
+export default { Ufn01, Ufn02, Ufn05Servers, Ufn05paths, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters};

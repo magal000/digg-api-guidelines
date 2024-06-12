@@ -1,0 +1,220 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: AME
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Swagger API Team
+    email: apiteam@swagger.io
+    url: http://swagger.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://example.com/myapi/v2
+paths:
+  /example:
+    post:
+      summary: Example API with Payload in Headers Allowed
+      description: For testing
+      operationId: exampleRequest
+      tags:
+        [tag1, tag2]
+      requestBody:
+        required: true
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+      responses:
+        '200':
+          description: example response
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /example2:
+    post:
+      summary: Example API with Payload in Headers Allowed
+      description: For testing
+      operationId: exampleRequest2
+      tags:
+        - tag1
+        - tag2
+      requestBody:
+        required: true
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: integer
+          application/json; charset=utf-16:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: integer
+      responses:
+        '200':
+          description: 
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      summary: List all pets
+      operationId: listPets
+      description: Retrurn max 100 records
+      tags:
+        - pets
+      required: false
+        schema:
+          type: integer
+          maximum: 100
+          format: int32
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+  /pet/{id}:
+    delete:
+      operationId: deletepetbyid
+      tags:
+        - pets
+      description: delete pet by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: pet deleted
+        '404':
+          description: pet not found
+    put:  # PUT operation for updating a pet
+      summary: Update pet by id
+      description: update pet by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+    patch:
+      operationId: editTopet
+      tags:
+        - pet
+      description: edit pet with provided id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        204:
+          description: pet edited successfully
+        404:
+          description: pet not found
+
+
+components:
+  securitySchemes:
+    bearerAuth:     # <-- arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+  schemas:
+    Error1:
+      type: object
+      properties:
+        "_code":
+          type: integer
+          format: int32
+        "veryLongcode":
+          type: integer
+          format: int32
+        "verylongmessage":
+          type: string
+        "nest_this":
+          type: string
+    Error2:
+      type: object
+      properties:
+        "veryongcode":
+          type: integer
+          format: int32
+        "VeryLongmessage":
+          type: string
+        "nestthis_":
+          type: string
+        "nes_tthis":
+          type: string
+        "veryongcode":
+          type: integer
+          format: int32
+        "verylongmessage":
+          type: string
+        "nestthis":
+          type: string
+    Error2:
+      type: object
+      properties:
+        "nestthi_sagain":
+          type: integer
+          format: int32
+        "veryongesMaegain":
+          type: string
+        "nesthis":
+          type: string
+        "veryongcodegain":
+          type: integer
+          format: int32
+        "verylongmessage":
+          type: string
+        "nestthis":
+          type: string
+    Error3:
+      type: object
+      properties:
+        "stthisaMgain":
+          type: integer
+          format: int32
+        "veryongs_egain":
+          type: string
+  tags:
+  - name: tag1
+    description: Everything about tag1
+  - name: tag2
+    description: Everything about tag2

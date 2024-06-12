@@ -60,28 +60,32 @@ export class Fns09 extends BaseRuleset {
   description = "Defaultvärde för limit BÖR vara 20";
   message = "Defaultvärde för limit BÖR vara 20";
   given = "$.paths..parameters";
+  severity = DiagnosticSeverity.Warning;
   then = [{
-    function: (targetVal, _opts, paths) => {
+    function: (targetVal: any,_opts: string, paths: string[]) => {
 
       let isValid = true;
-      targetVal.forEach(function (item, index) {
+      let hasChecked = false;
+      
+      targetVal.forEach((item) => {
         if (item["in"] == "query" &&
           (item["name"] == "page" || item["name"] == "offset")) {
 
           // check for existense of 'limit' parameter
           const limit = targetVal.find(param => param.name === 'limit');
           if (limit) {
-            if (limit.schema.default != 20) {
-              isValid = false;
-            } else {
-              isValid = true;
-            }
-          } else {
-            isValid = true;
+            isValid = limit.schema.default === 20;
+          }
+          /**
+           * Track ruleexecution
+           */
+          if (!hasChecked) {
+            this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+            this.constructor.name, moduleName,Fns09.customProperties);            
+            hasChecked = true;
           }
         }
       });
-
       if (!isValid) {
         return [
           {
@@ -93,15 +97,8 @@ export class Fns09 extends BaseRuleset {
          return []
       }
     }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Fns09.customProperties);
-    }
   }
 ];
-  severity = DiagnosticSeverity.Warning;
 }
 export class Fns05 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -232,7 +229,7 @@ export class Fns08 extends BaseRuleset {
 
           if (parameter["name"] == "page") {
             hasPage = true;
-            pageDefaultValue = parameter["schema"]["default"];
+            pageDefaultValue = parameter.hasOwnProperty("schema")? parameter["schema"]["default"]: pageDefaultValue
           }
           if (parameter["name"] == "limit") {
             hasLimit = true;
@@ -241,6 +238,11 @@ export class Fns08 extends BaseRuleset {
       });
 
       if (hasPage && hasLimit) {
+        /**
+         * Track ruleexecution
+         */
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Fns08.customProperties);
         isValidDefaultValue = (pageDefaultValue == 1);
       }
 
@@ -255,15 +257,9 @@ export class Fns08 extends BaseRuleset {
         ]
       }
     }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Fns08.customProperties);
-    }
   }
 ];
   severity = DiagnosticSeverity.Error;
 }
 
-export default { Fns01, Fns03, Fns05, Fns06, Fns07, Fns08 };
+export default { Fns01, Fns03, Fns05, Fns06, Fns07, Fns08, Fns09 };
