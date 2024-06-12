@@ -230,7 +230,7 @@ export class Fns08 extends BaseRuleset {
 
           if (parameter["name"] == "page") {
             hasPage = true;
-            pageDefaultValue = parameter["schema"]["default"];
+            pageDefaultValue = parameter.hasOwnProperty("schema")? parameter["schema"]["default"]: pageDefaultValue
           }
           if (parameter["name"] == "limit") {
             hasLimit = true;
@@ -239,6 +239,11 @@ export class Fns08 extends BaseRuleset {
       });
 
       if (hasPage && hasLimit) {
+        /**
+         * Track ruleexecution
+         */
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Fns08.customProperties);
         isValidDefaultValue = (pageDefaultValue == 1);
       }
 
@@ -252,12 +257,6 @@ export class Fns08 extends BaseRuleset {
            },
         ]
       }
-    }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Fns08.customProperties);
     }
   }
 ];
