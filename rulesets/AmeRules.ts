@@ -34,7 +34,7 @@ export class Ame07 extends BaseRuleset {
   then = [{
     function: pattern,
     functionOptions: {
-      match: "^[a-zA-Z0-9]+$"
+      match: "^[a-zA-Z0-9_]+$"
     }
   },
   {
