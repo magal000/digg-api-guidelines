@@ -29,7 +29,7 @@ export class Ame07 extends BaseRuleset {
     id: "AME.07",
   };
   description = "Fältnamn BÖR använda tecken som är alfanumeriska.";
-  message = "Fältnamn BÖR använda tecken som är alfanumeriska.";
+  message = "Fältnamn BÖR använda tecken som är alfanumeriska. ";
   given = "$.components.schemas..properties[*]~";
   then = [{
     function: pattern,
