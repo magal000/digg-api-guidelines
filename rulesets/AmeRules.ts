@@ -142,8 +142,7 @@ export class Ame05 extends BaseRuleset {
   description = "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.";
   message = "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.";
   given = "$.components.schemas";
-  then = 
-    {
+  then = [{
       function: (targetVal: string, _opts: string, paths) => {
 
           const result:any = [];
@@ -192,7 +191,14 @@ export class Ame05 extends BaseRuleset {
           }          
           return result;
       }
-    }  
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Ame05.customProperties);
+    }
+  } 
+]; 
     severity = DiagnosticSeverity.Error;
     /**
      * Search a dictionary for possbile vialoations.
