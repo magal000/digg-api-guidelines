@@ -92,6 +92,7 @@ try {
     const customSpectral = new RapLPCustomSpectral();
     customSpectral.setCategorys(enabledRulesAndCategorys.instanceCategoryMap);
     customSpectral.setRuleset(enabledRulesAndCategorys.rules);
+    console.log("Before run..");
     const result = await customSpectral.run(apiSpecDocument);
 
     const customDiagnostic = new RapLPDiagnostic();
@@ -181,17 +182,26 @@ try {
         });
       }
     } catch (spectralError: any) {
-      logErrorToFile(spectralError);
-      console.error(chalk.red("Error running Spectral:", spectralError));
+      logDetailedErrorMessageToFile(spectralError.errors); // log detailed message
+      logErrorToFile(spectralError); // Log stack
+      //console.error(chalk.red("Error running Spectral:", spectralError));
+      console.error(chalk.red("Ett fel uppstod vid initiering/körning av regelklasser! Undersök error loggen för RAP-LP för mer information om felet"));
       throw spectralError;
     }
   } catch (ruleError: any) {
     logErrorToFile(ruleError);
-    console.error(chalk.red("Error importing and creating rule instances:", ruleError));
+    logDetailedErrorMessageToFile(ruleError.errors); // log detailed message
+    //console.error(chalk.red("Error importing and creating rule instances:", ruleError));
+    console.error(chalk.red("Ett fel uppstod vid inläsning av moduler och skapande av regelklasser! Undersök felloggen för RAP-LP för mer information om felet"));
   }
 } catch (error: any) {
   logErrorToFile(error);
   console.error(chalk.red("An error occurred:", error.message));
+}
+function logDetailedErrorMessageToFile(errorProperty: string) {
+  const errorMessage = `${new Date().toISOString()} - ${errorProperty}\n`;
+  fs.appendFileSync('rap-lp-error.log', errorMessage);
+
 }
 // Function to log errors to a file
 function logErrorToFile(error: Error) {
