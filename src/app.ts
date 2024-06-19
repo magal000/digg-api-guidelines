@@ -68,7 +68,6 @@ try {
       describe: 'Path to diagnostic log file from RAP-LP. If not provided, the diagnostic log will be printed to stdout.',
       type: 'string',
     }).argv;
-
   // Extract arguments from yargs
   const apiSpecFileName = (argv.file as string) || "";
   const ruleCategories = argv.categories ? (argv.categories as string).split(",") : undefined;
@@ -182,21 +181,17 @@ try {
         });
       }
     } catch (spectralError: any) {
-      logDetailedErrorMessageToFile(spectralError.errors); // log detailed message
       logErrorToFile(spectralError); // Log stack
-      //console.error(chalk.red("Error running Spectral:", spectralError));
       console.error(chalk.red("Ett fel uppstod vid initiering/körning av regelklasser! Undersök error loggen för RAP-LP för mer information om felet"));
-      throw spectralError;
+      //throw spectralError;
     }
-  } catch (ruleError: any) {
-    logErrorToFile(ruleError);
-    logDetailedErrorMessageToFile(ruleError.errors); // log detailed message
-    //console.error(chalk.red("Error importing and creating rule instances:", ruleError));
+  } catch (initializingError: any) {
+    logErrorToFile(initializingError);
     console.error(chalk.red("Ett fel uppstod vid inläsning av moduler och skapande av regelklasser! Undersök felloggen för RAP-LP för mer information om felet"));
   }
 } catch (error: any) {
   logErrorToFile(error);
-  console.error(chalk.red("An error occurred:", error.message));
+  console.error(chalk.red("Ett oväntat fel uppstod:", error.message));
 }
 function logDetailedErrorMessageToFile(errorProperty: string) {
   const errorMessage = `${new Date().toISOString()} - ${errorProperty}\n`;
@@ -204,7 +199,16 @@ function logDetailedErrorMessageToFile(errorProperty: string) {
 
 }
 // Function to log errors to a file
+/*
 function logErrorToFile(error: Error) {
   const errorMessage = `${new Date().toISOString()} - ${error.stack}\n`;
   fs.appendFileSync('rap-lp-error.log', errorMessage);
+}*/
+function logErrorToFile(error: any) {
+  const errorMessage = `${new Date().toISOString()} - ${error.stack}\n`;
+  fs.appendFileSync('rap-lp-error.log', errorMessage);
+  if (error.errors) {
+    const detailedMessage = `${new Date().toISOString()} - ${JSON.stringify(error.errors, null, 2)}\n`;
+    fs.appendFileSync('rap-lp-error.log', detailedMessage);
+  }
 }
