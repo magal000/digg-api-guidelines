@@ -49,23 +49,23 @@ try {
     })
     .option("categories", {
       alias: "c",
-      describe: `Rule categories separated by commas.\nAvailable categories:\r ${getRuleModules().join(",")}`,
+      describe: `Regelkategorier separerade med kommatecken.\nAvailable categories:\r ${getRuleModules().join(",")}`,
       type: "string",
     })
     .option("logError", {
       alias: "l",
-      describe: 'Path to the eventual error log file from RAP-LP. If not provided, the error log will be printed to stdout.',
+      describe: 'Sökväg till fil med information för eventuell felloggningsinformation från RAP-LP. Om ej specificerad, så kommer felet att skrivas ut till stdout.',
       type: 'string',
     })
     .option("append", {
       alias: "a",
-      describe: "Append log information to the error log file (if specified).",
+      describe: "Utöka loginformationen i filen för felloggningsiformation. Utökda loginformation till befintlig fil för loggning av fel( om specificerad ).",
       type: "boolean",
       default: false,
     })  
     .option("logDiagnostic", {
       alias: "d",
-      describe: 'Path to diagnostic log file from RAP-LP. If not provided, the diagnostic log will be printed to stdout.',
+      describe: 'Sökväf till fill för diagnostiseringsinformation från  RAP-LP. Om en specificerad , så kommer diagnostiseringsinformationen att skrivas ut till stdout.',
       type: 'string',
     }).argv;
   // Extract arguments from yargs
@@ -91,7 +91,6 @@ try {
     const customSpectral = new RapLPCustomSpectral();
     customSpectral.setCategorys(enabledRulesAndCategorys.instanceCategoryMap);
     customSpectral.setRuleset(enabledRulesAndCategorys.rules);
-    console.log("Before run..");
     const result = await customSpectral.run(apiSpecDocument);
 
     const customDiagnostic = new RapLPDiagnostic();
@@ -132,7 +131,7 @@ try {
         let utf8EncodedContent = Buffer.from(logEntry, 'utf8');
         //Log to disc
         await writeFileAsync(logDiagnosticFilePath,utf8EncodedContent);
-        console.log(chalk.green(`Writing diagnostic information from RAP-LP to ${logDiagnosticFilePath}`));
+        console.log(chalk.green(`Skriver diagnostiseringsinformation från RAP-LP till ${logDiagnosticFilePath}`));
       }else {
         //STDOUT
         if (customDiagnostic.diagnosticInformation.executedUniqueRules!=undefined && 
@@ -160,18 +159,17 @@ try {
           });
         }
       }
-
       if (logErrorFilePath ) {
         let content = JSON.stringify(result, null, 2);
         let logEntry = `${formattedDate}\n${content}\n`; // Prepend datestamp to log entry
         let utf8EncodedContent = Buffer.from(logEntry, 'utf8');
         if (argv.append) {
           await appendFileAsync(logErrorFilePath,utf8EncodedContent);
-          console.log(chalk.green(`Appending linting results from RAP-LP to ${logErrorFilePath}`));
+          console.log(chalk.green(`Skriver inspektion/valideringsinformation från RAP-LP till ${logErrorFilePath}`));
         }else {
         //Log to disc
         await writeFileAsync(logErrorFilePath,utf8EncodedContent);
-        console.log(chalk.green(`Writing linting results from RAP-LP to ${logErrorFilePath}`));
+        console.log(chalk.green(`Skriver inspektion/valideringsinformation från RAP-LP till ${logErrorFilePath}`));
         }
       }else {
       //Verbose error logging goes here with detailed result
@@ -182,8 +180,7 @@ try {
       }
     } catch (spectralError: any) {
       logErrorToFile(spectralError); // Log stack
-      console.error(chalk.red("Ett fel uppstod vid initiering/körning av regelklasser! Undersök error loggen för RAP-LP för mer information om felet"));
-      //throw spectralError;
+      console.error(chalk.red("Ett fel uppstod vid initiering/körning av regelklasser! Undersök felloggen för RAP-LP för mer information om felet"));
     }
   } catch (initializingError: any) {
     logErrorToFile(initializingError);
@@ -191,19 +188,8 @@ try {
   }
 } catch (error: any) {
   logErrorToFile(error);
-  console.error(chalk.red("Ett oväntat fel uppstod:", error.message));
+  console.error(chalk.red("Ett oväntat fel uppstod! Undersök felloggen för RAP-LP för mer information om felet", error.message));
 }
-function logDetailedErrorMessageToFile(errorProperty: string) {
-  const errorMessage = `${new Date().toISOString()} - ${errorProperty}\n`;
-  fs.appendFileSync('rap-lp-error.log', errorMessage);
-
-}
-// Function to log errors to a file
-/*
-function logErrorToFile(error: Error) {
-  const errorMessage = `${new Date().toISOString()} - ${error.stack}\n`;
-  fs.appendFileSync('rap-lp-error.log', errorMessage);
-}*/
 function logErrorToFile(error: any) {
   const errorMessage = `${new Date().toISOString()} - ${error.stack}\n`;
   fs.appendFileSync('rap-lp-error.log', errorMessage);
