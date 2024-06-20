@@ -100,16 +100,23 @@ export class Dok01 extends BaseRuleset {
     id: "DOK.01",
   };
   given = "$"
-  message = "Dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online";
+  message = "I regel BÖR dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online";
   then = [
     {
       function:(targetVal, _opts, paths) => {
         let obj:any = [];
         if (targetVal.hasOwnProperty('externalDocs')) {
+          {
+            
+              this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+              this.constructor.name, moduleName,Dok01.customProperties);
+            
+          }
           obj =  targetVal['externalDocs'];
           if(obj === null) {
             return [
               {
+                path: ['externalDocs'],
                 message: this.message,
                 severity: this.severity
               }
@@ -120,28 +127,16 @@ export class Dok01 extends BaseRuleset {
           } else {
               return [
                       {
+                        path: ['externalDocs'],
                         message: this.message,
                         severity: this.severity
                       }
                     ]
                   }
-        } else {
-          return [
-            {
-              message: this.message,
-              severity: this.severity
-            }
-          ]
-        }            
+        }          
     }         
   },
-
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Dok01.customProperties);
-    }
-  }
+     
 ];
   severity = DiagnosticSeverity.Warning; 
 }
