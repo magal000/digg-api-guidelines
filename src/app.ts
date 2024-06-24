@@ -65,7 +65,7 @@ try {
     })  
     .option("logDiagnostic", {
       alias: "d",
-      describe: 'Sökväf till fill för diagnostiseringsinformation från  RAP-LP. Om en specificerad , så kommer diagnostiseringsinformationen att skrivas ut till stdout.',
+      describe: 'Sökväg till fill för diagnostiseringsinformation från  RAP-LP. Om en specificerad , så kommer diagnostiseringsinformationen att skrivas ut till stdout.',
       type: 'string',
     }).argv;
   // Extract arguments from yargs
