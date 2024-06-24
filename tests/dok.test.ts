@@ -234,3 +234,40 @@ testRule("Dok19", [
   }
   
 ]);
+
+testRule("Dok01", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      externalDocs: { 
+          description: "API Documentation and specification", 
+          url:"External link to API"
+        }
+      },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      externalDocs: { 
+        //description: "API Documentation and specification", 
+        //url:"External link to API"
+      }
+      },
+    errors: [
+      {
+
+        code: "Dok01",
+        path: ['externalDocs'],
+        message: "I regel BÖR dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);
