@@ -160,7 +160,28 @@ testRule("Dok07", [
   }
   
 ]);
-
+testRule("Dok17", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      swagger: "2.0",
+    },
+    errors: [
+      {
+        message: "API specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification. ( Linter-analysverktyget (RAP-LP) för den nationella REST API-profilen är designat för senaste major versionen av OpenAPI Specification. Använd därför denna för full täckning av de implementerade reglerna. )",
+        path: ["swagger"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);
 testRule("Dok19", [
   {
     name: "giltigt testfall",

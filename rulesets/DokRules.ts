@@ -4,6 +4,27 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 const moduleName: string = "DokRules.ts";
 
+export class Dok17 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.17",
+  };
+  description = " ( Linter-analysverktyget (RAP-LP) för den nationella REST API-profilen är designat för senaste major versionen av OpenAPI Specification. Använd därför denna för full täckning av de implementerade reglerna. )";
+  message = "API specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification." + this.description;
+  given = "$";
+  then = [{
+      field: 'swagger',
+      function: falsy,
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Dok17.customProperties);
+    }
+  }
+];
+ severity = DiagnosticSeverity.Warning;
+}
 export class Dok20 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
@@ -14,7 +35,6 @@ export class Dok20 extends BaseRuleset {
   then = [{
     field: "description",
     function: truthy
-    
   },
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
@@ -93,7 +113,6 @@ export class Dok19 extends BaseRuleset {
 ];
   severity = DiagnosticSeverity.Error; 
 }
-
 export class Dok01 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
