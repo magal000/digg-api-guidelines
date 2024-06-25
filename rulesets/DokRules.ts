@@ -17,6 +17,14 @@ export class Dok17 extends BaseRuleset {
       function: falsy,
   },
   {
+    field: "openapi",
+    function: pattern,
+      functionOptions: {
+        // Matcha pattern 3.x.y och major version större än 3 
+        match: "^(3|[4-9]|[1-9]\\d+)\\.\\d+\\.\\d+$",    
+      }
+  },
+  {
     function: (targetVal: string, _opts: string, paths: string[]) => {
       this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
       this.severity,this.constructor.name, moduleName,Dok17.customProperties);
