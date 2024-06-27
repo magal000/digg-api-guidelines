@@ -9,8 +9,10 @@ jobs:
   publish-package:
     uses: ./.github/workflows/publish-package.yaml
     permissions:
+      contents: read
       packages: write    
   publish-image:
     uses: ./.github/workflows/publish-image.yaml
     permissions:
+      contents: read
       packages: write    
