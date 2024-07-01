@@ -170,27 +170,30 @@ export class Fns07 extends BaseRuleset {
       let hasPage = false;
       let hasOffset = false;
 
-      targetVal.forEach(function (parameter, index) {
-        if (parameter["in"] == "query") {
-          if (parameter["name"] == "page") {
-            hasPage = true;
+      if (Array.isArray(targetVal)) {
+        targetVal.forEach(function (parameter, index) {
+  
+          if (parameter["in"] == "query") {
+            if (parameter["name"] == "page") {
+              hasPage = true;
+            }
+            if (parameter["name"] == "offset") {
+              hasOffset = true;
+            }
+            if (parameter["name"] == "limit") {
+              hasLimit = true;
+            }
           }
-          if (parameter["name"] == "offset") {
-            hasOffset = true;
-          }
-          if (parameter["name"] == "limit") {
-            hasLimit = true;
-          }
+        });
+        if (( hasPage || hasOffset) ) { 
+          this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+          this.constructor.name, moduleName,Fns07.customProperties);
         }
-      });
-      if (( hasPage || hasOffset) ) { 
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-        this.constructor.name, moduleName,Fns07.customProperties);
-      }
-
-      if (( hasPage || hasOffset) && !hasLimit ) {
-        isValid = false;
-      }
+  
+        if (( hasPage || hasOffset) && !hasLimit ) {
+          isValid = false;
+        }
+       }
       if (isValid) {
         return [];
       } else {
