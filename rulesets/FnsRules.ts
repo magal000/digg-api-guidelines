@@ -224,28 +224,27 @@ export class Fns08 extends BaseRuleset {
       let hasLimit = false;
       let hasPage = false;
 
-      targetVal.forEach(function (parameter, index) {
-        if (parameter["in"] == "query") {
-
-          if (parameter["name"] == "page") {
-            hasPage = true;
-            pageDefaultValue = parameter.hasOwnProperty("schema")? parameter["schema"]["default"]: pageDefaultValue
+      if (Array.isArray(targetVal)) {
+        targetVal.forEach(function (parameter, index) {
+          if (parameter["in"] == "query") {
+            if (parameter["name"] == "page") {
+              hasPage = true;
+              pageDefaultValue = parameter.hasOwnProperty("schema")? parameter["schema"]["default"]: pageDefaultValue
+            }
+            if (parameter["name"] == "limit") {
+              hasLimit = true;
+            }
           }
-          if (parameter["name"] == "limit") {
-            hasLimit = true;
-          }
+        });
+        if (hasPage && hasLimit) {
+          /**
+           * Track ruleexecution
+           */
+          this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+          this.constructor.name, moduleName,Fns08.customProperties);
+          isValidDefaultValue = (pageDefaultValue == 1);
         }
-      });
-
-      if (hasPage && hasLimit) {
-        /**
-         * Track ruleexecution
-         */
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-        this.constructor.name, moduleName,Fns08.customProperties);
-        isValidDefaultValue = (pageDefaultValue == 1);
-      }
-
+      } 
       if (isValidDefaultValue) {
         return [];
       } else {
