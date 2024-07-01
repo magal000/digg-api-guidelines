@@ -1,13 +1,18 @@
-openapi: "3.0.0"
+swagger: "3.0.0"
 info:
   version: 1.2.0
   title: RAP-LP
   description: OpenAPI Specification example to handle Rules for the category []Hypermedia] in the Swedish REST API-profil https://dev.dataportal.se/rest-api-profil
+  contact:
+    name: Swagger API Team
+    email: apiteam@swagger.io
+    url: http://swagger.io
   license:
-    name:  EUPL-1.2 license
+    name: EUPL-1.2 license
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 externalDocs:
-  #description: "Find out more about the API info text goes here"
-  #url: Url to external documentation
+  description: "Find out more about the API info text goes here"
+  url: Url to external documentation
 servers:
   - url: http://petstore.swagger.io/v1
 paths:
