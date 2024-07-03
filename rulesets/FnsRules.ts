@@ -67,25 +67,26 @@ export class Fns09 extends BaseRuleset {
       let isValid = true;
       let hasChecked = false;
       
-      targetVal.forEach((item) => {
-        if (item["in"] == "query" &&
-          (item["name"] == "page" || item["name"] == "offset")) {
-
-          // check for existense of 'limit' parameter
-          const limit = targetVal.find(param => param.name === 'limit');
-          if (limit) {
-            isValid = limit.schema.default === 20;
+      if (Array.isArray(targetVal)) {
+        targetVal.forEach((item) => {
+          if (item["in"] == "query" &&
+            (item["name"] == "page" || item["name"] == "offset")) {
+            // check for existense of 'limit' parameter
+            const limit = targetVal.find(param => param.name === 'limit');
+            if (limit) {
+              isValid = limit.schema.default === 20;
+            }
+            /**
+             * Track ruleexecution
+             */
+            if (!hasChecked) {
+              this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+              this.constructor.name, moduleName,Fns09.customProperties);            
+              hasChecked = true;
+            }
           }
-          /**
-           * Track ruleexecution
-           */
-          if (!hasChecked) {
-            this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-            this.constructor.name, moduleName,Fns09.customProperties);            
-            hasChecked = true;
-          }
-        }
-      });
+        });
+      }
       if (!isValid) {
         return [
           {
