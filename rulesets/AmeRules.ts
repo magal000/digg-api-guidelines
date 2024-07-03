@@ -55,13 +55,20 @@ export class Ame04 extends BaseRuleset {
   description = "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.";
   message = "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.";
   given = "$.components.schemas..properties[*]~";
-  then = 
+  then =[ 
     {
       function: pattern,
       functionOptions: {
         match: '^(?:[a-z]+(?:_[a-z]+)*|[a-z]+(?:[A-Z][a-z]*)*)$',
       }
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Ame04.customProperties);
+      },
     }
+  ];
   severity = DiagnosticSeverity.Warning;
 }
 export class Ame01 extends BaseRuleset {

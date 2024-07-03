@@ -78,7 +78,7 @@ components:
     Error1:
       type: object
       properties:
-        "_code":
+        "code":
           type: integer
           format: int32
         "veryLongcode":
@@ -96,11 +96,6 @@ components:
           format: int32
         "veryongesMaegain":
           type: string
-        "nesthis":
-          type: string
-        "veryongcodegain":
-          type: integer
-          format: int32
         "verylongmessage":
           type: string
         "nestthis":
