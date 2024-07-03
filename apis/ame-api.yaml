@@ -91,14 +91,10 @@ components:
     Error2:
       type: object
       properties:
-        "veryongcode":
+        "nestthi_sagain":
           type: integer
           format: int32
-        "aeryLongmessage":
-          type: string
-        "nestthis":
-          type: string
-        "nes_tthis":
+        "veryongesMaegain":
           type: string
         "verylongmessage":
           type: string

@@ -31,12 +31,19 @@ export class Ame07 extends BaseRuleset {
   description = "Fältnamn BÖR använda tecken som är alfanumeriska.";
   message = "Fältnamn BÖR använda tecken som är alfanumeriska.";
   given = "$.components.schemas..properties[*]~";
-  then = {
+  then = [{
     function: pattern,
     functionOptions: {
-      match: "^[a-zA-Z0-9]+$"
+      match: "^[a-zA-Z0-9_]+$"
+    }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Ame07.customProperties);
     }
   }
+  ];
   severity = DiagnosticSeverity.Warning;
 }
 
@@ -239,4 +246,3 @@ export class Ame05 extends BaseRuleset {
     }
 }
 export default { Ame01, Ame02,Ame05, Ame04, Ame07 };
-
