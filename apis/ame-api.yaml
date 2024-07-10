@@ -88,7 +88,7 @@ components:
           type: string
         "nest_this":
           type: string
-    Error2:
+    Error:
       type: object
       properties:
         "nestthi_sagain":
@@ -100,7 +100,7 @@ components:
           type: string
         "nestthis":
           type: string
-    Error3:
+    Error2:
       type: object
       properties:
         "stthisaMgain":
