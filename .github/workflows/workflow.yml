@@ -1,5 +1,5 @@
 ---
-name: Test npm project Workflow(x3)
+name: RAP-LP project Workflow
 
 on: # yamllint disable-line rule:truthy
   push:
@@ -8,5 +8,11 @@ on: # yamllint disable-line rule:truthy
 jobs:
   publish-package:
     uses: ./.github/workflows/publish-package.yaml
+    permissions:
+      contents: read
+      packages: write    
   publish-image:
     uses: ./.github/workflows/publish-image.yaml
+    permissions:
+      contents: read
+      packages: write    
