@@ -52,11 +52,8 @@ const ruleTypes = [
   FnsRules.Fns08,
   DokRules.Dok23,
   DotRules.Dot02,
-<<<<<<< HEAD
   DokRules.Dok15Get,DokRules.Dok15ReqBody,
-=======
   DotRules.Dot04,
->>>>>>> develop
   DokRules.Dok19,
   DokRules.Dok01,
   DokRules.Dok17
