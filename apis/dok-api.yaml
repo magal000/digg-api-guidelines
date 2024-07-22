@@ -1,18 +1,17 @@
 openapi: "3.0.0"
 info:
-  version: 1.0.0
-  title: AME
-  termsOfService: http://swagger.io/terms/
-  contact:
-    name: Swagger API Team
-    email: apiteam@swagger.io
-    url: http://swagger.io
+  version: 1.2.0
+  title: RAP-LP
+  description: OpenAPI Specification example to handle Rules for the category []Hypermedia] in the Swedish REST API-profil https://dev.dataportal.se/rest-api-profil
   license:
-    name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0.html
+    name:  EUPL-1.2 license
+externalDocs:
+  #description: "Find out more about the API info text goes here"
+  #url: Url to external documentation
 servers:
-  - url: https://example.com/myapi/v2
+  - url: http://petstore.swagger.io/v1
 paths:
+<<<<<<< HEAD
   /example:
     get:
       summary: Example API with Payload in Headers Allowed
@@ -67,17 +66,68 @@ paths:
                 
 =======
                 $ref: '#/components/schemas/Error'
+=======
+  /pets:
+>>>>>>> develop
     get:
       summary: List all pets
       operationId: listPets
-      description: Retrurn max 100 records
       tags:
         - pets
-      required: false
-        schema:
-          type: integer
-          maximum: 100
-          format: int32
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            maximum: 100
+            format: int32
+      responses:
+        '200':
+          description: A paged array of pets
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Pets"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a pet
+      operationId: createPets
+      tags:
+        - pets
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /pets/{petId}:
+    get:
+      summary: Info for a specific pet
+      operationId: showPetById
+      tags:
+        - pets
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          description: The id of the pet to retrieve
+          schema:
+            type: string
       responses:
         '200':
           description: Expected response to a valid request
@@ -85,46 +135,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pet"
-  /pet/{id}:
-    delete:
-      operationId: deletepetbyid
-      tags:
-        - pets
-      description: delete pet by id
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '204':
-          description: pet deleted
-        '404':
-          description: pet not found
-    put:  # PUT operation for updating a pet
-      summary: Update pet by id
-      description: update pet by id
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-      responses:
-        '200':
-          description: OK
+        default:
+          description: unexpected error
           content:
             application/json:
               schema:
+<<<<<<< HEAD
                 $ref: '#/components/schemas/Pet'
     patch:
       operationId: editTopet
@@ -152,72 +168,42 @@ paths:
 >>>>>>> develop
 
 
+=======
+                $ref: "#/components/schemas/Error"
+>>>>>>> develop
 components:
-  securitySchemes:
-    bearerAuth:     # <-- arbitrary name for the security scheme
-      type: http
-      scheme: bearer
   schemas:
+<<<<<<< HEAD
     Error1:
       examples: test
+=======
+    Pet:
+>>>>>>> develop
       type: object
+      required:
+        - id
+        - name
       properties:
-        "_code":
+        id:
           type: integer
-          format: int32
-        "veryLongcode":
-          type: integer
-          format: int32
-        "verylongmessage":
+          format: int64
+        name:
           type: string
-        "nest_this":
+        tag:
           type: string
-    Error2:
+    Pets:
+      type: array
+      maxItems: 100
+      items:
+        $ref: "#/components/schemas/Pet"
+    Error:
       type: object
+      required:
+        - code
+        - message
       properties:
-        "veryongcode":
+        code:
           type: integer
           format: int32
-        "VeryLongmessage":
+        message:
           type: string
-        "nestthis_":
-          type: string
-        "nes_tthis":
-          type: string
-        "veryongcode":
-          type: integer
-          format: int32
-        "verylongmessage":
-          type: string
-        "nestthis":
-          type: string
-    Error2:
-      type: object
-      properties:
-        "nestthi_sagain":
-          type: integer
-          format: int32
-        "veryongesMaegain":
-          type: string
-        "nesthis":
-          type: string
-        "veryongcodegain":
-          type: integer
-          format: int32
-        "verylongmessage":
-          type: string
-        "nestthis":
-          type: string
-    Error3:
-      type: object
-      properties:
-        "stthisaMgain":
-          type: integer
-          format: int32
-        "veryongs_egain":
-          type: string
-  tags:
-  - name: tag1
-    description: Everything about tag1
-  - name: tag2
-    description: Everything about tag2

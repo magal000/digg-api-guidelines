@@ -31,7 +31,7 @@ const ruleTypes = [
   ArqRules.Arq05ComplexStructure, ArqRules.Arq05NestedStructure, ArqRules.Arq05StringBinary,
   UfnRules.Ufn01,
   UfnRules.Ufn02,
-  UfnRules.Ufn05,
+  UfnRules.Ufn05Servers,UfnRules.Ufn05paths,
   UfnRules.Ufn07,
   UfnRules.Ufn08,
   UfnRules.Ufn09Path, UfnRules.Ufn09Server, UfnRules.Ufn09InPathParameters,
@@ -52,8 +52,14 @@ const ruleTypes = [
   FnsRules.Fns08,
   DokRules.Dok23,
   DotRules.Dot02,
+<<<<<<< HEAD
   DokRules.Dok15Get,DokRules.Dok15ReqBody,
+=======
+  DotRules.Dot04,
+>>>>>>> develop
   DokRules.Dok19,
+  DokRules.Dok01,
+  DokRules.Dok17
 ];
 ruleTypes.forEach((RuleClass) => {
   const instance = new RuleClass();

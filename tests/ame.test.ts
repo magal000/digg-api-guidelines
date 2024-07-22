@@ -460,7 +460,7 @@ testRule("Ame05", [
                   type: "integer",
                   format: "int32",
                 },
-                "_message": {
+                "m-essage": {
                   type: "string",
                 },
               },
@@ -471,7 +471,7 @@ testRule("Ame05", [
       errors: [
         {
           message: "Fältnamn BÖR använda tecken som är alfanumeriska.",
-          path: ["components", "schemas", "Error", "properties","_message"],
+          path: ["components", "schemas", "Error", "properties","m-essage"],
           severity: DiagnosticSeverity.Warning,
         },
       ],

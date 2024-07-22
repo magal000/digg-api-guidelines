@@ -161,7 +161,41 @@ testRule("Dok07", [
   }
   
 ]);
-
+testRule("Dok17", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      swagger: "2.0",
+    },
+    errors: [
+      {
+        message: "API specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification. ( Linter-analysverktyget (RAP-LP) för den nationella REST API-profilen är designat för senaste major versionen av OpenAPI Specification. Använd därför denna för full täckning av de implementerade reglerna. )",
+        path: ["swagger"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "2.1.0",
+    },
+    errors: [
+      {
+        message: "API specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification. ( Linter-analysverktyget (RAP-LP) för den nationella REST API-profilen är designat för senaste major versionen av OpenAPI Specification. Använd därför denna för full täckning av de implementerade reglerna. )",
+        path: ["openapi"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);
 testRule("Dok19", [
   {
     name: "giltigt testfall",
@@ -215,6 +249,42 @@ testRule("Dok19", [
   
 ]);
 
+testRule("Dok01", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      externalDocs: { 
+          description: "API Documentation and specification", 
+          url:"External link to API"
+        }
+      },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      externalDocs: { 
+        //description: "API Documentation and specification", 
+        //url:"External link to API"
+      }
+      },
+    errors: [
+      {
+
+        code: "Dok01",
+        path: ['externalDocs'],
+        message: "I regel BÖR dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);
 testRule("Dok15Get", [
   {
     name: "giltigt testfall",
