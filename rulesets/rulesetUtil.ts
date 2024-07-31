@@ -5,6 +5,20 @@ import { BaseRuleset} from "./BaseRuleset.ts";
 import path from "path";
 const moduleName: string = "UfnRules.ts";
 
+export class Dok03Base extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+  constructor() {
+    super()
+    this.description = "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.";
+  
+    this.severity = DiagnosticSeverity.Warning;
+  }
+
+}
+
 export class Ufn05Base extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -165,4 +179,4 @@ return true;
     return result;
   }
   
-  export default { Arq05Base, Ufn09Base};
+  export default { Arq05Base, Ufn09Base,Dok03Base};

@@ -6,7 +6,7 @@ info:
   contact:
     name: Fredrik
     url: url goes here
-    email: email goes here
+    emaisl: email goes here
 externalDocs:
   description: "Find out more about the API info text goes here"
   url: Url to external documentation

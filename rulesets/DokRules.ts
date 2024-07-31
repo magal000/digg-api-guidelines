@@ -2,6 +2,7 @@ import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, defined } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
+import { Dok03Base } from './rulesetUtil.ts';
 const moduleName: string = "DokRules.ts";
 
 export class Dok17 extends BaseRuleset {
@@ -168,81 +169,21 @@ export class Dok01 extends BaseRuleset {
 ];
   severity = DiagnosticSeverity.Warning; 
 }
-export class Dok03 extends BaseRuleset {
+export class Dok03ContactProperties extends Dok03Base {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
     id: "DOK.03",
   };
-  description = "";
-  message = "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.";
-  given = "$.info";
+  message = this.description+"(Contact saknar email)";
+  given = "$.info.contact";
 
-  then = [{
-      field: "version",
-      function: truthy,
-  },
+  then = [
   {
-      field: "title",
-      function: truthy,
+    field: "email",
+    function: truthy
   },
-  {
-    field: "description",
-    function: truthy,
-  },
-  {
-    function: (targetVal:any, _opts: string, paths:any) => {
-      const result:any[] = [];
-      if(targetVal && !targetVal.hasOwnProperty("contact")){
-        // Det fungerar inte att sätta path på detta sätt. 
-        //Vi får använda oss av fältet description tillsammans med message när förekomst av ett objekt (contact/license) saknas
-        //för att förklara detta
-        console.log("Dont Has own property contact");
-        result.push({
-          path: [...paths.path,"contact"],
-            message: this.message,
-            severity: this.severity
-        });
-      }
-      return result;        
-    }
-  },
-  {
-    function: (targetVal:any, _opts: string, paths:any) => {
-      const result:any[] = [];
-      if(targetVal && !targetVal.hasOwnProperty("license")){
-        console.log("Dont Has own property license");
-        // Det fungerar inte att sätta path på detta sätt. 
-        //Vi får använda oss av fältet description tillsammans med message när förekomst av ett objekt (contact/license) saknas
-        //för att förklara detta
-        result.push({
-          path: [...paths.path,"license"],
-            message: this.message,
-            severity: this.severity
-        });
-      }
-      return result;        
-    }
-  },
-  {
-    field: "contact.name",
-    function: truthy,
-  },
-  {
-    field: "contact.url",
-    function: truthy,
-  },
-  {
-    field: "contact.email",
-    function: truthy,
-  },
-  {
-    field: "license.name",
-    function: truthy,
-  },
-  {
-    field: "license.url",
-    function: truthy,
-  },
+
+  
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
       this.trackRuleExecutionHandler(
@@ -252,11 +193,55 @@ export class Dok03 extends BaseRuleset {
         this.severity,
         this.constructor.name,
         moduleName,
-        Dok03.customProperties
+        Dok03ContactProperties.customProperties
       );
     },
   }];
   severity = DiagnosticSeverity.Warning;
+}
+
+export class Dok03Contact extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+  message = this.description+"Saknar contact objektet)";
+  given = "$.info";
+
+  then = [
+  {
+    function: (targetVal:any, _opts: string, paths:any) => {
+      const result:any[] = [];
+      console.log("!!!!!!!!!!!")
+      if(!targetVal.hasOwnProperty("contact")){
+        // Det fungerar inte att sätta path på detta sätt. 
+        //Vi får använda oss av fältet description tillsammans med message när förekomst av ett objekt (contact/license) saknas
+        //för att förklara detta
+
+        result.push({
+          path: [...paths.path],
+            message: this.message,
+            severity: this.severity
+        });
+      }
+      return result;        
+    }
+  },
+
+  
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(
+        JSON.stringify(targetVal, null, 2),
+        _opts,
+        paths,
+        this.severity,
+        this.constructor.name,
+        moduleName,
+        Dok03Contact.customProperties
+      );
+    },
+  }];
 }
 
 /*
@@ -365,4 +350,4 @@ export class Dok03 extends BaseRuleset {
  severity = DiagnosticSeverity.Error;
 }
 */
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01, Dok03};
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01, Dok03Contact};
