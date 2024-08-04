@@ -3,6 +3,7 @@ import { BaseRuleset} from "./BaseRuleset.ts"
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, defined } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { Dok03Base } from './rulesetUtil.ts';
+import path from 'path';
 const moduleName: string = "DokRules.ts";
 
 export class Dok17 extends BaseRuleset {
@@ -169,20 +170,73 @@ export class Dok01 extends BaseRuleset {
 ];
   severity = DiagnosticSeverity.Warning; 
 }
-export class Dok03ContactProperties extends Dok03Base {
+
+/**
+ * Dok03Info 
+ */
+export class Dok03Info extends Dok03Base {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
     id: "DOK.03",
   };
-  message = this.description+"(Contact saknar email)";
+  given = "$"
+  message = this.description + "[ info objektet bör ha title, version , description, termsOfService, contact , license ]";
+  then = [
+    {
+      function:(targetVal, _opts, paths) => {
+        
+        let obj:any = [];
+        if (targetVal.hasOwnProperty('info')) {
+          {
+            
+              this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+              this.constructor.name, moduleName,Dok03Info.customProperties);
+            
+          }
+          obj =  targetVal['info'];
+          if(obj === null) {
+            return [
+              {
+                path: ['info'],
+                message: this.message,
+                severity: this.severity
+              }
+            ]
+          }
+          if(obj.hasOwnProperty('description') && obj.hasOwnProperty('title') && obj.hasOwnProperty('termsOfService') 
+            && obj.hasOwnProperty('version') && obj.hasOwnProperty('license') && obj.hasOwnProperty('contact')){
+              return [];
+          } else {
+              return [
+                      {
+                        path: ['info'],
+                        message: this.message,
+                        severity: this.severity
+                      }
+                    ]
+                  }
+        }          
+    }         
+  },
+     
+];
+  severity = DiagnosticSeverity.Warning; 
+}
+
+
+export class Dok03ContactName extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+  message = this.description+"(Contact saknar name)";
   given = "$.info.contact";
 
   then = [
   {
-    field: "email",
+    field: "name",
     function: truthy
   },
-
   
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
@@ -193,32 +247,88 @@ export class Dok03ContactProperties extends Dok03Base {
         this.severity,
         this.constructor.name,
         moduleName,
-        Dok03ContactProperties.customProperties
+        Dok03ContactName.customProperties
       );
     },
   }];
   severity = DiagnosticSeverity.Warning;
 }
 
+export class Dok03ContactEmail extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+  message = this.description + "(Contact saknar email)";
+  given = "$.info.contact";
+
+  then = [
+  {
+    field: "email",
+    function: truthy
+  },
+  
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(
+        JSON.stringify(targetVal, null, 2),
+        _opts,
+        paths,
+        this.severity,
+        this.constructor.name,
+        moduleName,
+        Dok03ContactName.customProperties
+      );
+    },
+  }];
+  severity = DiagnosticSeverity.Warning;
+}
+
+export class Dok03ContactUrl extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+  message = this.description+"(Contact saknar url)";
+  given = "$.info.contact";
+
+  then = [
+  {
+    field: "url",
+    function: truthy
+  },
+  
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(
+        JSON.stringify(targetVal, null, 2),
+        _opts,
+        paths,
+        this.severity,
+        this.constructor.name,
+        moduleName,
+        Dok03ContactUrl.customProperties
+      );
+    },
+  }];
+  severity = DiagnosticSeverity.Warning;
+}
+
+
 export class Dok03Contact extends Dok03Base {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
     id: "DOK.03",
   };
-  message = this.description+"Saknar contact objektet)";
+  message = this.description+"(Saknar contact objektet)";
   given = "$.info";
 
   then = [
   {
     function: (targetVal:any, _opts: string, paths:any) => {
       const result:any[] = [];
-      console.log("!!!!!!!!!!!")
       if(!targetVal.hasOwnProperty("contact")){
-        // Det fungerar inte att sätta path på detta sätt. 
-        //Vi får använda oss av fältet description tillsammans med message när förekomst av ett objekt (contact/license) saknas
-        //för att förklara detta
-
-        result.push({
+      result.push({
           path: [...paths.path],
             message: this.message,
             severity: this.severity
@@ -244,110 +354,65 @@ export class Dok03Contact extends Dok03Base {
   }];
 }
 
-/*
-export class Dok03 extends BaseRuleset {
+
+export class Dok03LicenseUrl extends Dok03Base {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
     id: "DOK.03",
   };
-  description = "Dokumentationen för ett API SKALL (DOK.03) innehålla följande";
-  message =  this.description + "nfo ,title, description ,contact ,email ,license, url: version";
-  given = "$";
-  then = [{
-  function:(targetVal, _opts, paths) => {
-        let info:any = [];
-        const url:string = 'url';
-        const email:string = 'email';
-        const name:string = 'name';
-  
-        if (targetVal.hasOwnProperty('info')) {   
-          this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-          this.constructor.name, moduleName,Dok03.customProperties);
-                
-          info = targetVal['info']
-          if(info['version'] && info['title'] && info['description'] && info['contact'] && info['license']) {
-            
-            const license = info['license']
-            
-         if(license === null) {
-            return [{
-              path: ['info', 'license'],
-              message: this.message,
-              severity: this.severity
-            }]
-           } else {
-                  if(!license.hasOwnProperty('name') || !license.hasOwnProperty('url')){
-                  return [ {
-                    path: ['info' , 'license'],
-                    message: this.message,
-                    severity: this.severity
-                  }]              
-                
-              }
-              }
-        
-          const contact = info['contact']   
-          console.log("contact ==" , contact)
-          if(contact===null) {
-          return [{
-              path: ['info', 'contact' ],
-              message: this.message,
-              severity: this.severity
-            }]
-                     
-          } else {
-            const contactKeys = Object.keys(contact);
-            console.log("contactKeys object" ,contactKeys)
-            for(let i=0; i<contactKeys.length; i++){
-              console.log("i == " + i + " " + contact.hasOwnProperty(name));
-              if(!contact.hasOwnProperty(name)){
-                return [ {
-                  path: ['info', 'contact' ,i,  name],
-                  message: this.message,
-                  severity: this.severity
-                }] 
-              }
-              if(!contact.hasOwnProperty(email)){
-                return [ {
-                  path: ['info', 'contact' ,i,  email],
-                  message: this.message,
-                  severity: this.severity
-                }] 
-              }
+   message = this.description+"(license saknar url)";
+   given = "$.info.license";
 
-              if(!contact.hasOwnProperty(url)){
-                return [ {
-                  path: ['info', 'contact' ,i,  url],
-                  message: this.message,
-                  severity: this.severity
-                }] 
-              }
+   then = [
+    {
+      field: "url",
+      function: truthy
+    },
 
-            }
-         
-        }
-      
-  
-      } else{
-   
-        return [{
-          path: [targetVal ],
-          message: this.message,
-          severity: this.severity
-        }]
-      }     
-    } }
-  },
-      
-  
-  {
+    {
     function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-        this.severity, this.constructor.name, moduleName, Dok03.customProperties);
-    }
-  }
-  ];
- severity = DiagnosticSeverity.Error;
+      this.trackRuleExecutionHandler(
+        JSON.stringify(targetVal, null, 2),
+        _opts,
+        paths,
+        this.severity,
+        this.constructor.name,
+        moduleName,
+        Dok03LicenseUrl.customProperties
+      );
+    },
+  }];
 }
-*/
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01, Dok03Contact};
+
+export class Dok03LicenseName extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+   message = this.description+"(license saknar name)";
+   given = "$.info.license";
+
+   then = [
+    {
+      field: "name",
+      function: truthy
+    },
+
+    {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(
+        JSON.stringify(targetVal, null, 2),
+        _opts,
+        paths,
+        this.severity,
+        this.constructor.name,
+        moduleName,
+        Dok03LicenseUrl.customProperties
+      );
+    },
+  }];
+}
+
+
+
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01, Dok03Info, Dok03Contact,Dok03ContactEmail, Dok03ContactName, Dok03ContactUrl, Dok03LicenseUrl,Dok03LicenseName,};
