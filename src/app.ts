@@ -18,8 +18,13 @@ import { importAndCreateRuleInstances, getRuleModules } from "./util/ruleUtil.ts
 import util from 'util';
 import {RapLPCustomSpectral} from "./util/RapLPCustomSpectral.ts";
 import {DiagnosticReport, RapLPDiagnostic} from "./util/RapLPDiagnostic.ts";
+import {AggregateError} from "./util/RapLPCustomErrorInfo.ts";
 import chalk from 'chalk';
 
+declare var AggregateError: {
+  prototype: AggregateError;
+  new(errors: any[], message?: string): AggregateError;
+};
 const { Spectral, Document } = spectralCore;
 const writeFileAsync = util.promisify(fs.writeFile);
 const appendFileAsync = util.promisify(fs.appendFile);
@@ -197,4 +202,11 @@ function logErrorToFile(error: any) {
     const detailedMessage = `${new Date().toISOString()} - ${JSON.stringify(error.errors, null, 2)}\n`;
     fs.appendFileSync('rap-lp-error.log', detailedMessage);
   }
+  if (error instanceof AggregateError) {
+    error.errors.forEach((err: any, index: number) => {
+      const causeMessage = `Cause ${index + 1}: ${err.stack || err}\n`;
+      fs.appendFileSync('rap-lp-error.log', causeMessage);
+    });
+  }
 }
+
