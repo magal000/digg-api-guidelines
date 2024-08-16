@@ -64,7 +64,7 @@ export class Arq03 extends BaseRuleset {
     område: "API Request",
     id: "ARQ.03",
   };
-  description = "Alla API:er BÖR supportera följande request headers: Accept, Accept-Charset, Date, Cache-Control, ETag, Connection och Cookie.";
+  description = "Alla API:er BÖR supportera följande request headers: Accept, Date, Cache-Control, ETag, Connection och Cookie.";
   message = this.description;
   given = "$.paths.*.*";
   then = {

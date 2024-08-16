@@ -298,7 +298,7 @@ testRule("Arq03", [
     errors: [
       {
         message:
-          "Alla API:er BÖR supportera följande request headers: Accept, Accept-Charset, Date, Cache-Control, ETag, Connection och Cookie.",
+        "Alla API:er BÖR supportera följande request headers: Accept, Date, Cache-Control, ETag, Connection och Cookie.",
         severity: DiagnosticSeverity.Warning,
       },
     ],
