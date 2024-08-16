@@ -62,8 +62,8 @@ export class Arq01 extends BaseRuleset {
     område: "API Request",
     id: "ARQ.01",
   };
-  description = "Ett API request BÖR skickas i UTF-8 format";
-  message = "Ett API request BÖR skickas i UTF-8 format";
+  description = "Ett request BÖR skickas i UTF-8";
+  message = "Ett request BÖR skickas i UTF-8";
   given = "$.paths[*][*].requestBody.content";
   then = {
     function: schema,
