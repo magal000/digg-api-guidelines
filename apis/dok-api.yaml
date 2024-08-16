@@ -11,64 +11,7 @@ externalDocs:
 servers:
   - url: http://petstore.swagger.io/v1
 paths:
-<<<<<<< HEAD
-  /example:
-    get:
-      summary: Example API with Payload in Headers Allowed
-      description: For testing
-      operationId: exampleRequest
-      tags:
-        [tag1, tag2]
-      responses:
-        '200':
-          description: example response
-          content:
-            application/json; charset=utf-8:    
-              schema:
-                examples: dsa
-                
-               
-  /example2:
-    post:
-      summary: Example API with Payload in Headers Allowed
-      description: For testing
-      operationId: exampleRequest2
-      tags:
-        - tag1
-        - tag2
-      requestBody:
-        required: true
-        content:
-          application/json; charset=utf-8:
-            examples: tre
-            schema:
-
-              type: object
-              properties:
-                data:
-                  type: integer
-          application/json:
-            exampsles: tre
-            schema:           
-              type: object
-              properties:
-                data:
-                  type: integer
-      responses:
-        '200':
-          description: 
-          content:
-            exampels: två
-            text/plain:
-              schema:
-<<<<<<< HEAD
-                $ref: '#/components/schemas/Error1'
-                
-=======
-                $ref: '#/components/schemas/Error'
-=======
   /pets:
->>>>>>> develop
     get:
       summary: List all pets
       operationId: listPets
@@ -140,45 +83,10 @@ paths:
           content:
             application/json:
               schema:
-<<<<<<< HEAD
-                $ref: '#/components/schemas/Pet'
-    patch:
-      operationId: editTopet
-      tags:
-        - pet
-      description: edit pet with provided id
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-      responses:
-        204:
-          description: pet edited successfully
-        404:
-          description: pet not found
->>>>>>> develop
-
-
-=======
                 $ref: "#/components/schemas/Error"
->>>>>>> develop
 components:
   schemas:
-<<<<<<< HEAD
-    Error1:
-      examples: test
-=======
     Pet:
->>>>>>> develop
       type: object
       required:
         - id
@@ -196,6 +104,8 @@ components:
       maxItems: 100
       items:
         $ref: "#/components/schemas/Pet"
+      examples: 
+        - code
     Error:
       type: object
       required:
