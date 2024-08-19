@@ -4,8 +4,8 @@ import { DiagnosticSeverity } from "@stoplight/types";
 
 
 export class Fns01 implements RulesetInterface {
-    description = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase";
-    message = "{{property}}--> Parameternamn SKALL anges med en konsekvent namnkonvention exempelvis antingen snake_case eller camelCase";
+    description = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase.";
+    message = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase.";
     given = "$.paths.*.*.parameters[?(@.in=='query')].name";
     then = {
       function: pattern,

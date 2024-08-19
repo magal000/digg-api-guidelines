@@ -48,7 +48,7 @@ testRule("Fns01", [
     errors: [
       {
         message:
-          "name--> Parameternamn SKALL anges med en konsekvent namnkonvention exempelvis antingen snake_case eller camelCase",
+          "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase.",
         path: ["paths", "/foo", "get", "parameters", "0","name"],
         severity: DiagnosticSeverity.Error,
       },
@@ -100,7 +100,7 @@ testRule("Fns01", [
     errors: [
       {
         message:
-          "name--> Parameternamn SKALL anges med en konsekvent namnkonvention exempelvis antingen snake_case eller camelCase",
+          "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase.",
         path: ["paths", "/foo", "get", "parameters", "0","name"],
         severity: DiagnosticSeverity.Error,
       },
