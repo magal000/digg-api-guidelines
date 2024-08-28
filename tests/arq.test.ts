@@ -249,7 +249,7 @@ testRule("Arq05ComplexStructure", [
       errors: [
         {
           message:
-            "Ett API request BÖR skickas i UTF-8 format",
+            "Ett request BÖR skickas i UTF-8",
           path: ["paths", "/", "get", "requestBody", "content"],
           severity: DiagnosticSeverity.Warning,
         },

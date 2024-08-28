@@ -1,8 +1,5 @@
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, casing } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
-import { BaseRuleset} from "./BaseRuleset.ts";
-const moduleName: string = "FnsRules.ts";
 
 export class Fns01 extends BaseRuleset {
   static customProperties: CustomProperties = {
