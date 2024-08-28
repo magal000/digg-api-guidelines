@@ -58,20 +58,35 @@ export class Dok15Base extends BaseRuleset {
     this.message = "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.";
     this.severity = DiagnosticSeverity.Error;
     this.description = '';
-    this.then = [
-      {
-        field: "examples",
-        function: truthy,
-      },
-      {
-        function: (targetVal: string, _opts: string, paths: string[]) => {
-          console.log(targetVal)
-          
-          this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-            this.severity, this.constructor.name, moduleName, Dok15Base.customProperties);
+
+    
+    }
+    protected get messageValue(): string {
+      return this.message;
+    }  
+    protected test(targetVal: any, _opts: string, paths: string[]){
+      
+        let result:any = []
+        let hasExample = false;
+        const pattern:RegExp = /^example(?:s$|$)/;
+        for(let propertie in targetVal){
+          if(pattern.test(propertie)){
+            hasExample = true;
+            
+          }
         }
-      }
-    ];
+        console.log(hasExample)
+        if(hasExample == false){
+          result.push({
+            message: this.message,
+            severity: this.severity
+         })
+         
+        }
+        
+        return result
+        
+      
     }
 
 }

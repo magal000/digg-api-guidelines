@@ -38,12 +38,14 @@ paths:
             application/json:    
               schema:
                 $ref: "#/components/schemas/Pets"
+              examples: ""
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+              example: 
     post:
       summary: Create a pet
       operationId: createPets
@@ -58,6 +60,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+              examples: ""
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+            examples:   # Sample object
+              id: 10
+              name: Jessica Smith
   /pets/{petId}:
     get:
       summary: Info for a specific pet
@@ -78,12 +94,28 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pet"
+              example: ""
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+              example:
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+            examples:   # Sample object
+              id: 10
+              name: Jessica Smith
+
 components:
   schemas:
     Pet:
@@ -104,8 +136,6 @@ components:
       maxItems: 100
       items:
         $ref: "#/components/schemas/Pet"
-      examples: 
-        - code
     Error:
       type: object
       required:

@@ -308,9 +308,7 @@ testRule("Dok15Get", [
               description: "test",
               content: {
                 'application/json':{
-                  schema: {
-                    examples: "s"
-                  }
+                  examples: "s"
                 }
               }
             }
@@ -348,9 +346,7 @@ testRule("Dok15Get", [
               description: "",
               content: {
                 "application/json":{
-                  schema: {
-                    test: "ds"
-                  }
+                  test: "ds"
                 }
               }
 
@@ -370,15 +366,15 @@ testRule("Dok15Get", [
       {
         code: "Dok15Get",
         message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.",
-        path: ["paths", "/Dettacase", "get", "responses", "200", "content","application/json","schema"],
+        path: ["paths", "/Dettacase", "get", "responses", "200", "content","application/json"],
         severity: DiagnosticSeverity.Error,
         range: {"start": {
             "line": 0,
-            "character": 319
+            "character": 309
           },
           "end": {
             "line": 0,
-            "character": 331
+            "character": 321
           }
         }
       },

@@ -7,10 +7,23 @@ import { Dok15Base } from "./rulesetUtil.ts";
 const moduleName: string = "DokRules.ts";
 
 export class Dok15Get extends Dok15Base {
-  given = '$.paths[*][*].responses[*].content.application/json.schema';
+  given = '$.paths[*][*].responses[*].content.application/json';
+  then = [{
+    function: (targetVal: any, _opts: string, paths: string[])=> {
+      return super.test(targetVal, _opts, paths)
+    }
+  }
+  ]
+  
 }
 export class Dok15ReqBody extends Dok15Base {
   given = '$.paths[*][?(@ != "get")].requestBody.content.application/json';
+  then = [{
+    function: (targetVal: any, _opts: string, paths: string[])=> {
+      return super.test(targetVal, _opts, paths)
+    }
+  }
+  ]
 }
 
 export class Dok17 extends BaseRuleset {
