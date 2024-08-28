@@ -12,8 +12,13 @@ export class Dok15Get extends Dok15Base {
     function: (targetVal: any, _opts: string, paths: string[])=> {
       return super.test(targetVal, _opts, paths)
     }
-  }
-  ]
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Dok15Base.customProperties);
+    }
+  }]
   
 }
 export class Dok15ReqBody extends Dok15Base {
@@ -22,8 +27,13 @@ export class Dok15ReqBody extends Dok15Base {
     function: (targetVal: any, _opts: string, paths: string[])=> {
       return super.test(targetVal, _opts, paths)
     }
-  }
-  ]
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Dok15Base.customProperties);
+    }
+  }]
 }
 
 export class Dok17 extends BaseRuleset {
