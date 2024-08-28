@@ -65,8 +65,8 @@ export class Dok15Base extends BaseRuleset {
       return this.message;
     }  
     protected test(targetVal: any, _opts: string, paths: string[]){
-      
-        let result:any = []
+        
+        let result:any = [];
         let hasExample = false;
         const pattern:RegExp = /^example(?:s$|$)/;
         for(let propertie in targetVal){
@@ -75,7 +75,6 @@ export class Dok15Base extends BaseRuleset {
             
           }
         }
-        console.log(hasExample)
         if(hasExample == false){
           result.push({
             message: this.message,
@@ -84,7 +83,7 @@ export class Dok15Base extends BaseRuleset {
          
         }
         
-        return result
+        return result;
         
       
     }
