@@ -6,5 +6,5 @@ export interface RulesetInterface {
     category?: string;
     function?:() => any;
     description?:string;
-    format?:string;
+    formats?:any[];
 }

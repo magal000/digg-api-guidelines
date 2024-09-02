@@ -1,9 +1,9 @@
-import { casing, truthy, falsy, undefined as undefinedFunc, pattern, schema,CasingOptions } from "@stoplight/spectral-functions";
+import { undefined as undefinedFunc, pattern} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import { oas3 } from "@stoplight/spectral-formats";
 import { parsePropertyNames } from "./rulesetUtil.ts";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
+
 const moduleName: string = "AmeRules.ts";
 
 enum CasingType {
@@ -29,14 +29,20 @@ export class Ame07 extends BaseRuleset {
   description = "Fältnamn BÖR använda tecken som är alfanumeriska.";
   message = "Fältnamn BÖR använda tecken som är alfanumeriska.";
   given = "$.components.schemas..properties[*]~";
-  then = {
-    function: pattern,
-    functionOptions: {
-      match: "^[a-zA-Z0-9]+$"
-    }
-  }
-  formats = [oas3];
-  severity = DiagnosticSeverity.Warning;
+  then = [{
+      function: pattern,
+      functionOptions: {
+        match: "^[a-zA-Z0-9_]+$"
+      }
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Ame07.customProperties);
+      }
+    }];
+    formats = [this.formats.oas3];
+    severity = DiagnosticSeverity.Warning;
 }
 
 export class Ame04 extends BaseRuleset {
@@ -47,14 +53,19 @@ export class Ame04 extends BaseRuleset {
   description = "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.";
   message = "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.";
   given = "$.components.schemas..properties[*]~";
-  then = 
-    {
+  then =[{
       function: pattern,
       functionOptions: {
         match: '^(?:[a-z]+(?:_[a-z]+)*|[a-z]+(?:[A-Z][a-z]*)*)$',
       }
-    }
-  formats = [oas3];
+  },
+  {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Ame04.customProperties);
+      },
+  }];
+  formats = [this.formats.oas3];
   severity = DiagnosticSeverity.Warning;
 }
 export class Ame01 extends BaseRuleset {
@@ -90,10 +101,9 @@ export class Ame01 extends BaseRuleset {
       this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
       this.constructor.name, moduleName,Ame01.customProperties);
     },
-  }
-];
-formats = [oas3];
-severity = DiagnosticSeverity.Warning;
+  }];
+  formats = [this.formats.oas3];
+  severity = DiagnosticSeverity.Warning;
 }
 
 export class Ame02 extends BaseRuleset {
@@ -131,9 +141,8 @@ export class Ame02 extends BaseRuleset {
       this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
       this.constructor.name, moduleName,Ame02.customProperties);
     }
-  }
-];
-  formats = [oas3];
+  }];
+  formats = [this.formats.oas3];
   severity = DiagnosticSeverity.Warning;
 }
 export class Ame05 extends BaseRuleset {
@@ -142,10 +151,9 @@ export class Ame05 extends BaseRuleset {
     id: "AME.05",
   };
   description = "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.";
-  message = "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.";
+  message = "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case. ";
   given = "$.components.schemas";
-  then = 
-    {
+  then = [{
       function: (targetVal: string, _opts: string, paths) => {
 
           const result:any = [];
@@ -194,9 +202,13 @@ export class Ame05 extends BaseRuleset {
           }          
           return result;
       }
-    }  
-    formats = [oas3];
-    severity = DiagnosticSeverity.Error;
+  },  
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+      this.constructor.name, moduleName,Ame05.customProperties);
+    }
+  }];
     /**
      * Search a dictionary for possbile vialoations.
      * Rule is you cant mix casing types[snake/camel] within the same schemaObject
@@ -233,6 +245,7 @@ export class Ame05 extends BaseRuleset {
       }
       return Array.from(invalidEntries)
     }
-}
+    formats = [this.formats.oas3];
+    severity = DiagnosticSeverity.Error;
+  }
 export default { Ame01, Ame02,Ame05, Ame04, Ame07 };
-

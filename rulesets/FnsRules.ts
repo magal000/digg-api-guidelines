@@ -1,7 +1,8 @@
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, casing } from "@stoplight/spectral-functions";
+import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
+
 const moduleName: string = "FnsRules.ts";
 
 export class Fns01 extends BaseRuleset {
@@ -9,8 +10,8 @@ export class Fns01 extends BaseRuleset {
     område: "Filtrering, paginering och sökparametrar",
     id: "FNS.01",
   };
-  description = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase.";
-  message = "Parameternamn SKALL anges med en konsekvent namnkonvention exempelvis antingen snake_case eller camelCase";
+  description = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase";
+  message = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase";
   given = "$.paths.*.*.parameters[?(@.in=='query')].name";
   then = [{
       function: pattern,
@@ -60,28 +61,33 @@ export class Fns09 extends BaseRuleset {
   description = "Defaultvärde för limit BÖR vara 20";
   message = "Defaultvärde för limit BÖR vara 20";
   given = "$.paths..parameters";
+  severity = DiagnosticSeverity.Warning;
   then = [{
-    function: (targetVal, _opts, paths) => {
+    function: (targetVal: any,_opts: string, paths: string[]) => {
 
       let isValid = true;
-      targetVal.forEach(function (item, index) {
-        if (item["in"] == "query" &&
-          (item["name"] == "page" || item["name"] == "offset")) {
-
-          // check for existense of 'limit' parameter
-          const limit = targetVal.find(param => param.name === 'limit');
-          if (limit) {
-            if (limit.schema.default != 20) {
-              isValid = false;
-            } else {
-              isValid = true;
+      let hasChecked = false;
+      
+      if (Array.isArray(targetVal)) {
+        targetVal.forEach((item) => {
+          if (item["in"] == "query" &&
+            (item["name"] == "page" || item["name"] == "offset")) {
+            // check for existense of 'limit' parameter
+            const limit = targetVal.find(param => param.name === 'limit');
+            if (limit) {
+              isValid = limit.schema.default === 20;
             }
-          } else {
-            isValid = true;
+            /**
+             * Track ruleexecution
+             */
+            if (!hasChecked) {
+              this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+              this.constructor.name, moduleName,Fns09.customProperties);            
+              hasChecked = true;
+            }
           }
-        }
-      });
-
+        });
+      }
       if (!isValid) {
         return [
           {
@@ -93,15 +99,8 @@ export class Fns09 extends BaseRuleset {
          return []
       }
     }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Fns09.customProperties);
-    }
   }
 ];
-  severity = DiagnosticSeverity.Warning;
 }
 export class Fns05 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -173,22 +172,30 @@ export class Fns07 extends BaseRuleset {
       let hasPage = false;
       let hasOffset = false;
 
-      targetVal.forEach(function (parameter, index) {
-        if (parameter["in"] == "query") {
-          if (parameter["name"] == "page") {
-            hasPage = true;
+      if (Array.isArray(targetVal)) {
+        targetVal.forEach(function (parameter, index) {
+  
+          if (parameter["in"] == "query") {
+            if (parameter["name"] == "page") {
+              hasPage = true;
+            }
+            if (parameter["name"] == "offset") {
+              hasOffset = true;
+            }
+            if (parameter["name"] == "limit") {
+              hasLimit = true;
+            }
           }
-          if (parameter["name"] == "offset") {
-            hasOffset = true;
-          }
-          if (parameter["name"] == "limit") {
-            hasLimit = true;
-          }
+        });
+        if (( hasPage || hasOffset) ) { 
+          this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+          this.constructor.name, moduleName,Fns07.customProperties);
         }
-      });
-      if (( hasPage || hasOffset) && !hasLimit ) {
-        isValid = false;
-      }
+  
+        if (( hasPage || hasOffset) && !hasLimit ) {
+          isValid = false;
+        }
+       }
       if (isValid) {
         return [];
       } else {
@@ -201,12 +208,6 @@ export class Fns07 extends BaseRuleset {
       }
     }
   },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Fns07.customProperties);
-    }
-  }
 ];
   severity = DiagnosticSeverity.Error;
 }
@@ -228,23 +229,27 @@ export class Fns08 extends BaseRuleset {
       let hasLimit = false;
       let hasPage = false;
 
-      targetVal.forEach(function (parameter, index) {
-        if (parameter["in"] == "query") {
-
-          if (parameter["name"] == "page") {
-            hasPage = true;
-            pageDefaultValue = parameter["schema"]["default"];
+      if (Array.isArray(targetVal)) {
+        targetVal.forEach(function (parameter, index) {
+          if (parameter["in"] == "query") {
+            if (parameter["name"] == "page") {
+              hasPage = true;
+              pageDefaultValue = parameter.hasOwnProperty("schema")? parameter["schema"]["default"]: pageDefaultValue
+            }
+            if (parameter["name"] == "limit") {
+              hasLimit = true;
+            }
           }
-          if (parameter["name"] == "limit") {
-            hasLimit = true;
-          }
+        });
+        if (hasPage && hasLimit) {
+          /**
+           * Track ruleexecution
+           */
+          this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+          this.constructor.name, moduleName,Fns08.customProperties);
+          isValidDefaultValue = (pageDefaultValue == 1);
         }
-      });
-
-      if (hasPage && hasLimit) {
-        isValidDefaultValue = (pageDefaultValue == 1);
-      }
-
+      } 
       if (isValidDefaultValue) {
         return [];
       } else {
@@ -255,12 +260,6 @@ export class Fns08 extends BaseRuleset {
            },
         ]
       }
-    }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Fns08.customProperties);
     }
   }
 ];

@@ -9,7 +9,7 @@ testRule("Sak09", [
         info: { version: "1.0" },
         components: {
           securitySchemes: {
-            "något-annat": {
+            "bearerAuth": {
               type: "http",
               scheme: "bearer",
             },
@@ -40,6 +40,28 @@ testRule("Sak09", [
         },
       ],
     },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          securitySchemes: {
+            "digestAuth": {
+              type: "http",
+              scheme: "digest",
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message: "Basic- eller Digest-autentisering SKALL INTE användas.",
+          path: ["components", "securitySchemes", "digestAuth", "scheme"],
+          severity: DiagnosticSeverity.Error,
+        },
+      ],
+    }
   ]);
   testRule("Sak10", [
     {

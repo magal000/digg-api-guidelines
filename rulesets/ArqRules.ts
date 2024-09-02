@@ -1,11 +1,10 @@
 import { Arq05Base } from "./rulesetUtil.ts";
 import { schema} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
-import { oas3 } from "@stoplight/spectral-formats";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
-const moduleName: string = "ArqRules.ts";
 
+const moduleName: string = "ArqRules.ts";
 
 export class Arq05NestedStructure extends Arq05Base {
   description ="Om en header använder nästlade strukturer, är en requestbody mer lämplig.";
@@ -86,8 +85,8 @@ export class Arq01 extends BaseRuleset {
     område: "API Request",
     id: "ARQ.01",
   };
-  description = "Ett API request BÖR skickas i UTF-8 format";
-  message = "Ett API request BÖR skickas i UTF-8 format";
+  description = "Ett request BÖR skickas i UTF-8";
+  message = "Ett request BÖR skickas i UTF-8";
   given = "$.paths[*][*].requestBody.content";
   then = [{
     function: schema,
@@ -106,9 +105,8 @@ export class Arq01 extends BaseRuleset {
         return this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
         this.severity,this.constructor.name, moduleName,Arq01.customProperties);
       }
-  }
-];
-  formats = [oas3];
+  }];
+  formats = [this.formats.oas3];
   severity = DiagnosticSeverity.Warning;
 }
 export class Arq03 extends BaseRuleset {

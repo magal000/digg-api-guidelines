@@ -4,6 +4,21 @@ import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
 const moduleName: string = "UfnRules.ts";
 
+export class Ufn05Base extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.05",
+  };
+  constructor() {
+    super();
+    this.message = "En URL BÖR INTE vara längre än 2048 tecken.";
+    this.severity = DiagnosticSeverity.Warning;
+    this.description = "En URL BÖR INTE vara längre än 2048 tecken.";
+    }
+  static baseurls:any = [];
+  static paths:any = [];
+
+}
 
 export class Ufn09Base extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -39,7 +54,7 @@ export class Arq05Base extends BaseRuleset {
     constructor() {
       super();
       this.given = "$.paths.*.*.parameters[?(@.in=='header' && @.schema)]";
-      this.message = "Payload data SKALL INTE användas i HTTP-headers.";
+      this.message = "Payload data SKALL INTE användas i HTTP-headers";
       this.severity = DiagnosticSeverity.Warning;
       this.description = '';
       }
