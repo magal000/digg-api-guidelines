@@ -1,12 +1,15 @@
 import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./util/helperTest.ts";
 
-testRule("Ufn09", [
+testRule("Ufn09Path", [
     {
         name: "giltigt testfall",
         document: {
           openapi: "3.1.0",
           info: { version: "1.0" },
+          servers: [
+            {url:"https://test.se/v1/dsa"}
+          ],
           paths: { "/this-is-kebab-case": {} },
         },
         errors: [],
@@ -16,6 +19,9 @@ testRule("Ufn09", [
         document: {
           openapi: "3.1.0",
           info: { version: "1.0" },
+          servers: [
+            {url:"https://test.se/v1/dsa"}
+          ],
           paths: { "/Detta_e_snake_case": {} },
         },
         errors: [
@@ -27,7 +33,101 @@ testRule("Ufn09", [
           }
         ],
       },
+      
 ]);
+
+testRule("Ufn09Server", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1/dsa"}
+        ],
+        paths: { "/this-is-kebab-case": {} },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall - understreck i server url",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1_/dsa"}
+        ],
+        paths: { "/Dettacase": {} },
+      },
+      errors: [
+        {
+          message:
+            "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
+          path: ["servers", "0","url"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    
+]);
+testRule("Ufn09InPathParameters", [
+  {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1/dsa"}
+        ],
+        paths: { "/this-is-kebab-case": {
+          get: {
+            description: "Ogiltigt testfall av CamelCase",
+            parameters: [
+              {
+                name: "VeryLongName",
+                in: "path",
+                required: false,
+              },
+            ],
+          },
+        } },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall - understreck i server url",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        servers: [
+          {url:"https://test.se/v1_/dsa"}
+        ],
+        paths: { "/Dettacase": {
+          get: {
+            description: "Ogiltigt testfall av CamelCase",
+            parameters: [
+              {
+                name: "Very_LongName",
+                in: "path",
+                required: false,
+              },
+            ],
+          },
+        } },
+      },
+      errors: [
+        {
+          message:
+            "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.",
+          path: ["paths", "/Dettacase","get","parameters","0","name"],
+          severity: DiagnosticSeverity.Error,
+        }
+      ],
+    },
+    
+]);
+
+
 
 testRule("Ufn07", [
   {
@@ -39,7 +139,7 @@ testRule("Ufn07", [
           { url: "http://api.example.com" },
           { url: "http://api.example.com" }
         ],
-        paths: { "/abcdefghijklmnopqrstuvxyz-._~": {} },
+        paths: { "/abcdefghijklmnopqrstuvxyz-.~": {} },
       },
       errors: [],
     },
@@ -53,7 +153,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -68,7 +168,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -86,7 +186,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -104,7 +204,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\", \"_\" samt \"~\", se vidare i RFC 3986).',
+          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -210,49 +310,6 @@ testRule("Ufn08", [
     ],
   },
 ]);
-testRule("Ufn06", [
-  {
-      name: "giltigt testfall",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/this-is-not/{an_upper_case_url}": {} },
-      },
-      errors: [],
-    },
-    {
-      name: "ogiltigt testfall - upper case",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/This-IsAn_UpperCaseUrl": {} },
-      },
-      errors: [
-        {
-          message:
-            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
-          path: ["paths", "/This-IsAn_UpperCaseUrl"],
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-    {
-      name: "ogiltigt testfall - upper case path param",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/lower/{PathParam}": {} },
-      },
-      errors: [
-        {
-          message:
-            "Bokstäver i URL:n SKALL bestå av enbart gemener.",
-          path: ["paths", "/lower/{PathParam}"],
-          severity: DiagnosticSeverity.Error,
-        }
-      ],
-    },
-]);
 testRule("Ufn02", [
   {
       name: "giltigt testfall",
@@ -280,8 +337,9 @@ testRule("Ufn02", [
       ],
     },
 ]);
-testRule("Ufn05", [
+testRule("Ufn05paths", [
     {
+      
       name: "giltigt testfall",
       document: {
         servers: [{
@@ -293,6 +351,7 @@ testRule("Ufn05", [
       },
       errors: [],
     },
+    
     {
       name: "ogiltigt testfall",
       document: {
@@ -301,30 +360,7 @@ testRule("Ufn05", [
         }],
         openapi: "3.1.0",
         info: { version: "1.0" },
-        paths: { "/asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf": {} },
-      },
-      errors: [
-        {
-          message: 'En URL BÖR INTE vara längre än 2048 tecken.',
-          severity: DiagnosticSeverity.Warning,
-          path: ['servers', "0"]
-        },
-        {
-          message: 'En URL BÖR INTE vara längre än 2048 tecken.',
-          severity: DiagnosticSeverity.Warning,
-          path: ['paths','/asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf']
-        }
-      ],
-    },
-    {
-      name: "ogiltigt testfall",
-      document: {
-        servers: [{
-          url:"https://pets.se/dsa/v1"
-        }],
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/testpath": {
+        paths: { "/PAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAram": {
           "get": {
             "summary": "List all pets",
             "operationId": "listPets",
@@ -333,7 +369,7 @@ testRule("Ufn05", [
             ],
             "parameters": [
               {
-                "name": "PAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAram",
+                "name": "hgjhg",
                 "in": "query",
                 "description": "How many items to return at one time (max 100)",
                 "required": false,
@@ -379,102 +415,112 @@ testRule("Ufn05", [
       },
       errors: [
         {
+          code: "Ufn05paths",
           message: 'En URL BÖR INTE vara längre än 2048 tecken.',
           severity: DiagnosticSeverity.Warning,
-          path: ['servers', "0"]
-        },
-        {
-          message: 'En URL BÖR INTE vara längre än 2048 tecken.',
-          severity: DiagnosticSeverity.Warning,
-          path: ['paths','/testpath','get','parameters']
+          path: ['paths','/PAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAram']
         }
       ],
     }
   
 ]);
 
-testRule("Ufn10", [
+testRule("Ufn05Servers", [
   {
+    
     name: "giltigt testfall",
     document: {
+      servers: [{
+        url:"https://pets.se/dsa/v1"
+      }],
       openapi: "3.1.0",
       info: { version: "1.0" },
-      paths: {
-        "/foo": {
-          get: {
-            description: "get",
-            parameters: [
-              {
-                name: "tags",
-                in: "query",
-                required: false,
-              },
-            ],
-          },
-        },
-      },
+      paths: { "/pets/{id}": {} },
     },
     errors: [],
   },
-
+  
   {
     name: "ogiltigt testfall",
     document: {
+      servers: [{
+        url:"https://pets.se/dsaPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAramPAram/v1"
+      }],
       openapi: "3.1.0",
       info: { version: "1.0" },
-      paths: {
-        "/pets": {
-          get: {
-            description: "get",
-            parameters: [
-              {
-                name: "t.a-g~s",
-                in: "query",
-                required: false,
+      paths: { "/dtestpath": {
+        "get": {
+          "summary": "List all pets",
+          "operationId": "listPets",
+          "tags": [
+            "pets"
+          ],
+          "parameters": [
+            {
+              "name": "hgjhg",
+              "in": "query",
+              "description": "How many items to return at one time (max 100)",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "maximum": 100,
+                "format": "int32"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A paged array of pets",
+              "headers": {
+                "x-next": {
+                  "description": "A link to the next page of responses",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
               },
-            ],
-          },
-        },
-      },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Pets"
+                  }
+                }
+              }
+            },
+            "default": {
+              "description": "unexpected error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      } },
     },
     errors: [
       {
-        message:
-          "Understreck '_' SKALL endast användas för att separera ord i parameternamn.",
-        path: ["paths", "/pets", "get", "parameters", "0","name"],
-        severity: DiagnosticSeverity.Error,
-      },
-    ],
-  },
-]);
-testRule("Ufn11", [
-  {
-      name: "giltigt testfall",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/": {} },
-        servers: [{ url: "http://petstore.swwagger.com/api/v2" }],        
-      },
-      errors: [],
-    },
-    {
-      name: "ogiltigt testfall",
-      document: {
-        openapi: "3.1.0",
-        info: { version: "1.0" },
-        paths: { "/": {} },
-        servers: [{ url: "http://petstore.swwagger.com/a_pi/v_2" }],        
-      },
-      errors: [
-        {
-          message:
-            "Understreck '_' SKALL INTE vara del av bas URL:en.",
-          path: ["servers", "0","url"],
-          severity: DiagnosticSeverity.Error,
+        code: "Ufn05Servers",
+        message: 'En URL BÖR INTE vara längre än 2048 tecken.',
+        severity: DiagnosticSeverity.Warning,
+        path: ['servers','0','url'],
+        range:{
+          start: {
+            character: 19,
+            line: 0,
+          },
+          end:{
+            character: 3053,
+            line: 0,
+          }
         }
-      ],
-    },
+      }
+    ],
+  }
+
 ]);
 
 testRule("Ufn01", [

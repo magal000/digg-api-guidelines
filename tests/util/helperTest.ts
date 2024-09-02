@@ -36,7 +36,7 @@ const runTestCase = async (
     );
   }catch (error) {
     // Log the error
-    console.error(`Error running test case "${testName}":`, error);
+    console.error(`Fel vid körning av testfall "${testName}":`, error);
     // Rethrow the error to indicate test failure
     throw error;
   }
@@ -53,7 +53,7 @@ export default (ruleName: RuleName, tests: Scenario): void => {
           await runTestCase(ruleName, testCase.name, testCase.document, testCase.errors);
         }catch (error) {
          // Log the error and mark the test as failed
-         console.error(`Test case "${testCase.name}" failed:`, error);
+         console.error(`Test fall "${testCase.name}" fallerade:`, error);
          throw error;
         }
       });

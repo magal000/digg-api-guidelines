@@ -2,7 +2,51 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
+import path from "path";
+const moduleName: string = "UfnRules.ts";
 
+export class Ufn05Base extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.05",
+  };
+  constructor() {
+    super();
+    this.message = "En URL BÖR INTE vara längre än 2048 tecken.";
+    this.severity = DiagnosticSeverity.Warning;
+    this.description = "En URL BÖR INTE vara längre än 2048 tecken.";
+    }
+  static baseurls:any = [];
+  static paths:any = [];
+
+}
+
+export class Ufn09Base extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "URL Format och namngivning",
+    id: "UFN.09",
+  };
+  constructor() {
+    super();
+    this.message = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+    this.severity = DiagnosticSeverity.Error;
+    this.description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+    this.then = [
+      {
+        function: pattern,
+        functionOptions: {
+          notMatch: "/[\\s_]/",
+        }
+      },
+      {
+        function: (targetVal: string, _opts: string, paths: string[]) => {
+          this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+            this.severity, this.constructor.name, moduleName, Ufn09Base.customProperties);
+        }
+      }
+    ];
+    }
+}
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {
       område: "API Request",
@@ -11,7 +55,7 @@ export class Arq05Base extends BaseRuleset {
     constructor() {
       super();
       this.given = "$.paths.*.*.parameters[?(@.in=='header' && @.schema)]";
-      this.message = "Payload data SKALL INTE användas i HTTP-headers.";
+      this.message = "Payload data SKALL INTE användas i HTTP-headers";
       this.severity = DiagnosticSeverity.Warning;
       this.description = '';
       }
@@ -121,4 +165,4 @@ return true;
     return result;
   }
   
-  export default { Arq05Base};
+  export default { Arq05Base, Ufn09Base};

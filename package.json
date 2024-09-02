@@ -1,6 +1,6 @@
 {
   "name": "@diggsweden/rest-api-profil-lint-processor",
-  "version": "0.0.2",
+  "version": "v0.2.2",
   "main": ".src/app.ts",
   "type": "module",
   "repository": {

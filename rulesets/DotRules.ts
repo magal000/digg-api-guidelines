@@ -92,4 +92,50 @@ export class Dot03 extends DotRuleBase {
   }
 }
 
-export default { Dot02,Dot03};
+export class Dot04 extends DotRuleBase {
+
+  static customProperties: CustomProperties = {
+    område: "Datum- och tidsformat",
+    id: "DOT.04",
+  };
+  description = "När man använder RFC 3339 format BÖR tidszonen anges.";
+  message = "När man använder RFC 3339 format BÖR tidszonen anges.";
+  severity: DiagnosticSeverity = DiagnosticSeverity.Warning;
+
+
+  then = {
+    function: (targetVal: any, _opts: string, paths) => {
+      const dotStateExecutionLogDictionary: DotStateExecutionLog = {};
+        const data = targetVal;
+        const isTrackRuleExecution = {value:false};
+        for (const key in data) {
+            const properties: Property[] = parseProperties(key, data);
+            properties.forEach(prop => {
+                const stateKey = `${key}:${prop.name}:${Math.floor(Math.random() * 1000)}`;
+                if (!dotStateExecutionLogDictionary[stateKey]) {
+                    dotStateExecutionLogDictionary[stateKey] = [];
+                }
+                this.executeRuleLogic(prop, stateKey, dotStateExecutionLogDictionary, isTrackRuleExecution,Dot04.customProperties);
+              });
+        }
+        return this.handleResult(dotStateExecutionLogDictionary, paths, moduleName, isTrackRuleExecution,Dot04.customProperties);
+    }
+
+  };
+  generateDateTimePattern(): string {
+    return super.generateDateTimePattern();
+  }
+  generateDatePattern(): string {
+    return super.generateDatePattern();
+  }
+  isValidWithOffset(example: string): boolean {
+    const offsetIndex = example.lastIndexOf('+') || example.lastIndexOf('-');
+    if (offsetIndex !== -1) {
+        const offsetPart = example.substring(offsetIndex);
+        return true; // Offset found
+    } else {
+        return false; // No offset found
+    }
+  }
+}
+export default { Dot02,Dot03,Dot04};

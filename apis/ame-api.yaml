@@ -78,7 +78,7 @@ components:
     Error1:
       type: object
       properties:
-        "thi_srue":
+        "code":
           type: integer
           format: int32
         "veryLongcode":
@@ -88,26 +88,7 @@ components:
           type: string
         "nest_this":
           type: string
-    Error2:
-      type: object
-      properties:
-        "veryongcode":
-          type: integer
-          format: int32
-        "VeryLongmessage":
-          type: string
-        "nestthis_":
-          type: string
-        "nes_tthis":
-          type: string
-        "veryongcode":
-          type: integer
-          format: int32
-        "verylongmessage":
-          type: string
-        "nestthis":
-          type: string
-    Error2:
+    Error:
       type: object
       properties:
         "nestthi_sagain":
@@ -115,16 +96,11 @@ components:
           format: int32
         "veryongesMaegain":
           type: string
-        "nesthis":
-          type: string
-        "veryongcodegain":
-          type: integer
-          format: int32
         "verylongmessage":
           type: string
         "nestthis":
           type: string
-    Error3:
+    Error2:
       type: object
       properties:
         "stthisaMgain":
