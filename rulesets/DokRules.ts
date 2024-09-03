@@ -2,7 +2,39 @@ import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
+
+import { Dok15Base } from "./rulesetUtil.ts";
 const moduleName: string = "DokRules.ts";
+
+export class Dok15Get extends Dok15Base {
+  given = '$.paths[*][*].responses[*].content.application/json';
+  then = [{
+    function: (targetVal: any, _opts: string, paths: string[])=> {
+      return super.test(targetVal, _opts, paths)
+    }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Dok15Base.customProperties);
+    }
+  }]
+  
+}
+export class Dok15ReqBody extends Dok15Base {
+  given = '$.paths[*][?(@ != "get")].requestBody.content.application/json';
+  then = [{
+    function: (targetVal: any, _opts: string, paths: string[])=> {
+      return super.test(targetVal, _opts, paths)
+    }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Dok15Base.customProperties);
+    }
+  }]
+}
 
 export class Dok17 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -168,4 +200,4 @@ export class Dok01 extends BaseRuleset {
   severity = DiagnosticSeverity.Warning; 
 }
 
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01};
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok15Get, Dok15ReqBody};
