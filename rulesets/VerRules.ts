@@ -10,21 +10,19 @@ export class Ver06 extends BaseRuleset {
     id: "VER.06",
   };
   given = "$.paths";
-  message = "Information om ett API SKALL tillgängliggöras via resursen api-info under roten '/' till API:et.";
-  then = [
-    {
-      field: '/api-info',
-      function: truthy,
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        // Implement custom log func here
+  message = "Information om ett API SKALL tillgängliggöras via resursen api-info under roten till API:et.";
+  then = [{
+    field: '/api-info',
+    function: truthy,
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      // Implement custom log func here
 
-        this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,
-          this.constructor.name, moduleName,Ver06.customProperties);
-      }
+      this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,
+        this.constructor.name, moduleName,Ver06.customProperties);
     }
-  ];
+  }]
   severity = DiagnosticSeverity.Error;
 }
 
