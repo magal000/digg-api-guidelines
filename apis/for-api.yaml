@@ -5,9 +5,6 @@ info:
   description: OpenAPI Specification example to handle Rules for the category []Hypermedia] in the Swedish REST API-profil https://dev.dataportal.se/rest-api-profil
   license:
     name:  EUPL-1.2 license
-externalDocs:
-  #description: "Find out more about the API info text goes here"
-  #url: Url to external documentation
 servers:
   - url: http://petstore.swagger.io/v1
 paths:
@@ -26,6 +23,11 @@ paths:
             type: integer
             maximum: 100
             format: int32
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Pets'            
       responses:
         '200':
           description: A paged array of pets
@@ -71,6 +73,42 @@ paths:
           description: The id of the pet to retrieve
           schema:
             type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Pet'            
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        default:
+          description: unexpected error
+          content:
+            application/json:mor e
+              schema:
+                $ref: "#/components/schemas/Error"
+  /pets/petsagain/{petId}:
+    get:
+      summary: Info for a specific pet
+      operationId: showPetById
+      tags:
+        - pets
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          description: The id of the pet to retrieve
+          schema:
+            type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Pet'            
       responses:
         '200':
           description: Expected response to a valid request

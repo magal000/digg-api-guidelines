@@ -1,3 +1,5 @@
+import { Rule } from "@stoplight/spectral-core";
+
 // ruleUtil.ts
 interface CustomSchema {
   id: string;
@@ -20,7 +22,8 @@ const ruleModules = [
   "ArqRules",
   "DokRules",
   "AmeRules",
-  "ForRules"
+  "ForRules",
+  "DotRules"
 ];
 /**
  * 
@@ -35,7 +38,8 @@ export function getRuleModules() {
  * @param ruleCategories Defined category (optional)
  * @returns Promise object with enabled rules in RAP-LP to run
  */
-export async function importAndCreateRuleInstances(ruleCategories?: string[]): Promise<{ rules: Record<string, any>;instanceCategoryMap: Map<string, any> }> {
+export async function importAndCreateRuleInstances(ruleCategories?: string[]):
+ Promise<{ rules: Record<string, any>;instanceCategoryMap: Map<string, any> }> {
   const ruleInstances: Record<string, any> = {}; // store instances of rule classes
   const ruleTypes: any[] = []; // array to store rule classes.
   const instanceCategoryMap: Map<string, any> = new Map();
@@ -55,13 +59,11 @@ export async function importAndCreateRuleInstances(ruleCategories?: string[]): P
           return values as any;
         } else {
           //No exports from loaded ruleModule is found for the category
-          throw new Error(`No exports found in module for category ${category}`);
+          throw new Error(`inga exporterade typer hittade i modulen för kategori ${category}`);
         }
       } catch (error: any) {
         //Saftey check in case of error when loading module[s]
-        throw new Error(`Error importing rules for category ${category}:, category ${error.message}`);
-        //console.error(`Error importing rules for category ${category}:`, error.message);
-        //return null;
+        throw new Error(`Fel vid importering av regler för kategori ${category}:, category ${error.message}`);
       }
     }
     /**
@@ -106,7 +108,7 @@ export async function importAndCreateRuleInstances(ruleCategories?: string[]): P
         ruleInstances[RuleClass.name] = instance;
         instanceCategoryMap.set(RuleClass.name, RuleClass); // Do we have name of ruleClass ?
       } catch (error: any) {
-        console.error(`Error creating instance of rule class ${RuleClass.name}:`, error.message);
+        console.error(`Fel vid skapande av instans för regelklass ${RuleClass.name}:`, error.message);
       }
     });
     return { rules: ruleInstances, instanceCategoryMap };

@@ -53,7 +53,7 @@ testRule("Arq05ComplexStructure", [
       errors: [
         {
           message:
-            "[Payload data SKALL INTE användas i HTTP-headers.] Om en header förväntas innehålla komplexa datastrukturer, såsom JSON eller XML, kan det indikera en okonventionell användning av headers.",
+            "[Payload data SKALL INTE användas i HTTP-headers] Om en header förväntas innehålla komplexa datastrukturer, såsom JSON eller XML, kan det indikera en okonventionell användning av headers.",
           path: ["paths", "/foo", "post", "parameters", "0"],
           severity: DiagnosticSeverity.Warning,
         },
@@ -113,7 +113,7 @@ testRule("Arq05ComplexStructure", [
       errors: [
         {
           message:
-            "[Payload data SKALL INTE användas i HTTP-headers.] Om en header förväntas innehålla data med ovanliga MIME-typer kan det indikera en okonventionell användning av headers.",
+            "[Payload data SKALL INTE användas i HTTP-headers] Om en header förväntas innehålla data med ovanliga MIME-typer kan det indikera en okonventionell användning av headers.",
           path: ["paths", "/foo", "post", "parameters", "0"],
           severity: DiagnosticSeverity.Warning,
         },
@@ -185,7 +185,7 @@ testRule("Arq05ComplexStructure", [
       errors: [
         {
           message:
-            "[Payload data SKALL INTE användas i HTTP-headers.] Om en header använder nästlade strukturer, är en requestbody mer lämplig.",
+            "[Payload data SKALL INTE användas i HTTP-headers] Om en header använder nästlade strukturer, är en requestbody mer lämplig.",
           path: ["paths", "/foo", "post", "parameters", "0"],
           severity: DiagnosticSeverity.Warning,
         },
@@ -193,6 +193,69 @@ testRule("Arq05ComplexStructure", [
     },
   ]);
 
+  testRule("Arq01", [
+    {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: {
+          "/": {
+            get: {
+              requestBody: {
+                description: "JSON och CSV tillåtet",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                    },
+                  },
+                  "text/csv": {
+                    schema: {
+                      type: "string",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        paths: {
+          "/": {
+            get: {
+              requestBody: {
+                description:
+                  "Om endast något annat format än JSON, så bör en varning ges",
+                content: {
+                  "text/csv": {
+                    schema: {
+                      type: "string",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message:
+            "Ett request BÖR skickas i UTF-8",
+          path: ["paths", "/", "get", "requestBody", "content"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },    
+  ]);
 testRule("Arq03", [
   {
     name: "giltigt testfall - Connection: keep-alive",

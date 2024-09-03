@@ -1,8 +1,12 @@
 {
-  "name": "rap-lp",
-  "version": "0.0.1",
+  "name": "@diggsweden/rest-api-profil-lint-processor",
+  "version": "v0.2.2",
   "main": ".src/app.ts",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:diggsweden/rest-api-profil-lint-processor"
+  },
   "description": "A command-line tool to lint OpenAPI v3 definitions using Spectral",
   "scripts": {
     "build": "tsc -p tsconfig.json",

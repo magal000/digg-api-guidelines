@@ -141,3 +141,339 @@ testRule("Ame02", [
     ],
   },
 ]);
+
+
+  
+testRule("Ame04", [
+  {
+    name: "giltigt testfall - test av flatcase för snakecase / camelcase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "verylongmessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - test av snakecase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "verylong_message": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - test av camelcase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "verylongMessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - test av snakecase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "_verylongmessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.",
+        path: ["components", "schemas", "Error", "properties","_verylongmessage"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - test av camelCase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "VeryLongMessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.",
+        path: ["components", "schemas", "Error", "properties","VeryLongMessage"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  }
+]);
+testRule("Ame05", [
+  {
+    name: "giltigt testfall - test med flatcase",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "verylonoooooooooooongflatcaseingmessage": {
+                type: "string",
+              },
+              "veryshortflatcaseingmessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - test med snakecase och camelcase inom samme schemaobjekt",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "very_long_message": {
+                type: "string"
+              },
+              "veryLongMessage": {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.",
+        path: ["components", "schemas", "Error","properties","very_long_message"],
+        severity: DiagnosticSeverity.Error,
+      },
+      {
+        message: "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.",
+        path: ["components", "schemas", "Error","properties","veryLongMessage"],
+        severity: DiagnosticSeverity.Error,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - test med snakecase och camelcase med flera schemaobjekt",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      components: {
+        schemas: {
+          Error: {
+            type: "object",
+            properties: {
+              "verylong": {
+                type: "string"              },
+              "message": {
+                type: "string"
+              },
+            },
+          },
+          Error2: {
+            type: "object",
+            properties: {
+              "very_short": {
+                type: "string",
+              },
+              "veryLongg": {
+                type: "string"
+              },
+            },
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.",
+        path: ["components", "schemas", "Error2","properties","very_short"],
+        severity: DiagnosticSeverity.Error,
+      },
+      {
+        message: "Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.",
+        path: ["components", "schemas", "Error2","properties","veryLongg"],
+        severity: DiagnosticSeverity.Error,
+
+      },
+    ],
+  }]);
+  testRule("Ame07", [
+    {
+      name: "giltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          schemas: {
+            Error: {
+              type: "object",
+              properties: {
+                code: {
+                  type: "integer",
+                  format: "int32",
+                },
+                message: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          schemas: {
+            Error: {
+              type: "object",
+              properties: {
+                "co-de": {
+                  type: "integer",
+                  format: "int32",
+                },
+                "message": {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message: "Fältnamn BÖR använda tecken som är alfanumeriska.",
+          path: ["components", "schemas", "Error", "properties","co-de"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          schemas: {
+            Error: {
+              type: "object",
+              properties: {
+                "code": {
+                  type: "integer",
+                  format: "int32",
+                },
+                "mes%sage": {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message: "Fältnamn BÖR använda tecken som är alfanumeriska.",
+          path: ["components", "schemas", "Error", "properties","mes%sage"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },
+    {
+      name: "ogiltigt testfall",
+      document: {
+        openapi: "3.1.0",
+        info: { version: "1.0" },
+        components: {
+          schemas: {
+            Error: {
+              type: "object",
+              properties: {
+                "code": {
+                  type: "integer",
+                  format: "int32",
+                },
+                "m-essage": {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      errors: [
+        {
+          message: "Fältnamn BÖR använda tecken som är alfanumeriska.",
+          path: ["components", "schemas", "Error", "properties","m-essage"],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    },
+  ]);

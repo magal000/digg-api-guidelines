@@ -75,19 +75,40 @@ components:
       type: http
       scheme: bearer
   schemas:
-    Error:
+    Error1:
       type: object
-      required:
-        - code
-        - message
       properties:
-        code:
+        "code":
           type: integer
           format: int32
-        message:
+        "veryLongcode":
+          type: integer
+          format: int32
+        "verylongmessage":
           type: string
-
-tags:
+        "nest_this":
+          type: string
+    Error:
+      type: object
+      properties:
+        "nestthi_sagain":
+          type: integer
+          format: int32
+        "veryongesMaegain":
+          type: string
+        "verylongmessage":
+          type: string
+        "nestthis":
+          type: string
+    Error2:
+      type: object
+      properties:
+        "stthisaMgain":
+          type: integer
+          format: int32
+        "veryongs_egain":
+          type: string
+  tags:
   - name: tag1
     description: Everything about tag1
   - name: tag2
