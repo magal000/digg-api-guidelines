@@ -164,7 +164,7 @@ testRule("Dot02", [
         },
         errors: [
           {
-            message: "När man använder RFC 3339 format BÖR tidszonen anges.",
+            message: "Tidzonen BÖR (DOT.04) representeras med UTC formatet, där tid anges som offset från UTC (Coordinated Universal Time).",
             path: ["components", "schemas", "DateRequest","properties","postedTime","example"],
             severity: DiagnosticSeverity.Warning,
           },
