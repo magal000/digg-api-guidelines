@@ -84,8 +84,8 @@ export class Arq01 extends BaseRuleset {
     område: "API Request",
     id: "ARQ.01",
   };
-  description = "Ett API request BÖR skickas i UTF-8 format";
-  message = "Ett API request BÖR skickas i UTF-8 format";
+  description = "Ett request BÖR skickas i UTF-8";
+  message = "Ett request BÖR skickas i UTF-8";
   given = "$.paths[*][*].requestBody.content";
   then = [{
     function: schema,
@@ -113,7 +113,7 @@ export class Arq03 extends BaseRuleset {
     område: "API Request",
     id: "ARQ.03",
   };
-  description = "Alla API:er BÖR supportera följande request headers: Accept, Accept-Charset, Date, Cache-Control, ETag, Connection och Cookie.";
+  description = "Alla API:er BÖR supportera följande request headers: Accept, Date, Cache-Control, ETag, Connection och Cookie.";
   message = this.description;
   given = "$.paths.*.*";
   then = [{

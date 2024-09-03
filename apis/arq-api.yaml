@@ -66,15 +66,31 @@ paths:
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/Error'
-
-
+                $ref: "#/components/schemas/Error"
 components:
   securitySchemes:
     bearerAuth:     # <-- arbitrary name for the security scheme
       type: http
       scheme: bearer
   schemas:
+    Pet:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        tag:
+          type: string
+    Pets:
+      type: array
+      maxItems: 100
+      items:
+        $ref: "#/components/schemas/Pet"
     Error:
       type: object
       required:
@@ -86,9 +102,5 @@ components:
           format: int32
         message:
           type: string
-
 tags:
-  - name: tag1
-    description: Everything about tag1
-  - name: tag2
-    description: Everything about tag2
+  - name: pets
