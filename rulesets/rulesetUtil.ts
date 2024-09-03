@@ -99,7 +99,7 @@ export class Arq05Base extends BaseRuleset {
     constructor() {
       super();
       this.given = "$.paths.*.*.parameters[?(@.in=='header' && @.schema)]";
-      this.message = "Payload data SKALL INTE användas i HTTP-headers.";
+      this.message = "Payload data SKALL INTE användas i HTTP-headers";
       this.severity = DiagnosticSeverity.Warning;
       this.description = '';
       }

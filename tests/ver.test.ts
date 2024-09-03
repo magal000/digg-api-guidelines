@@ -115,10 +115,11 @@ testRule("Ver06", [
       },
       errors: [
         {
-          message: "Information om ett API SKALL tillgängliggöras via resursen api-info under roten '/' till API:et.",
-          path: ["paths"],
+          message:
+            "Information om ett API SKALL tillgängliggöras via resursen api-info under roten till API:et.",
+          path: ["paths" ],
           severity: DiagnosticSeverity.Error,
         }
-      ]
+      ],
     },
 ]);

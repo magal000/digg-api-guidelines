@@ -139,7 +139,7 @@ export class Dok19 extends BaseRuleset {
     id: "DOK.19",
   };
   given = "$.paths[*][*]"
-  message = "Kontroll om förekomst av fältet description finns i specifikationen under respektive operation get/post";
+  message = "Ett API:s resurser och de möjliga operationer som kan utföras på resursen SKALL beskrivas så utförligt och tydligt som möjligt";
   then = [{
     field: "description",
     function: truthy

@@ -239,7 +239,7 @@ testRule("Dok19", [
     errors: [
       {
         code: "Dok19",
-        message: "Kontroll om förekomst av fältet description finns i specifikationen under respektive operation get/post",
+        message: "Ett API:s resurser och de möjliga operationer som kan utföras på resursen SKALL beskrivas så utförligt och tydligt som möjligt",
         path: ["paths", "/thiscase","operation"],
         severity: DiagnosticSeverity.Error,
        },
