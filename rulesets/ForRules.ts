@@ -2,8 +2,9 @@ import {falsy, undefined as undefinedFunc } from "@stoplight/spectral-functions"
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
-import Format from "@stoplight/spectral-formats";
-
+//import Format from "@stoplight/spectral-formats";
+import pkg from '@stoplight/spectral-formats';
+const { oas3 } = pkg;
 
 const moduleName: string = "ForRules.ts";
 /**
@@ -52,7 +53,7 @@ export class For02 extends BaseRuleset {
       }
     }
   ]
-  formats = [Format.oas3];
+  formats = [oas3];
   severity = DiagnosticSeverity.Error
 }
 export default { For01, For02 };
