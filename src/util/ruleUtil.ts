@@ -1,4 +1,3 @@
-import { Rule } from "@stoplight/spectral-core";
 
 // ruleUtil.ts
 interface CustomSchema {

@@ -21,6 +21,7 @@ const ruleInstances: Record<string, any> = {};
 const ruleTypes = [
   ForRules.For01,
   ForRules.For02,
+  /*
   AmeRules.Ame01,
   AmeRules.Ame02,
   AmeRules.Ame07,
@@ -56,6 +57,7 @@ const ruleTypes = [
   DokRules.Dok19,
   DokRules.Dok01,
   DokRules.Dok17
+  */
 ];
 ruleTypes.forEach((RuleClass) => {
   const instance = new RuleClass();

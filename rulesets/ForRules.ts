@@ -3,8 +3,11 @@ import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
 //import Format from "@stoplight/spectral-formats";
-import pkg from '@stoplight/spectral-formats';
+import pkg from "@stoplight/spectral-formats";
+console.log("Pkg object is: " + pkg);
 const { oas3 } = pkg;
+console.log("OAS object is: " + oas3);
+
 
 const moduleName: string = "ForRules.ts";
 /**
