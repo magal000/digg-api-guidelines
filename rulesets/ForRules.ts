@@ -2,14 +2,11 @@ import {falsy, undefined as undefinedFunc } from "@stoplight/spectral-functions"
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
-//import Format from "@stoplight/spectral-formats";
-import pkg from "@stoplight/spectral-formats";
-console.log("Pkg object is: " + pkg);
-const { oas3 } = pkg;
-console.log("OAS object is: " + oas3);
-
+import Format from "@stoplight/spectral-formats";
+import { CustomFormats } from "./util/CustomOasVersion.ts";
 
 const moduleName: string = "ForRules.ts";
+
 /**
  * Module contains classes with functions that are need
  */
@@ -56,7 +53,11 @@ export class For02 extends BaseRuleset {
       }
     }
   ]
-  formats = [oas3];
   severity = DiagnosticSeverity.Error
+
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 }
 export default { For01, For02 };

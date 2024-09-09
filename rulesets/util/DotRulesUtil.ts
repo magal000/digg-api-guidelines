@@ -27,6 +27,7 @@ export class DotRuleBase extends BaseRuleset {
 
     constructor() {
         super();
+        super.initializeFormats(['OAS3']);
         this.given = "$.components.schemas";
     }
   

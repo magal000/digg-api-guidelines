@@ -11,6 +11,7 @@ export class Dok17 extends BaseRuleset {
   };
   description = " ( Linter-analysverktyget (RAP-LP) för den nationella REST API-profilen är designat för senaste major versionen av OpenAPI Specification. Använd därför denna för full täckning av de implementerade reglerna. )";
   message = "API specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification." + this.description;
+  //message = "AAA";
   given = "$";
     then = [{
         field: 'swagger',
@@ -30,7 +31,11 @@ export class Dok17 extends BaseRuleset {
         this.severity,this.constructor.name, moduleName,Dok17.customProperties);
       }
     }];
-  severity = DiagnosticSeverity.Warning;
+    constructor() {
+      super();
+      super.initializeFormats(['OAS2','OAS3']);
+    } 
+    severity = DiagnosticSeverity.Warning;
 }
 
 export class Dok20 extends BaseRuleset {
@@ -51,7 +56,11 @@ export class Dok20 extends BaseRuleset {
         this.constructor.name, moduleName,Dok20.customProperties);
       }
     }];
-    severity = DiagnosticSeverity.Error; 
+    constructor() {
+      super();
+      super.initializeFormats(['OAS2','OAS3']);
+    } 
+      severity = DiagnosticSeverity.Error; 
 }
 export class Dok07 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -71,6 +80,10 @@ export class Dok07 extends BaseRuleset {
       this.constructor.name, moduleName,Dok07.customProperties);
     }
   }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning; 
 }
 export class Dok23 extends BaseRuleset {
@@ -94,7 +107,10 @@ export class Dok23 extends BaseRuleset {
       }
     }
   ];
-  formats = [this.formats.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Error; 
 }
 
@@ -105,18 +121,22 @@ export class Dok19 extends BaseRuleset {
   };
   given = "$.paths[*][*]"
   message = "Kontroll om förekomst av fältet description finns i specifikationen under respektive operation get/post";
-  then = [{
-    field: "description",
-    function: truthy
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Dok19.customProperties);
+    then = [{
+      field: "description",
+      function: truthy
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Dok19.customProperties);
+      }
     }
-  }
-];
-  severity = DiagnosticSeverity.Error; 
+    ];
+    constructor() {
+      super();
+      super.initializeFormats(['OAS2','OAS3']);
+    } 
+    severity = DiagnosticSeverity.Error; 
 }
 export class Dok01 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -159,6 +179,10 @@ export class Dok01 extends BaseRuleset {
         }          
     }         
   }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning; 
 }
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01};
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01, Dok17};

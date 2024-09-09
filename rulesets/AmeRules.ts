@@ -41,7 +41,10 @@ export class Ame07 extends BaseRuleset {
         this.constructor.name, moduleName,Ame07.customProperties);
       }
     }];
-    formats = [this.formats.oas3];
+    constructor() {
+      super();
+      super.initializeFormats(['OAS3']);
+    } 
     severity = DiagnosticSeverity.Warning;
 }
 
@@ -65,7 +68,10 @@ export class Ame04 extends BaseRuleset {
         this.constructor.name, moduleName,Ame04.customProperties);
       },
   }];
-  formats = [this.formats.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
 export class Ame01 extends BaseRuleset {
@@ -102,7 +108,10 @@ export class Ame01 extends BaseRuleset {
       this.constructor.name, moduleName,Ame01.customProperties);
     },
   }];
-  formats = [this.formats.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
 
@@ -142,7 +151,10 @@ export class Ame02 extends BaseRuleset {
       this.constructor.name, moduleName,Ame02.customProperties);
     }
   }];
-  formats = [this.formats.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
 export class Ame05 extends BaseRuleset {
@@ -245,7 +257,10 @@ export class Ame05 extends BaseRuleset {
       }
       return Array.from(invalidEntries)
     }
-    formats = [this.formats.oas3];
+    constructor() {
+      super();
+      super.initializeFormats(['OAS3']);
+    } 
     severity = DiagnosticSeverity.Error;
   }
 export default { Ame01, Ame02,Ame05, Ame04, Ame07 };

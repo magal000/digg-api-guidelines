@@ -40,7 +40,10 @@ export class Sak09 extends BaseRuleset {
       }
     }
   ];  
-  formats = [this.formats.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Error;
 }  
 export class Sak10 extends BaseRuleset {
@@ -66,7 +69,10 @@ export class Sak10 extends BaseRuleset {
       },
     }
   ];  
-  formats = [this.formats.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Error;
 }
 export class Sak18 extends BaseRuleset {
@@ -91,7 +97,10 @@ export class Sak18 extends BaseRuleset {
     }
   }
   ];  
-  formats = [this.formats.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning; 
 }
 export default { Sak09, Sak10, Sak18  };

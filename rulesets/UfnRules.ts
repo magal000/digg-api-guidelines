@@ -29,10 +29,12 @@ export class Ufn01 extends BaseRuleset {
       }
     }
   ];
-  formats = [Format.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
-
 export class Ufn02 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -70,7 +72,10 @@ export class Ufn02 extends BaseRuleset {
       }
   }
 ];
-formats = [Format.oas3];
+constructor() {
+  super();
+  super.initializeFormats(['OAS3']);
+} 
 severity = DiagnosticSeverity.Error;
 }
 export class Ufn05Servers extends Ufn05Base {
@@ -121,6 +126,11 @@ export class Ufn05Servers extends Ufn05Base {
         this.severity, this.constructor.name, moduleName, Ufn05Servers.customProperties);
     }
   }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
+
 }
 export class Ufn05paths extends Ufn05Base {
 
@@ -197,7 +207,10 @@ export class Ufn05paths extends Ufn05Base {
   
     }
   }];
-  formats = [Format.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 }
 export class Ufn08 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -248,6 +261,10 @@ export class Ufn08 extends BaseRuleset {
       }
     }
   ];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3','OAS2']);
+  } 
   severity = DiagnosticSeverity.Error;
 }
 export class Ufn07 extends BaseRuleset {
@@ -317,19 +334,31 @@ export class Ufn07 extends BaseRuleset {
       return result;
     }
   }];
-  formats = [Format.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3','OAS2']);
+  } 
   severity = DiagnosticSeverity.Error;
 }  
 export class Ufn09Server extends Ufn09Base {
   given = '$.servers.[url]';
-  formats = [Format.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 }
 export class Ufn09InPathParameters extends Ufn09Base {
   given = "$.paths.*.*.parameters[?(@.in=='path')].name";
-  formats = [Format.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 }
 export class Ufn09Path extends Ufn09Base {
   given = "$.paths[*]~";
-  formats = [Format.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 }
 export default { Ufn01, Ufn02, Ufn05Servers, Ufn05paths, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters};

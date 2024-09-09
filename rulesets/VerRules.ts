@@ -25,6 +25,10 @@ export class Ver06 extends BaseRuleset {
       }
     }
   ];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
   severity = DiagnosticSeverity.Error;
 }
 export class Ver05 extends BaseRuleset {
@@ -70,7 +74,10 @@ export class Ver05 extends BaseRuleset {
     }
   }
   ]  
-  formats = [this.formats.oas3];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
 export default { Ver05, Ver06 };

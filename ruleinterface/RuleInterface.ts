@@ -1,4 +1,4 @@
-import { Format } from "@stoplight/spectral-core";
+import type { Format } from '@stoplight/spectral-core';
 
 export interface RulesetInterface {
     given?: string;
@@ -9,5 +9,6 @@ export interface RulesetInterface {
     function?:() => any;
     description?:string;
     formats?:any[];
+    //formats?: Format[];
     
 }
