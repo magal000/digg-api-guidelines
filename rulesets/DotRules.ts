@@ -7,6 +7,24 @@ import { DotRuleBase,DotStateExecutionLog} from "./util/DotRulesUtil.ts";
 
 const moduleName: string = "DotRules.ts";
 
+export class Dot01 extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Filtrering, paginering och sökparametrar",
+    id: "DOT.01",
+  };
+  description = "todo";
+  message = "todo";
+  given = "$..responses..content.application/json.schema.properties..example";
+  then = [{
+      function:  (targetVal: any, _opts: string, paths) => {
+        console.log(targetVal)
+      }
+    }
+  ];
+  severity = DiagnosticSeverity.Error;
+
+}
+
 export class Dot02 extends DotRuleBase {
   static customProperties: CustomProperties = {
     område: "Datum- och tidsformat",
@@ -138,4 +156,4 @@ export class Dot04 extends DotRuleBase {
     }
   }
 }
-export default { Dot02,Dot03,Dot04};
+export default { Dot01 ,Dot02,Dot03,Dot04};

@@ -54,7 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/BookingNoteRequest"
   /pets/{petId}:
     get:
       summary: Info for a specific pet
