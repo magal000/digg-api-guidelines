@@ -295,20 +295,12 @@ testRule("Dok03Info", [
         url:"https://pets.se/dsa/v1"
       }],
       openapi: "3.1.0",
-      info: { version: "21.0.0",
+      info: { 
+              version: "21.0.0",
               title: "AME",
               description: "API message",
               termsOfService: "http://swagger.io/terms/",
-              contact: {
-                name: "Swagger AP",
-                url: "http://swagger.io"
-              },
-              license:{
-                name: "Apache 2.0",
-                url: "https://www.apache.org/licenses/LICENSE-2.0.html"
-              }
-
-       },
+            },
       
     },
     errors: [],
@@ -400,9 +392,8 @@ testRule("Dok03ContactEmail", [
     document: {
       openapi: "3.1.0",
       info: { 
-        contact: {
-          
-            emaill: "abce@emil.com"
+        contact: {          
+            gemail: "abce@emil.com"
         } 
       },
     },
@@ -445,7 +436,7 @@ testRule("Dok03ContactUrl", [
       info: { 
         contact: {
           
-            urll: "http://swagger.io"
+            uuuurll: "http://swagger.io"
         } 
       },
     },
@@ -497,7 +488,7 @@ testRule("Dok03Contact", [
   },
 ]);
 
-testRule("Dok03LicenseUrl", [
+testRule("Dok03License", [
   {
     
     name: "giltigt testfall",
@@ -507,7 +498,7 @@ testRule("Dok03LicenseUrl", [
       }],
       openapi: "3.1.0",
       info: { 
-        license: { url: "https://pets.se/dsa/v1"}
+          license: { }
 
        },
       
@@ -520,7 +511,47 @@ testRule("Dok03LicenseUrl", [
     document: {
       openapi: "3.1.0",
       info: { 
-        license: { uurl:"" } 
+        lllllicense: {  } 
+      },
+    },
+    errors: [
+      {
+
+        code: "Dok03License",
+        path: ["info"],
+        message:  "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.(Saknar license objektet)"
+      }
+    ],
+  },
+]);
+
+testRule("Dok03LicenseUrl", [
+  {
+    
+    name: "giltigt testfall",
+    document: {
+      servers: [{
+        url:"https://pets.se/dsa/v1"
+      }],
+      openapi: "3.1.0",
+      info: { 
+        license: { 
+                  url: "https://pets.se/dsa/v1"
+                }
+
+       },
+      
+    },
+    errors: [],
+  },
+  
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { 
+        license: { 
+                uuuuuuurl:"" } 
       },
     },
     errors: [
@@ -544,7 +575,10 @@ testRule("Dok03LicenseName", [
       }],
       openapi: "3.1.0",
       info: { 
-        license: { name: "this name"}
+        license: { 
+                  name: "this name"
+                
+                }
 
        },
       
@@ -557,7 +591,9 @@ testRule("Dok03LicenseName", [
     document: {
       openapi: "3.1.0",
       info: { 
-        license: { nname:"this is name" } 
+        license: {           
+                nnnnnnname:"this is name"               
+              } 
       },
     },
     errors: [

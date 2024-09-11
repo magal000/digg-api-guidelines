@@ -61,6 +61,7 @@ const ruleTypes = [
   DokRules.Dok03ContactEmail,
   DokRules.Dok03ContactUrl,
   DokRules.Dok03Contact,
+  DokRules.Dok03License,
   DokRules.Dok03LicenseName,
   DokRules.Dok03LicenseUrl
 ];

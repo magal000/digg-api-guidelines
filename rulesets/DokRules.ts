@@ -179,45 +179,33 @@ export class Dok03Info extends Dok03Base {
     område: "Dokumentation",
     id: "DOK.03",
   };
-  given = "$"
+  given = "$.info"
   message = this.description + "[ info objektet bör ha title, version , description, termsOfService, contact , license ]";
   then = [
     {
-      function:(targetVal, _opts, paths) => {
-        
-        let obj:any = [];
-        if (targetVal.hasOwnProperty('info')) {
-          {
-            
-              this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-              this.constructor.name, moduleName,Dok03Info.customProperties);
-            
-          }
-          obj =  targetVal['info'];
-          if(obj === null) {
-            return [
-              {
-                path: ['info'],
-                message: this.message,
-                severity: this.severity
-              }
-            ]
-          }
-          if(obj.hasOwnProperty('description') && obj.hasOwnProperty('title') && obj.hasOwnProperty('termsOfService') 
-            && obj.hasOwnProperty('version') && obj.hasOwnProperty('license') && obj.hasOwnProperty('contact')){
-              return [];
-          } else {
-              return [
-                      {
-                        path: ['info'],
-                        message: this.message,
-                        severity: this.severity
-                      }
-                    ]
-                  }
-        }          
-    }         
-  },
+      field: "version",
+      function: truthy
+    },
+    {
+      field: "title",
+      function: truthy
+    },
+    {
+      field: "description",
+      function: truthy
+    },
+    {
+      field: "termsOfService",
+      function: truthy
+    },
+    
+    {
+ 
+    function:(targetVal, _opts, paths) => {
+    this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+    this.constructor.name, moduleName,Dok03Info.customProperties);   
+    }  
+  }   
      
 ];
   severity = DiagnosticSeverity.Warning; 
@@ -238,19 +226,7 @@ export class Dok03ContactName extends Dok03Base {
     function: truthy
   },
   
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(
-        JSON.stringify(targetVal, null, 2),
-        _opts,
-        paths,
-        this.severity,
-        this.constructor.name,
-        moduleName,
-        Dok03ContactName.customProperties
-      );
-    },
-  }];
+ ];
   severity = DiagnosticSeverity.Warning;
 }
 
@@ -268,19 +244,7 @@ export class Dok03ContactEmail extends Dok03Base {
     function: truthy
   },
   
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(
-        JSON.stringify(targetVal, null, 2),
-        _opts,
-        paths,
-        this.severity,
-        this.constructor.name,
-        moduleName,
-        Dok03ContactName.customProperties
-      );
-    },
-  }];
+ ];
   severity = DiagnosticSeverity.Warning;
 }
 
@@ -298,19 +262,7 @@ export class Dok03ContactUrl extends Dok03Base {
     function: truthy
   },
   
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(
-        JSON.stringify(targetVal, null, 2),
-        _opts,
-        paths,
-        this.severity,
-        this.constructor.name,
-        moduleName,
-        Dok03ContactUrl.customProperties
-      );
-    },
-  }];
+ ];
   severity = DiagnosticSeverity.Warning;
 }
 
@@ -325,34 +277,31 @@ export class Dok03Contact extends Dok03Base {
 
   then = [
   {
-    function: (targetVal:any, _opts: string, paths:any) => {
-      const result:any[] = [];
-      if(!targetVal.hasOwnProperty("contact")){
-      result.push({
-          path: [...paths.path],
-            message: this.message,
-            severity: this.severity
-        });
-      }
-      return result;        
-    }
-  },
-
+    field:"contact",
+    function:truthy
   
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(
-        JSON.stringify(targetVal, null, 2),
-        _opts,
-        paths,
-        this.severity,
-        this.constructor.name,
-        moduleName,
-        Dok03Contact.customProperties
-      );
+  },
+    ]
+
+  }
+
+  export class Dok03License extends Dok03Base {
+    static customProperties: CustomProperties = {
+      område: "Dokumentation",
+      id: "DOK.03",
+    };
+    message = this.description+"(Saknar license objektet)";
+    given = "$.info";
+  
+    then = [
+    {
+      field:"license",
+      function:truthy
+    
     },
-  }];
-}
+      ]
+  
+    }
 
 
 export class Dok03LicenseUrl extends Dok03Base {
@@ -369,19 +318,7 @@ export class Dok03LicenseUrl extends Dok03Base {
       function: truthy
     },
 
-    {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(
-        JSON.stringify(targetVal, null, 2),
-        _opts,
-        paths,
-        this.severity,
-        this.constructor.name,
-        moduleName,
-        Dok03LicenseUrl.customProperties
-      );
-    },
-  }];
+   ];
 }
 
 export class Dok03LicenseName extends Dok03Base {
@@ -398,21 +335,9 @@ export class Dok03LicenseName extends Dok03Base {
       function: truthy
     },
 
-    {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(
-        JSON.stringify(targetVal, null, 2),
-        _opts,
-        paths,
-        this.severity,
-        this.constructor.name,
-        moduleName,
-        Dok03LicenseUrl.customProperties
-      );
-    },
-  }];
+  ];
 }
 
 
 
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01, Dok03Info, Dok03Contact,Dok03ContactEmail, Dok03ContactName, Dok03ContactUrl, Dok03LicenseUrl,Dok03LicenseName,};
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01, Dok03Info, Dok03Contact,Dok03License,Dok03ContactEmail, Dok03ContactName, Dok03ContactUrl, Dok03LicenseUrl,Dok03LicenseName,};
