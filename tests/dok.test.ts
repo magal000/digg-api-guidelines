@@ -1,6 +1,7 @@
 import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./util/helperTest.ts";
 
+
 testRule("Dok23", [
     {
       name: "giltigt testfall",
@@ -160,7 +161,41 @@ testRule("Dok07", [
   }
   
 ]);
-
+testRule("Dok17", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      swagger: "2.0",
+    },
+    errors: [
+      {
+        message: "API specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification. ( Linter-analysverktyget (RAP-LP) för den nationella REST API-profilen är designat för senaste major versionen av OpenAPI Specification. Använd därför denna för full täckning av de implementerade reglerna. )",
+        path: ["swagger"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "2.1.0",
+    },
+    errors: [
+      {
+        message: "API specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification. ( Linter-analysverktyget (RAP-LP) för den nationella REST API-profilen är designat för senaste major versionen av OpenAPI Specification. Använd därför denna för full täckning av de implementerade reglerna. )",
+        path: ["openapi"],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);
 testRule("Dok19", [
   {
     name: "giltigt testfall",
@@ -204,12 +239,252 @@ testRule("Dok19", [
     errors: [
       {
         code: "Dok19",
-        message: "Kontroll om förekomst av fältet description finns i specifikationen under respektive operation get/post",
+        message: "Ett API:s resurser och de möjliga operationer som kan utföras på resursen SKALL beskrivas så utförligt och tydligt som möjligt",
         path: ["paths", "/thiscase","operation"],
         severity: DiagnosticSeverity.Error,
        },
     ],
     
+  }
+  
+]);
+
+testRule("Dok01", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      externalDocs: { 
+          description: "API Documentation and specification", 
+          url:"External link to API"
+        }
+      },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      externalDocs: { 
+        //description: "API Documentation and specification", 
+        //url:"External link to API"
+      }
+      },
+    errors: [
+      {
+
+        code: "Dok01",
+        path: ['externalDocs'],
+        message: "I regel BÖR dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);
+testRule("Dok15Get", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      paths: { "/Dettacase": {
+        get: {
+          description: "Ogiltigt testfall av CamelCase",
+          parameters: [
+            {
+              name: "Very_LongName",
+              in: "path",
+              required: false,
+            },
+          ],
+          
+          responses: {
+            '200': {
+              description: "test",
+              content: {
+                'application/json':{
+                  examples: "s"
+                }
+              }
+            }
+          }
+        },
+      } },
+      components:{
+        schemas: {
+          Error1: {
+            examples:"test"
+          }
+        }
+      }
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      paths: { "/Dettacase": {
+        get: {
+          description: "Ogiltigt testfall av CamelCase",
+          parameters: [
+            {
+              name: "Very_LongName",
+              in: "path",
+              required: false,
+            },
+          ],
+          responses: {
+            "200": {
+              description: "",
+              content: {
+                "application/json":{
+                  test: "ds"
+                }
+              }
+
+            }
+          }
+        },
+      } },
+      components:{
+        schemas: {
+          Error1: {
+            
+          }
+        }
+      }
+    },
+    errors: [
+      {
+        code: "Dok15Get",
+        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.",
+        path: ["paths", "/Dettacase", "get", "responses", "200", "content","application/json"],
+        severity: DiagnosticSeverity.Error,
+        range: {"start": {
+            "line": 0,
+            "character": 309
+          },
+          "end": {
+            "line": 0,
+            "character": 321
+          }
+        }
+      },
+     
+    ],
+  }
+  
+]);
+
+testRule("Dok15ReqBody", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      paths: { "/Dettacase": {
+        post: {
+          requestBody:{
+            content: {
+              'application/json':{
+                  examples: "s"
+                }
+            },
+          '200': {
+            description: "test",
+            }
+          },
+          description: "Ogiltigt testfall av CamelCase",
+          parameters: [
+            {
+              name: "Very_LongName",
+              in: "path",
+              required: false,
+            },
+          ],
+          
+          responses: {
+            
+          }
+        },
+      } },
+      components:{
+        schemas: {
+          Error1: {
+            examples:"test"
+          }
+        }
+      }
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      paths: { "/Dettacase": {
+        post: {
+          requestBody:{
+            content: {
+              'application/json':{
+                  inteexamples: "s"
+                }
+            },
+          description: "Ogiltigt testfall av CamelCase",
+          parameters: [
+            {
+              name: "Very_LongName",
+              in: "path",
+              required: false,
+            },
+          ],
+          
+          responses: {
+           
+            '200': {
+              description: "test",
+              }
+            }
+          }
+        },
+      } },
+      components:{
+        schemas: {
+          Error1: {
+            
+          }
+        }
+      }
+    },
+    errors: [
+      {
+        code: "Dok15ReqBody",
+        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.",
+        path: ["paths", "/Dettacase", "post", "requestBody", "content","application/json"],
+        severity: DiagnosticSeverity.Error,
+        range: {"start": {
+            "line": 0,
+            "character": 172
+          },
+          "end": {
+            "line": 0,
+            "character": 191
+          }
+        }
+      },
+     
+    ],
   }
   
 ]);

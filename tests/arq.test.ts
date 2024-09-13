@@ -53,7 +53,7 @@ testRule("Arq05ComplexStructure", [
       errors: [
         {
           message:
-            "[Payload data SKALL INTE användas i HTTP-headers.] Om en header förväntas innehålla komplexa datastrukturer, såsom JSON eller XML, kan det indikera en okonventionell användning av headers.",
+            "[Payload data SKALL INTE användas i HTTP-headers] Om en header förväntas innehålla komplexa datastrukturer, såsom JSON eller XML, kan det indikera en okonventionell användning av headers.",
           path: ["paths", "/foo", "post", "parameters", "0"],
           severity: DiagnosticSeverity.Warning,
         },
@@ -113,7 +113,7 @@ testRule("Arq05ComplexStructure", [
       errors: [
         {
           message:
-            "[Payload data SKALL INTE användas i HTTP-headers.] Om en header förväntas innehålla data med ovanliga MIME-typer kan det indikera en okonventionell användning av headers.",
+            "[Payload data SKALL INTE användas i HTTP-headers] Om en header förväntas innehålla data med ovanliga MIME-typer kan det indikera en okonventionell användning av headers.",
           path: ["paths", "/foo", "post", "parameters", "0"],
           severity: DiagnosticSeverity.Warning,
         },
@@ -185,7 +185,7 @@ testRule("Arq05ComplexStructure", [
       errors: [
         {
           message:
-            "[Payload data SKALL INTE användas i HTTP-headers.] Om en header använder nästlade strukturer, är en requestbody mer lämplig.",
+            "[Payload data SKALL INTE användas i HTTP-headers] Om en header använder nästlade strukturer, är en requestbody mer lämplig.",
           path: ["paths", "/foo", "post", "parameters", "0"],
           severity: DiagnosticSeverity.Warning,
         },
@@ -249,7 +249,7 @@ testRule("Arq05ComplexStructure", [
       errors: [
         {
           message:
-            "Ett API request BÖR skickas i UTF-8 format",
+            "Ett request BÖR skickas i UTF-8",
           path: ["paths", "/", "get", "requestBody", "content"],
           severity: DiagnosticSeverity.Warning,
         },
@@ -361,7 +361,7 @@ testRule("Arq03", [
     errors: [
       {
         message:
-          "Alla API:er BÖR supportera följande request headers: Accept, Accept-Charset, Date, Cache-Control, ETag, Connection och Cookie.",
+        "Alla API:er BÖR supportera följande request headers: Accept, Date, Cache-Control, ETag, Connection och Cookie.",
         severity: DiagnosticSeverity.Warning,
       },
     ],
