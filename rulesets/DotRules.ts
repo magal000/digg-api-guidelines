@@ -1,7 +1,5 @@
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
-import { BaseRuleset} from "./BaseRuleset.ts";
 import { parseProperties,Property} from "./rulesetUtil.ts";
 import { DotRuleBase,DotStateExecutionLog} from "./util/DotRulesUtil.ts";
 
@@ -45,53 +43,6 @@ export class Dot02 extends DotRuleBase {
   }
 }
 
-export class Dot03 extends DotRuleBase {
-
-  static customProperties: CustomProperties = {
-    område: "Datum- och tidsformat",
-    id: "DOT.03",
-  };
-  description = "När man använder RFC 3339 format BÖR tidszonen anges.";
-  message = "När man använder RFC 3339 format BÖR tidszonen anges.";
-  severity: DiagnosticSeverity = DiagnosticSeverity.Warning;
-
-
-  then = {
-    function: (targetVal: any, _opts: string, paths) => {
-      const dotStateExecutionLogDictionary: DotStateExecutionLog = {};
-        const data = targetVal;
-        const isTrackRuleExecution = {value:false};
-        for (const key in data) {
-            const properties: Property[] = parseProperties(key, data);
-            properties.forEach(prop => {
-                const stateKey = `${key}:${prop.name}:${Math.floor(Math.random() * 1000)}`;
-                if (!dotStateExecutionLogDictionary[stateKey]) {
-                    dotStateExecutionLogDictionary[stateKey] = [];
-                }
-                this.executeRuleLogic(prop, stateKey, dotStateExecutionLogDictionary, isTrackRuleExecution,Dot03.customProperties);
-              });
-        }
-        return this.handleResult(dotStateExecutionLogDictionary, paths, moduleName, isTrackRuleExecution,Dot03.customProperties);
-    }
-
-  };
-  generateDateTimePattern(): string {
-    return super.generateDateTimePattern();
-  }
-  generateDatePattern(): string {
-    return super.generateDatePattern();
-  }
-  isValidWithOffset(example: string): boolean {
-    const offsetIndex = example.lastIndexOf('+') || example.lastIndexOf('-');
-    if (offsetIndex !== -1) {
-        const offsetPart = example.substring(offsetIndex);
-        return true; // Offset found
-    } else {
-        return false; // No offset found
-    }
-  }
-}
-
 export class Dot04 extends DotRuleBase {
 
   static customProperties: CustomProperties = {
@@ -99,7 +50,7 @@ export class Dot04 extends DotRuleBase {
     id: "DOT.04",
   };
   description = "När man använder RFC 3339 format BÖR tidszonen anges.";
-  message = "Tidzonen BÖR (DOT.04) representeras med UTC formatet, där tid anges som offset från UTC (Coordinated Universal Time).";
+  message = "Tidzonen BÖR representeras med UTC formatet, där tid anges som offset från UTC (Coordinated Universal Time).";
   severity: DiagnosticSeverity = DiagnosticSeverity.Warning;
 
 
@@ -138,4 +89,5 @@ export class Dot04 extends DotRuleBase {
     }
   }
 }
-export default { Dot02,Dot03,Dot04};
+
+export default { Dot02,Dot04};
