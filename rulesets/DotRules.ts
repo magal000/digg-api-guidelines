@@ -52,7 +52,7 @@ export class Dot04 extends DotRuleBase {
     id: "DOT.04",
   };
   description = "När man använder RFC 3339 format BÖR tidszonen anges.";
-  message = "Tidzonen BÖR (DOT.04) representeras med UTC formatet, där tid anges som offset från UTC (Coordinated Universal Time).";
+  message = "Tidzonen BÖR representeras med UTC formatet, där tid anges som offset från UTC (Coordinated Universal Time).";
   severity: DiagnosticSeverity = DiagnosticSeverity.Warning;
 
 

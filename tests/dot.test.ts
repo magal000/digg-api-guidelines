@@ -112,7 +112,7 @@ testRule("Dot02", [
         },
         errors: [
           {
-            message: "Tidzonen BÖR (DOT.04) representeras med UTC formatet, där tid anges som offset från UTC (Coordinated Universal Time).",
+            message: "Tidzonen BÖR representeras med UTC formatet, där tid anges som offset från UTC (Coordinated Universal Time).",
             path: ["components", "schemas", "DateRequest","properties","postedTime","example"],
             severity: DiagnosticSeverity.Warning,
           },
