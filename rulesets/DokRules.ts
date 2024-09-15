@@ -2,7 +2,38 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
+import { Dok15Base } from "./rulesetUtil.ts";
 const moduleName: string = "DokRules.ts";
+
+export class Dok15Get extends Dok15Base {
+  given = '$.paths[*][*].responses[*].content.application/json';
+  then = [{
+    function: (targetVal: any, _opts: string, paths: string[])=> {
+      return super.test(targetVal, _opts, paths)
+    }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Dok15Base.customProperties);
+    }
+  }]
+  
+}
+export class Dok15ReqBody extends Dok15Base {
+  given = '$.paths[*][?(@ != "get")].requestBody.content.application/json';
+  then = [{
+    function: (targetVal: any, _opts: string, paths: string[])=> {
+      return super.test(targetVal, _opts, paths)
+    }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Dok15Base.customProperties);
+    }
+  }]
+}
 
 export class Dok17 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -11,7 +42,6 @@ export class Dok17 extends BaseRuleset {
   };
   description = " ( Linter-analysverktyget (RAP-LP) för den nationella REST API-profilen är designat för senaste major versionen av OpenAPI Specification. Använd därför denna för full täckning av de implementerade reglerna. )";
   message = "API specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification." + this.description;
-  //message = "AAA";
   given = "$";
     then = [{
         field: 'swagger',
@@ -120,7 +150,7 @@ export class Dok19 extends BaseRuleset {
     id: "DOK.19",
   };
   given = "$.paths[*][*]"
-  message = "Kontroll om förekomst av fältet description finns i specifikationen under respektive operation get/post";
+  message = "Ett API:s resurser och de möjliga operationer som kan utföras på resursen SKALL beskrivas så utförligt och tydligt som möjligt";
     then = [{
       field: "description",
       function: truthy
@@ -130,8 +160,7 @@ export class Dok19 extends BaseRuleset {
         this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
         this.constructor.name, moduleName,Dok19.customProperties);
       }
-    }
-    ];
+    }];
     constructor() {
       super();
       super.initializeFormats(['OAS2','OAS3']);
@@ -185,4 +214,4 @@ export class Dok01 extends BaseRuleset {
   } 
   severity = DiagnosticSeverity.Warning; 
 }
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01, Dok17};
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get, Dok15ReqBody};

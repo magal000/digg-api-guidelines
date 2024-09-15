@@ -52,6 +52,7 @@ const ruleTypes = [
   FnsRules.Fns08,
   DokRules.Dok23,
   DotRules.Dot02,
+  DokRules.Dok15Get,DokRules.Dok15ReqBody,
   DotRules.Dot04,
   DokRules.Dok19,
   DokRules.Dok01,

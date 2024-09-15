@@ -153,7 +153,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
+          message: "URL:n SKALL använda dessa URL-säkra tecknen (a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986) (gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).",
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -168,7 +168,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
+          message: "URL:n SKALL använda dessa URL-säkra tecknen (a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986) (gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).",
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -186,7 +186,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
+          message: "URL:n SKALL använda dessa URL-säkra tecknen (a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986) (gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).",
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -204,7 +204,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda tecken som är URL-säkra (tecknen a-z, 0-9, \"-\", \".\",\" samt \"~\", se vidare i RFC 3986).',
+          message: "URL:n SKALL använda dessa URL-säkra tecknen (a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986) (gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).",
           severity: DiagnosticSeverity.Error,
         }
       ],
