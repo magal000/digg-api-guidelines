@@ -5,6 +5,7 @@ import { BaseRuleset} from "./BaseRuleset.ts"
 import { Dok15Base } from "./rulesetUtil.ts";
 const moduleName: string = "DokRules.ts";
 
+
 export class Dok15Get extends Dok15Base {
   given = '$.paths[*][*].responses[*].content.application/json';
   then = [{
@@ -34,7 +35,6 @@ export class Dok15ReqBody extends Dok15Base {
     }
   }]
 }
-
 export class Dok17 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
@@ -214,4 +214,5 @@ export class Dok01 extends BaseRuleset {
   } 
   severity = DiagnosticSeverity.Warning; 
 }
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get, Dok15ReqBody};
+//export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get, Dok15ReqBody};
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get,Dok15ReqBody};

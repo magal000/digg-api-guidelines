@@ -88,8 +88,6 @@ export class Dok15Base extends BaseRuleset {
     }
 
 }
-
-
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {
       område: "API Request",
