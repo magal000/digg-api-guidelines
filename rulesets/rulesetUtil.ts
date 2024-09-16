@@ -57,6 +57,7 @@ export class Dok15Base extends BaseRuleset {
     this.message = "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.";
     this.severity = DiagnosticSeverity.Error;
     this.description = '';
+    super.initializeFormats(['OAS3']);
 
     
     }
