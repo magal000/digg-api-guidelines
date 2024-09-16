@@ -42,7 +42,6 @@ export class Dot02 extends DotRuleBase {
     return true; // Always valid offset in DOT.02
   }
 }
-
 export class Dot04 extends DotRuleBase {
 
   static customProperties: CustomProperties = {
@@ -89,5 +88,4 @@ export class Dot04 extends DotRuleBase {
     }
   }
 }
-
 export default { Dot02,Dot04};

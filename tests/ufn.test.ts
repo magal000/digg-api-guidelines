@@ -210,7 +210,6 @@ testRule("Ufn07", [
       ],
     },
 ]);
-
 testRule("Ufn08", [
   {
     name: "giltigt testfall - bara gemener och bindestreck ('-')",
@@ -310,6 +309,8 @@ testRule("Ufn08", [
     ],
   },
 ]);
+
+
 testRule("Ufn02", [
   {
       name: "giltigt testfall",
@@ -337,6 +338,7 @@ testRule("Ufn02", [
       ],
     },
 ]);
+
 testRule("Ufn05paths", [
     {
       
@@ -522,7 +524,6 @@ testRule("Ufn05Servers", [
   }
 
 ]);
-
 testRule("Ufn01", [
   {
     name: "giltigt testfall",

@@ -2,6 +2,8 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset } from "./BaseRuleset.ts"
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
+//import Format from "@stoplight/spectral-formats";
+
 const moduleName: string = "SakRules.ts";
 
 export class Sak09 extends BaseRuleset {
@@ -38,6 +40,10 @@ export class Sak09 extends BaseRuleset {
       }
     }
   ];  
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Error;
 }  
 export class Sak10 extends BaseRuleset {
@@ -63,6 +69,10 @@ export class Sak10 extends BaseRuleset {
       },
     }
   ];  
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Error;
 }
 export class Sak18 extends BaseRuleset {
@@ -87,6 +97,10 @@ export class Sak18 extends BaseRuleset {
     }
   }
   ];  
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning; 
 }
 export default { Sak09, Sak10, Sak18  };
