@@ -214,5 +214,4 @@ export class Dok01 extends BaseRuleset {
   } 
   severity = DiagnosticSeverity.Warning; 
 }
-//export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get, Dok15ReqBody};
 export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get,Dok15ReqBody};

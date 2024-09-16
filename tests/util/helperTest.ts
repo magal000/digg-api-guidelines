@@ -31,8 +31,6 @@ const runTestCase = async (
     const doc = document instanceof Document ? document : JSON.stringify(document);
     const errors = await s.run(doc);
 
-    console.log("Errors: " + JSON.stringify(errors,null,2));
-    console.log("ErrorsExpected: " + JSON.stringify(errorsExpected,null,2));
     expect(errors.filter(({ code }) => code === ruleName)).toEqual(
       errorsExpected.map((error) => expect.objectContaining(error) as unknown)
     );
