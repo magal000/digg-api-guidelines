@@ -14,10 +14,23 @@ export class Dot01 extends BaseRuleset {
   };
   description = "todo";
   message = "todo";
-  given = "$..responses..content.application/json.schema.properties..example";
+  given = "dasdsa";
   then = [{
       function:  (targetVal: any, _opts: string, paths) => {
-        console.log(targetVal)
+        const result:any = [];
+        const regexp:RegExp = /^(\d{4})-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])T([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])(\.\d{1,6})?(Z|([+-])([0-1][0-9]|2[0-3]):([0-5][0-9]))?Z$/
+        for (const [key] of Object.entries(targetVal)){
+     
+          if(targetVal[key].hasOwnProperty("format")){
+            if (targetVal[key].format == "date-time" && !regexp.test(targetVal[key].example) ){
+              paths.path.push(key)
+              result.push(this)
+            }
+
+          }
+
+        }
+        return result;
       }
     }
   ];
