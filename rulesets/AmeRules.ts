@@ -1,10 +1,8 @@
-import { casing, truthy, falsy, undefined as undefinedFunc, pattern, schema,CasingOptions } from "@stoplight/spectral-functions";
+import { undefined as undefinedFunc, pattern} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { parsePropertyNames } from "./rulesetUtil.ts";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
-
-
 
 const moduleName: string = "AmeRules.ts";
 
@@ -32,19 +30,22 @@ export class Ame07 extends BaseRuleset {
   message = "Fältnamn BÖR använda tecken som är alfanumeriska.";
   given = "$.components.schemas..properties[*]~";
   then = [{
-    function: pattern,
-    functionOptions: {
-      match: "^[a-zA-Z0-9_]+$"
-    }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Ame07.customProperties);
-    }
-  }
-  ];
-  severity = DiagnosticSeverity.Warning;
+      function: pattern,
+      functionOptions: {
+        match: "^[a-zA-Z0-9_]+$"
+      }
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Ame07.customProperties);
+      }
+    }];
+    constructor() {
+      super();
+      super.initializeFormats(['OAS3']);
+    } 
+    severity = DiagnosticSeverity.Warning;
 }
 
 export class Ame04 extends BaseRuleset {
@@ -55,20 +56,22 @@ export class Ame04 extends BaseRuleset {
   description = "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.";
   message = "För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.";
   given = "$.components.schemas..properties[*]~";
-  then =[ 
-    {
+  then =[{
       function: pattern,
       functionOptions: {
         match: '^(?:[a-z]+(?:_[a-z]+)*|[a-z]+(?:[A-Z][a-z]*)*)$',
       }
-    },
-    {
+  },
+  {
       function: (targetVal: string, _opts: string, paths: string[]) => {
         this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
         this.constructor.name, moduleName,Ame04.customProperties);
       },
-    }
-  ];
+  }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
 export class Ame01 extends BaseRuleset {
@@ -104,8 +107,11 @@ export class Ame01 extends BaseRuleset {
       this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
       this.constructor.name, moduleName,Ame01.customProperties);
     },
-  }
-];
+  }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
 
@@ -144,8 +150,11 @@ export class Ame02 extends BaseRuleset {
       this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
       this.constructor.name, moduleName,Ame02.customProperties);
     }
-  }
-];
+  }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
 export class Ame05 extends BaseRuleset {
@@ -205,15 +214,13 @@ export class Ame05 extends BaseRuleset {
           }          
           return result;
       }
-  },
+  },  
   {
     function: (targetVal: string, _opts: string, paths: string[]) => {
       this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
       this.constructor.name, moduleName,Ame05.customProperties);
     }
-  } 
-]; 
-    severity = DiagnosticSeverity.Error;
+  }];
     /**
      * Search a dictionary for possbile vialoations.
      * Rule is you cant mix casing types[snake/camel] within the same schemaObject
@@ -250,5 +257,10 @@ export class Ame05 extends BaseRuleset {
       }
       return Array.from(invalidEntries)
     }
-}
+    constructor() {
+      super();
+      super.initializeFormats(['OAS3']);
+    } 
+    severity = DiagnosticSeverity.Error;
+  }
 export default { Ame01, Ame02,Ame05, Ame04, Ame07 };

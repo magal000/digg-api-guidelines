@@ -2,7 +2,6 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
-import path from "path";
 const moduleName: string = "UfnRules.ts";
 
 export class Ufn05Base extends BaseRuleset {
@@ -58,6 +57,7 @@ export class Dok15Base extends BaseRuleset {
     this.message = "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.";
     this.severity = DiagnosticSeverity.Error;
     this.description = '';
+    super.initializeFormats(['OAS3']);
 
     
     }
@@ -89,8 +89,6 @@ export class Dok15Base extends BaseRuleset {
     }
 
 }
-
-
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {
       område: "API Request",
@@ -98,6 +96,7 @@ export class Arq05Base extends BaseRuleset {
     };
     constructor() {
       super();
+      super.initializeFormats(['OAS3']);
       this.given = "$.paths.*.*.parameters[?(@.in=='header' && @.schema)]";
       this.message = "Payload data SKALL INTE användas i HTTP-headers";
       this.severity = DiagnosticSeverity.Warning;

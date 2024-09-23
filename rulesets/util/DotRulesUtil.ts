@@ -1,4 +1,3 @@
-import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset} from "../BaseRuleset.ts";
 import { Property} from "../rulesetUtil.ts";
 import { CustomProperties } from '../../ruleinterface/CustomProperties.ts';
@@ -28,6 +27,7 @@ export class DotRuleBase extends BaseRuleset {
 
     constructor() {
         super();
+        super.initializeFormats(['OAS3']);
         this.given = "$.components.schemas";
     }
   

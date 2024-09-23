@@ -4,8 +4,7 @@ import { BaseRuleset } from "./BaseRuleset.ts";
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, length, alphabetical } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
-import { METHODS } from "http";
-import { json } from "stream/consumers";
+import Format from "@stoplight/spectral-formats";
 const moduleName: string = "UfnRules.ts";
 
 export class Ufn01 extends BaseRuleset {
@@ -14,7 +13,7 @@ export class Ufn01 extends BaseRuleset {
     id: "UFN.01",
   };
   description = "{protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}"
-  given = "$.servers.[url]";
+  given = "$.servers.[url]";  
   message = "En URL för ett API BÖR följa namnstandarden nedan: " + this.description;
   then = [
     {
@@ -30,9 +29,12 @@ export class Ufn01 extends BaseRuleset {
       }
     }
   ];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
-
 export class Ufn02 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "URL Format och namngivning",
@@ -70,7 +72,11 @@ export class Ufn02 extends BaseRuleset {
       }
   }
 ];
-  severity = DiagnosticSeverity.Error;
+constructor() {
+  super();
+  super.initializeFormats(['OAS3']);
+} 
+severity = DiagnosticSeverity.Error;
 }
 export class Ufn05Servers extends Ufn05Base {
 
@@ -119,8 +125,11 @@ export class Ufn05Servers extends Ufn05Base {
       this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
         this.severity, this.constructor.name, moduleName, Ufn05Servers.customProperties);
     }
-  }
-]
+  }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 
 }
 export class Ufn05paths extends Ufn05Base {
@@ -132,8 +141,6 @@ export class Ufn05paths extends Ufn05Base {
       let result:any = [];
       let pathArray:any = [];
       for (const [key] of Object.entries(targetVal)) {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
-        this.severity, this.constructor.name, moduleName, Ufn05paths.customProperties);
         for(let method of Object.entries(targetVal[key])){
           
           if(method.length > 1){
@@ -154,9 +161,7 @@ export class Ufn05paths extends Ufn05Base {
             }
             pathArray.push({string:pathStr,jsonPath:key});
           }
-          
         }
-          
       }
       for (let path of pathArray){
         if (path.string.length > 2048){
@@ -193,11 +198,19 @@ export class Ufn05paths extends Ufn05Base {
         }
       }
       return result;
-  
-      
     }
-  },]
-
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal, null, 2), _opts, paths,
+      this.severity, this.constructor.name, moduleName, Ufn05paths.customProperties);
+  
+    }
+  }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 }
 export class Ufn08 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -248,6 +261,10 @@ export class Ufn08 extends BaseRuleset {
       }
     }
   ];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3','OAS2']);
+  } 
   severity = DiagnosticSeverity.Error;
 }
 export class Ufn07 extends BaseRuleset {
@@ -290,7 +307,6 @@ export class Ufn07 extends BaseRuleset {
       }
       return result;
     }
-
   },
   {
     field: 'paths',
@@ -317,22 +333,32 @@ export class Ufn07 extends BaseRuleset {
       }
       return result;
     }
-  }
-  ];
+  }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3','OAS2']);
+  } 
   severity = DiagnosticSeverity.Error;
 }  
-
-
-
-
 export class Ufn09Server extends Ufn09Base {
   given = '$.servers.[url]';
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 }
 export class Ufn09InPathParameters extends Ufn09Base {
   given = "$.paths.*.*.parameters[?(@.in=='path')].name";
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 }
 export class Ufn09Path extends Ufn09Base {
   given = "$.paths[*]~";
-
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 }
 export default { Ufn01, Ufn02, Ufn05Servers, Ufn05paths, Ufn07, Ufn08, Ufn09Server, Ufn09Path,Ufn09InPathParameters};
