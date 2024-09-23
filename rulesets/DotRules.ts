@@ -8,7 +8,7 @@ const moduleName: string = "DotRules.ts";
 
 export class Dot01 extends BaseRuleset {
   static customProperties: CustomProperties = {
-    område: "Filtrering, paginering och sökparametrar",
+    område: "Datum- och tidsformat",
     id: "DOT.01",
   };
   description = "Datum och tid SKALL (DOT.01) hanteras enligt följande, använd alltid RFC 3339 för datum och tid, acceptera alla tidszoner i API:er returnera datum och tid i UTC och använd inte tidsdelen om du inte behöver den.";
@@ -16,13 +16,13 @@ export class Dot01 extends BaseRuleset {
   given = "$..responses..content.application/json.schema.properties";
   then = [{
       function:  (targetVal: any, _opts: string, paths) => {
-        
+        console.log(targetVal)
         const result:any = [];
         const regexp:RegExp = /^(\d{4})-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])T([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])(\.\d{1,6})?(Z|([+-])([0-1][0-9]|2[0-3]):([0-5][0-9]))?Z$/
         for (const [key] of Object.entries(targetVal)){
-          console.log(targetVal[key])
           if(targetVal[key].hasOwnProperty("format") && targetVal[key].format == "date-time"){
-            
+            this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+            this.severity,this.constructor.name, moduleName,Dot01.customProperties);
             if (!regexp.test(targetVal[key].example) ){
               
               paths.path.push(key);
@@ -37,7 +37,10 @@ export class Dot01 extends BaseRuleset {
     }
   ];
   severity = DiagnosticSeverity.Error;
-
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
 }
 
 export class Dot02 extends DotRuleBase {
