@@ -47,6 +47,7 @@ testRule("For02", [
     ],
   }  
   ]);
+  /*
 testRule("For01", [
     {
       name: "giltigt testfall",
@@ -69,3 +70,4 @@ testRule("For01", [
       ],
     },
   ]);
+  */

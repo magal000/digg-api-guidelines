@@ -6,7 +6,7 @@ import {
   RulesetDefinition,
 } from "@stoplight/spectral-core";
 import { httpAndFileResolver } from "@stoplight/spectral-ref-resolver";
-import {describe, expect, it} from '@jest/globals';
+//import {describe, expect, it} from '@jest/globals';
 import allRules from "./rulesetTest.ts";
 export type RuleName = keyof typeof allRules.rules;
 
@@ -30,7 +30,7 @@ const runTestCase = async (
     const s = createWithRules([ruleName]);
     const doc = document instanceof Document ? document : JSON.stringify(document);
     const errors = await s.run(doc);
-  
+
     expect(errors.filter(({ code }) => code === ruleName)).toEqual(
       errorsExpected.map((error) => expect.objectContaining(error) as unknown)
     );

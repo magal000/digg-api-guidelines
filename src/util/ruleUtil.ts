@@ -1,4 +1,3 @@
-import { Rule } from "@stoplight/spectral-core";
 
 // ruleUtil.ts
 interface CustomSchema {
@@ -101,6 +100,7 @@ export async function importAndCreateRuleInstances(ruleCategories?: string[]):
     /**
      * Loop entries of instanceCategory map
      */
+    
     // Create instances of rule classes in RAP-LP
     ruleTypes.forEach((RuleClass) => {
       try {

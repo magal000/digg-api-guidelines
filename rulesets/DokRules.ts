@@ -4,8 +4,39 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { Dok03Base } from './rulesetUtil.ts';
 import path from 'path';
+import { Dok15Base } from "./rulesetUtil.ts";
 const moduleName: string = "DokRules.ts";
 
+
+export class Dok15Get extends Dok15Base {
+  given = '$.paths[*][*].responses[*].content.application/json';
+  then = [{
+    function: (targetVal: any, _opts: string, paths: string[])=> {
+      return super.test(targetVal, _opts, paths)
+    }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Dok15Base.customProperties);
+    }
+  }]
+  
+}
+export class Dok15ReqBody extends Dok15Base {
+  given = '$.paths[*][?(@ != "get")].requestBody.content.application/json';
+  then = [{
+    function: (targetVal: any, _opts: string, paths: string[])=> {
+      return super.test(targetVal, _opts, paths)
+    }
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+      this.severity,this.constructor.name, moduleName,Dok15Base.customProperties);
+    }
+  }]
+}
 export class Dok17 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
@@ -14,48 +45,55 @@ export class Dok17 extends BaseRuleset {
   description = " ( Linter-analysverktyget (RAP-LP) för den nationella REST API-profilen är designat för senaste major versionen av OpenAPI Specification. Använd därför denna för full täckning av de implementerade reglerna. )";
   message = "API specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification." + this.description;
   given = "$";
-  then = [{
-      field: 'swagger',
-      function: falsy,
-  },
-  {
-    field: "openapi",
-    function: pattern,
-      functionOptions: {
-        // Matcha pattern 3.x.y och major version större än 3 
-        match: "^(3|[4-9]|[1-9]\\d+)\\.\\d+\\.\\d+$",    
+    then = [{
+        field: 'swagger',
+        function: falsy,
+    },
+    {
+      field: "openapi",
+      function: pattern,
+        functionOptions: {
+          // Matcha pattern 3.x.y och major version större än 3 
+          match: "^(3|[4-9]|[1-9]\\d+)\\.\\d+\\.\\d+$",    
+        }
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
+        this.severity,this.constructor.name, moduleName,Dok17.customProperties);
       }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-      this.severity,this.constructor.name, moduleName,Dok17.customProperties);
-    }
-  }
-];
- severity = DiagnosticSeverity.Warning;
+    }];
+    constructor() {
+      super();
+      super.initializeFormats(['OAS2','OAS3']);
+    } 
+    severity = DiagnosticSeverity.Warning;
 }
+
 export class Dok20 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
     id: "DOK.20",
   };
-  given = "$.paths[*][*].responses[*]";
-  message = "Förväntade returkoder och felkoder SKALL vara fullständigt dokumenterade.";
-  then = [{
-    field: "description",
-    function: truthy
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Dok20.customProperties);
-    }
-  }
-];
-  severity = DiagnosticSeverity.Error; 
+    given = "$.paths[*][*].responses[*]";
+    message = "Förväntade returkoder och felkoder SKALL vara fullständigt dokumenterade.";
+    then = [{
+      field: "description",
+      function: truthy
+      
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Dok20.customProperties);
+      }
+    }];
+    constructor() {
+      super();
+      super.initializeFormats(['OAS2','OAS3']);
+    } 
+      severity = DiagnosticSeverity.Error; 
 }
-
 export class Dok07 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
@@ -73,12 +111,13 @@ export class Dok07 extends BaseRuleset {
       this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
       this.constructor.name, moduleName,Dok07.customProperties);
     }
-  }
-];
+  }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning; 
 }
-
-
 export class Dok23 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
@@ -92,14 +131,18 @@ export class Dok23 extends BaseRuleset {
     functionOptions: {
       match: "^[a-z]+://(?:[a-z0-9\-.]+\.)+([a-z]{2,6})(?:\/[a-z0-9-]+/[a-z0-9-]+)?$"
     }
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Dok23.customProperties);
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Dok23.customProperties);
+      }
     }
-  }
-];
+  ];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Error; 
 }
 
@@ -109,20 +152,22 @@ export class Dok19 extends BaseRuleset {
     id: "DOK.19",
   };
   given = "$.paths[*][*]"
-  description = "Kontroll om förekomst av fältet description finns i specifikationen under respektive operation get/post";
-  message = "Ett API:s resurser och de möjliga operationer som kan utföras på resursen SKALL beskrivas så utförligt och tydligt som möjligt |" + this.description;
-  then = [{
-    field: "description",
-    function: truthy
-  },
-  {
-    function: (targetVal: string, _opts: string, paths: string[]) => {
-      this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-      this.constructor.name, moduleName,Dok19.customProperties);
-    }
-  }
-];
-  severity = DiagnosticSeverity.Error; 
+  message = "Ett API:s resurser och de möjliga operationer som kan utföras på resursen SKALL beskrivas så utförligt och tydligt som möjligt";
+    then = [{
+      field: "description",
+      function: truthy
+    },
+    {
+      function: (targetVal: string, _opts: string, paths: string[]) => {
+        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+        this.constructor.name, moduleName,Dok19.customProperties);
+      }
+    }];
+    constructor() {
+      super();
+      super.initializeFormats(['OAS2','OAS3']);
+    } 
+    severity = DiagnosticSeverity.Error; 
 }
 export class Dok01 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -131,8 +176,7 @@ export class Dok01 extends BaseRuleset {
   };
   given = "$"
   message = "I regel BÖR dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online";
-  then = [
-    {
+  then = [{
       function:(targetVal, _opts, paths) => {
         let obj:any = [];
         if (targetVal.hasOwnProperty('externalDocs')) {
@@ -165,9 +209,11 @@ export class Dok01 extends BaseRuleset {
                   }
         }          
     }         
-  },
-     
-];
+  }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning; 
 }
 
@@ -340,4 +386,4 @@ export class Dok03LicenseName extends Dok03Base {
 
 
 
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01, Dok03Info, Dok03Contact,Dok03License,Dok03ContactEmail, Dok03ContactName, Dok03ContactUrl, Dok03LicenseUrl,Dok03LicenseName,};
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get,Dok15ReqBody, Dok03Info, Dok03Contact,Dok03License,Dok03ContactEmail, Dok03ContactName, Dok03ContactUrl, Dok03LicenseUrl,Dok03LicenseName,};

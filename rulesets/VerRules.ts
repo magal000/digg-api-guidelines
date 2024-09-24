@@ -10,25 +10,25 @@ export class Ver06 extends BaseRuleset {
     id: "VER.06",
   };
   given = "$.paths";
-  message = "Information om ett API SKALL tillgängliggöras via resursen api-info under roten '/' till API:et.";
-  then = [
-    {
-      field: '/api-info',
-      function: truthy,
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        // Implement custom log func here
-
-        this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,
-          this.constructor.name, moduleName,Ver06.customProperties);
-      }
+  message = "Information om ett API SKALL tillgängliggöras via resursen api-info under roten till API:et.";
+  then = [{
+    field: '/api-info',
+    function: truthy,
+  },
+  {
+    function: (targetVal: string, _opts: string, paths: string[]) => {
+      // Implement custom log func here
+      this.trackRuleExecutionHandler(targetVal, _opts, paths,this.severity,
+        this.constructor.name, moduleName,Ver06.customProperties);
     }
-  ];
+  }
+];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  }
   severity = DiagnosticSeverity.Error;
 }
-
-
 export class Ver05 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Versionhantering",
@@ -72,6 +72,10 @@ export class Ver05 extends BaseRuleset {
     }
   }
   ]  
+  constructor() {
+    super();
+    super.initializeFormats(['OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
 export default { Ver05, Ver06 };

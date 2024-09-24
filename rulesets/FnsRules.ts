@@ -1,7 +1,8 @@
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, casing } from "@stoplight/spectral-functions";
+import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
+
 const moduleName: string = "FnsRules.ts";
 
 export class Fns01 extends BaseRuleset {
@@ -9,8 +10,8 @@ export class Fns01 extends BaseRuleset {
     område: "Filtrering, paginering och sökparametrar",
     id: "FNS.01",
   };
-  description = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase.";
-  message = "Parameternamn SKALL anges med en konsekvent namnkonvention exempelvis antingen snake_case eller camelCase";
+  description = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase";
+  message = "Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase";
   given = "$.paths.*.*.parameters[?(@.in=='query')].name";
   then = [{
       function: pattern,
@@ -25,6 +26,10 @@ export class Fns01 extends BaseRuleset {
       }
     }
   ];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
   severity = DiagnosticSeverity.Error;
 }
 
@@ -47,8 +52,11 @@ export class Fns03 extends BaseRuleset {
       this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
       this.constructor.name, moduleName,Fns03.customProperties);
     }
-  }
-];
+  }];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
   severity = DiagnosticSeverity.Error;
 }
 
@@ -61,45 +69,49 @@ export class Fns09 extends BaseRuleset {
   message = "Defaultvärde för limit BÖR vara 20";
   given = "$.paths..parameters";
   severity = DiagnosticSeverity.Warning;
-  then = [{
-    function: (targetVal: any,_opts: string, paths: string[]) => {
+    then = [{
+      function: (targetVal: any,_opts: string, paths: string[]) => {
 
-      let isValid = true;
-      let hasChecked = false;
-      
-      if (Array.isArray(targetVal)) {
-        targetVal.forEach((item) => {
-          if (item["in"] == "query" &&
-            (item["name"] == "page" || item["name"] == "offset")) {
-            // check for existense of 'limit' parameter
-            const limit = targetVal.find(param => param.name === 'limit');
-            if (limit) {
-              isValid = limit.schema.default === 20;
+        let isValid = true;
+        let hasChecked = false;
+        
+        if (Array.isArray(targetVal)) {
+          targetVal.forEach((item) => {
+            if (item["in"] == "query" &&
+              (item["name"] == "page" || item["name"] == "offset")) {
+              // check for existense of 'limit' parameter
+              const limit = targetVal.find(param => param.name === 'limit');
+              if (limit) {
+                isValid = limit.schema.default === 20;
+              }
+              /**
+               * Track ruleexecution
+               */
+              if (!hasChecked) {
+                this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+                this.constructor.name, moduleName,Fns09.customProperties);            
+                hasChecked = true;
+              }
             }
-            /**
-             * Track ruleexecution
-             */
-            if (!hasChecked) {
-              this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-              this.constructor.name, moduleName,Fns09.customProperties);            
-              hasChecked = true;
+          });
+        }
+        if (!isValid) {
+          return [
+            {
+              message: this.message,
+              severity: this.severity
             }
-          }
-        });
-      }
-      if (!isValid) {
-        return [
-          {
-            message: this.message,
-            severity: this.severity
-          }
-        ];
-      } else {
-         return []
+          ];
+        } else {
+          return []
+        }
       }
     }
-  }
-];
+  ];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
 }
 export class Fns05 extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -129,6 +141,10 @@ export class Fns05 extends BaseRuleset {
     }
   }
 ];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
   severity = DiagnosticSeverity.Warning;
 }
 export class Fns06 extends BaseRuleset {
@@ -152,7 +168,11 @@ export class Fns06 extends BaseRuleset {
       }
     }
   ];
-    severity = DiagnosticSeverity.Warning;
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
+  severity = DiagnosticSeverity.Warning;
 }
 
 export class Fns07 extends BaseRuleset {
@@ -163,51 +183,55 @@ export class Fns07 extends BaseRuleset {
   description = "";
   message = "Vid användande av paginering, SKALL följande parametrar ingå i request: 'limit' och någon av 'page' eller 'offset'";
   given = "$.paths..parameters";
-  then = [{
-    function: (targetVal: any, _opts: string, paths: string[]) => {
+    then = [{
+      function: (targetVal: any, _opts: string, paths: string[]) => {
 
-      let isValid = true;
-      let hasLimit = false;
-      let hasPage = false;
-      let hasOffset = false;
+        let isValid = true;
+        let hasLimit = false;
+        let hasPage = false;
+        let hasOffset = false;
 
-      if (Array.isArray(targetVal)) {
-        targetVal.forEach(function (parameter, index) {
-  
-          if (parameter["in"] == "query") {
-            if (parameter["name"] == "page") {
-              hasPage = true;
+        if (Array.isArray(targetVal)) {
+          targetVal.forEach(function (parameter, index) {
+    
+            if (parameter["in"] == "query") {
+              if (parameter["name"] == "page") {
+                hasPage = true;
+              }
+              if (parameter["name"] == "offset") {
+                hasOffset = true;
+              }
+              if (parameter["name"] == "limit") {
+                hasLimit = true;
+              }
             }
-            if (parameter["name"] == "offset") {
-              hasOffset = true;
-            }
-            if (parameter["name"] == "limit") {
-              hasLimit = true;
-            }
+          });
+          if (( hasPage || hasOffset) ) { 
+            this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+            this.constructor.name, moduleName,Fns07.customProperties);
           }
-        });
-        if (( hasPage || hasOffset) ) { 
-          this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-          this.constructor.name, moduleName,Fns07.customProperties);
+    
+          if (( hasPage || hasOffset) && !hasLimit ) {
+            isValid = false;
+          }
         }
-  
-        if (( hasPage || hasOffset) && !hasLimit ) {
-          isValid = false;
+        if (isValid) {
+          return [];
+        } else {
+          return [
+              {
+                message: this.message,
+                severity: this.severity
+            },
+          ]
         }
-       }
-      if (isValid) {
-        return [];
-      } else {
-        return [
-            {
-              message: this.message,
-              severity: this.severity
-           },
-        ]
       }
-    }
-  },
-];
+    },
+  ];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
   severity = DiagnosticSeverity.Error;
 }
 
@@ -219,49 +243,53 @@ export class Fns08 extends BaseRuleset {
   description = "";
   message = "'page' SKALL alltid starta med värde 1";
   given = "$.paths..parameters";
-  then = [{
-    function: (targetVal: any, _opts: string, paths: string[]) => {
+    then = [{
+      function: (targetVal: any, _opts: string, paths: string[]) => {
 
-      let isValidDefaultValue = true;
-      let pageDefaultValue = -1;
+        let isValidDefaultValue = true;
+        let pageDefaultValue = -1;
 
-      let hasLimit = false;
-      let hasPage = false;
+        let hasLimit = false;
+        let hasPage = false;
 
-      if (Array.isArray(targetVal)) {
-        targetVal.forEach(function (parameter, index) {
-          if (parameter["in"] == "query") {
-            if (parameter["name"] == "page") {
-              hasPage = true;
-              pageDefaultValue = parameter.hasOwnProperty("schema")? parameter["schema"]["default"]: pageDefaultValue
+        if (Array.isArray(targetVal)) {
+          targetVal.forEach(function (parameter, index) {
+            if (parameter["in"] == "query") {
+              if (parameter["name"] == "page") {
+                hasPage = true;
+                pageDefaultValue = parameter.hasOwnProperty("schema")? parameter["schema"]["default"]: pageDefaultValue
+              }
+              if (parameter["name"] == "limit") {
+                hasLimit = true;
+              }
             }
-            if (parameter["name"] == "limit") {
-              hasLimit = true;
-            }
+          });
+          if (hasPage && hasLimit) {
+            /**
+             * Track ruleexecution
+             */
+            this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+            this.constructor.name, moduleName,Fns08.customProperties);
+            isValidDefaultValue = (pageDefaultValue == 1);
           }
-        });
-        if (hasPage && hasLimit) {
-          /**
-           * Track ruleexecution
-           */
-          this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-          this.constructor.name, moduleName,Fns08.customProperties);
-          isValidDefaultValue = (pageDefaultValue == 1);
+        } 
+        if (isValidDefaultValue) {
+          return [];
+        } else {
+          return [
+              {
+                message: this.message,
+                severity: this.severity
+            },
+          ]
         }
-      } 
-      if (isValidDefaultValue) {
-        return [];
-      } else {
-        return [
-            {
-              message: this.message,
-              severity: this.severity
-           },
-        ]
       }
     }
-  }
-];
+  ];
+  constructor() {
+    super();
+    super.initializeFormats(['OAS2','OAS3']);
+  } 
   severity = DiagnosticSeverity.Error;
 }
 

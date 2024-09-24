@@ -1,3 +1,5 @@
+import type { Format } from '@stoplight/spectral-core';
+
 export interface RulesetInterface {
     given?: string;
     message?: string;
@@ -6,4 +8,7 @@ export interface RulesetInterface {
     category?: string;
     function?:() => any;
     description?:string;
+    formats?:any[];
+    //formats?: Format[];
+    
 }

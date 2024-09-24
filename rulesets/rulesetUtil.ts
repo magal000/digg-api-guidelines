@@ -2,7 +2,6 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
-import path from "path";
 const moduleName: string = "UfnRules.ts";
 
 export class Dok03Base extends BaseRuleset {
@@ -12,6 +11,7 @@ export class Dok03Base extends BaseRuleset {
   };
   constructor() {
     super()
+    super.initializeFormats(['OAS3']);
     this.description = "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.";
     this.severity = DiagnosticSeverity.Warning;
   }
@@ -60,6 +60,49 @@ export class Ufn09Base extends BaseRuleset {
     ];
     }
 }
+
+export class Dok15Base extends BaseRuleset {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.15",
+  };
+  constructor() {
+    super();
+    this.message = "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.";
+    this.severity = DiagnosticSeverity.Error;
+    this.description = '';
+    super.initializeFormats(['OAS3']);
+
+    
+    }
+    protected get messageValue(): string {
+      return this.message;
+    }  
+    protected test(targetVal: any, _opts: string, paths: string[]){
+        
+        let result:any = [];
+        let hasExample = false;
+        const pattern:RegExp = /^example(?:s$|$)/;
+        for(let propertie in targetVal){
+          if(pattern.test(propertie)){
+            hasExample = true;
+            
+          }
+        }
+        if(hasExample == false){
+          result.push({
+            message: this.message,
+            severity: this.severity
+         })
+         
+        }
+        
+        return result;
+        
+      
+    }
+
+}
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {
       område: "API Request",
@@ -67,8 +110,9 @@ export class Arq05Base extends BaseRuleset {
     };
     constructor() {
       super();
+      super.initializeFormats(['OAS3']);
       this.given = "$.paths.*.*.parameters[?(@.in=='header' && @.schema)]";
-      this.message = "Payload data SKALL INTE användas i HTTP-headers.";
+      this.message = "Payload data SKALL INTE användas i HTTP-headers";
       this.severity = DiagnosticSeverity.Warning;
       this.description = '';
       }
