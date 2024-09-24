@@ -57,7 +57,15 @@ const ruleTypes = [
   DotRules.Dot04,
   DokRules.Dok19,
   DokRules.Dok01,
-  DokRules.Dok17
+  DokRules.Dok17,
+  DokRules.Dok03Info,
+  DokRules.Dok03ContactName,
+  DokRules.Dok03ContactEmail,
+  DokRules.Dok03ContactUrl,
+  DokRules.Dok03Contact,
+  DokRules.Dok03License,
+  DokRules.Dok03LicenseName,
+  DokRules.Dok03LicenseUrl
 ];
 ruleTypes.forEach((RuleClass) => {
   const instance = new RuleClass();

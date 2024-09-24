@@ -1,7 +1,9 @@
-import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
-import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
+import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema, defined } from "@stoplight/spectral-functions";
+import { DiagnosticSeverity } from "@stoplight/types";
+import { Dok03Base } from './rulesetUtil.ts';
+import path from 'path';
 import { Dok15Base } from "./rulesetUtil.ts";
 const moduleName: string = "DokRules.ts";
 
@@ -214,4 +216,174 @@ export class Dok01 extends BaseRuleset {
   } 
   severity = DiagnosticSeverity.Warning; 
 }
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get,Dok15ReqBody};
+
+/**
+ * Dok03Info 
+ */
+export class Dok03Info extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+  given = "$.info"
+  message = this.description + "[ info objektet bör ha title, version , description, termsOfService, contact , license ]";
+  then = [
+    {
+      field: "version",
+      function: truthy
+    },
+    {
+      field: "title",
+      function: truthy
+    },
+    {
+      field: "description",
+      function: truthy
+    },
+    {
+      field: "termsOfService",
+      function: truthy
+    },
+    
+    {
+ 
+    function:(targetVal, _opts, paths) => {
+    this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
+    this.constructor.name, moduleName,Dok03Info.customProperties);   
+    }  
+  }   
+     
+];
+  severity = DiagnosticSeverity.Warning; 
+}
+
+
+export class Dok03ContactName extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+  message = this.description+"(Contact saknar name)";
+  given = "$.info.contact";
+
+  then = [
+  {
+    field: "name",
+    function: truthy
+  },
+  
+ ];
+  severity = DiagnosticSeverity.Warning;
+}
+
+export class Dok03ContactEmail extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+  message = this.description + "(Contact saknar email)";
+  given = "$.info.contact";
+
+  then = [
+  {
+    field: "email",
+    function: truthy
+  },
+  
+ ];
+  severity = DiagnosticSeverity.Warning;
+}
+
+export class Dok03ContactUrl extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+  message = this.description+"(Contact saknar url)";
+  given = "$.info.contact";
+
+  then = [
+  {
+    field: "url",
+    function: truthy
+  },
+  
+ ];
+  severity = DiagnosticSeverity.Warning;
+}
+
+
+export class Dok03Contact extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+  message = this.description+"(Saknar contact objektet)";
+  given = "$.info";
+
+  then = [
+  {
+    field:"contact",
+    function:truthy
+  
+  },
+    ]
+
+  }
+
+  export class Dok03License extends Dok03Base {
+    static customProperties: CustomProperties = {
+      område: "Dokumentation",
+      id: "DOK.03",
+    };
+    message = this.description+"(Saknar license objektet)";
+    given = "$.info";
+  
+    then = [
+    {
+      field:"license",
+      function:truthy
+    
+    },
+      ]
+  
+    }
+
+
+export class Dok03LicenseUrl extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+   message = this.description+"(license saknar url)";
+   given = "$.info.license";
+
+   then = [
+    {
+      field: "url",
+      function: truthy
+    },
+
+   ];
+}
+
+export class Dok03LicenseName extends Dok03Base {
+  static customProperties: CustomProperties = {
+    område: "Dokumentation",
+    id: "DOK.03",
+  };
+   message = this.description+"(license saknar name)";
+   given = "$.info.license";
+
+   then = [
+    {
+      field: "name",
+      function: truthy
+    },
+
+  ];
+}
+
+
+
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get,Dok15ReqBody, Dok03Info, Dok03Contact,Dok03License,Dok03ContactEmail, Dok03ContactName, Dok03ContactUrl, Dok03LicenseUrl,Dok03LicenseName,};

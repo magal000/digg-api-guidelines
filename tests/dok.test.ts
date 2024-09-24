@@ -214,7 +214,7 @@ testRule("Dok19", [
       paths: { "/thiscase": {
         operation: {
           //description: "dfadfa",
-          summery: "",
+          //summery: "",
           responses: {
             '200': {
               description: ""
@@ -475,4 +475,362 @@ testRule("Dok15ReqBody", [
     ],
   }
   
+]);
+testRule("Dok01", [
+  {
+    name: "giltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      externalDocs: { 
+          description: "API Documentation and specification", 
+          url:"External link to API"
+        }
+      },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      servers: [{ url: "https://example.com/my-api/v1" }],
+      externalDocs: { 
+        //description: "API Documentation and specification", 
+        //url:"External link to API"
+      }
+      },
+    errors: [
+      {
+
+        code: "Dok01",
+        path: ['externalDocs'],
+        message: "I regel BÖR dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);
+
+
+testRule("Dok03Info", [
+  {
+    
+    name: "giltigt testfall",
+    document: {
+      servers: [{
+        url:"https://pets.se/dsa/v1"
+      }],
+      openapi: "3.1.0",
+      info: { 
+              version: "21.0.0",
+              title: "AME",
+              description: "API message",
+              termsOfService: "http://swagger.io/terms/",
+            },
+      
+    },
+    errors: [],
+  },
+  
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: {  },
+      },
+    errors: [
+      {
+
+        code: "Dok03Info",
+        path: ['info'],
+        message:  "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter." + "[ info objektet bör ha title, version , description, termsOfService, contact , license ]",
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+]);
+
+testRule("Dok03ContactName", [
+  {
+    
+    name: "giltigt testfall",
+    document: {
+      servers: [{
+        url:"https://pets.se/dsa/v1"
+      }],
+      openapi: "3.1.0",
+      info: { 
+              contact: {
+                name: "Swagger AP"
+                
+              }
+
+       },
+      
+    },
+    errors: [],
+  },
+  
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { 
+        contact: {
+            nname: "Swagger AP",
+          } 
+      },
+    },
+    errors: [
+      {
+
+        code: "Dok03ContactName",
+        path: ["info","contact"],
+        message:  "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter." + "(Contact saknar name)"
+      }
+    ],
+  },
+]);
+
+testRule("Dok03ContactEmail", [
+  {
+    
+    name: "giltigt testfall",
+    document: {
+      servers: [{
+        url:"https://pets.se/dsa/v1"
+      }],
+      openapi: "3.1.0",
+      info: { 
+              contact: {
+                email: "email@email.com"
+                
+              }
+
+       },
+      
+    },
+    errors: [],
+  },
+  
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { 
+        contact: {          
+            gemail: "abce@emil.com"
+        } 
+      },
+    },
+    errors: [
+      {
+
+        code: "Dok03ContactEmail",
+        path: ["info","contact"],
+        message:  "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.(Contact saknar email)"
+      }
+    ],
+  },
+]);
+
+testRule("Dok03ContactUrl", [
+  {
+    
+    name: "giltigt testfall",
+    document: {
+      servers: [{
+        url:"https://pets.se/dsa/v1"
+      }],
+      openapi: "3.1.0",
+      info: { 
+              contact: {
+                url: "http://swagger.io"
+                
+              }
+
+       },
+      
+    },
+    errors: [],
+  },
+  
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { 
+        contact: {
+          
+            uuuurll: "http://swagger.io"
+        } 
+      },
+    },
+    errors: [
+      {
+
+        code: "Dok03ContactUrl",
+        path: ["info","contact"],
+        message:  "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.(Contact saknar url)"
+      }
+    ],
+  },
+]);
+
+testRule("Dok03Contact", [
+  {
+    
+    name: "giltigt testfall",
+    document: {
+      servers: [{
+        url:"https://pets.se/dsa/v1"
+      }],
+      openapi: "3.1.0",
+      info: { 
+              contact: { }
+
+       },
+      
+    },
+    errors: [],
+  },
+  
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { 
+        ccontact: {  } 
+      },
+    },
+    errors: [
+      {
+
+        code: "Dok03Contact",
+        path: ["info"],
+        message:  "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.(Saknar contact objektet)"
+      }
+    ],
+  },
+]);
+
+testRule("Dok03License", [
+  {
+    
+    name: "giltigt testfall",
+    document: {
+      servers: [{
+        url:"https://pets.se/dsa/v1"
+      }],
+      openapi: "3.1.0",
+      info: { 
+          license: { }
+
+       },
+      
+    },
+    errors: [],
+  },
+  
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { 
+        lllllicense: {  } 
+      },
+    },
+    errors: [
+      {
+
+        code: "Dok03License",
+        path: ["info"],
+        message:  "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.(Saknar license objektet)"
+      }
+    ],
+  },
+]);
+
+testRule("Dok03LicenseUrl", [
+  {
+    
+    name: "giltigt testfall",
+    document: {
+      servers: [{
+        url:"https://pets.se/dsa/v1"
+      }],
+      openapi: "3.1.0",
+      info: { 
+        license: { 
+                  url: "https://pets.se/dsa/v1"
+                }
+
+       },
+      
+    },
+    errors: [],
+  },
+  
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { 
+        license: { 
+                uuuuuuurl:"" } 
+      },
+    },
+    errors: [
+      {
+
+        code: "Dok03LicenseUrl",
+        path: ["info", "license"],
+        message:  "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.(license saknar url)"
+      }
+    ],
+  },
+]);
+
+testRule("Dok03LicenseName", [
+  {
+    
+    name: "giltigt testfall",
+    document: {
+      servers: [{
+        url:"https://pets.se/dsa/v1"
+      }],
+      openapi: "3.1.0",
+      info: { 
+        license: { 
+                  name: "this name"
+                
+                }
+
+       },
+      
+    },
+    errors: [],
+  },
+  
+  {
+    name: "ogiltigt testfall",
+    document: {
+      openapi: "3.1.0",
+      info: { 
+        license: {           
+                nnnnnnname:"this is name"               
+              } 
+      },
+    },
+    errors: [
+      {
+
+        code: "Dok03LicenseName",
+        path: ["info", "license"],
+        message:  "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.(license saknar name)"
+      }
+    ],
+  },
 ]);
