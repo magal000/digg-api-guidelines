@@ -3,6 +3,10 @@
   "version": "v0.2.3",
   "main": ".src/app.ts",
   "type": "module",
+  "engines" : { 
+    "npm" : ">=8.0.0 <9.0.0",
+    "node" : ">=20.17.0 <20.18.0"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:diggsweden/rest-api-profil-lint-processor"
