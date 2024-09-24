@@ -10,7 +10,8 @@
   "description": "A command-line tool to lint OpenAPI v3 definitions using Spectral",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "jest"
+    "test": "jest",
+    "start": "node --loader ts-node/esm src/app.ts"
   },
   "directories": {
     "test": "test"
