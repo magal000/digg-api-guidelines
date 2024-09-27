@@ -1,8 +1,11 @@
 {
   "name": "@diggsweden/rest-api-profil-lint-processor",
-  "version": "v0.2.3",
+  "version": "v0.2.4",
   "main": ".src/app.ts",
   "type": "module",
+  "engines" : { 
+    "node" : ">=20.17.0 <20.18.0"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:diggsweden/rest-api-profil-lint-processor"
@@ -10,7 +13,8 @@
   "description": "A command-line tool to lint OpenAPI v3 definitions using Spectral",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "jest"
+    "test": "jest",
+    "start": "node --import=./register.js src/app.ts"
   },
   "directories": {
     "test": "test"

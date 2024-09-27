@@ -7,5 +7,5 @@ COPY --chown=node:node ["./","./"]
 
 RUN npm install --omit-dev
 RUN npm install ts-node typescript --omit-dev 
-ENTRYPOINT ["node","--loader","ts-node/esm","./src/app.ts"]
+ENTRYPOINT ["npm start","--"]
 
