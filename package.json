@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "jest",
-    "start": "node --import=./src/util/register.js src/app.ts"
+    "start": "node --import=./register.js src/app.ts"
   },
   "directories": {
     "test": "test"
