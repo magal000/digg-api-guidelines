@@ -39,18 +39,18 @@ $ npm install
 ## Quick start instructions
 Use this command to run the application on YAML-file: 
 ```bash
-$ ts-node-esm src/app.ts -f Path_to_the_YAML_file
+$ npm start -- -f Path_to_the_YAML_file
 ```
 **Example** 
 ```bash
-$ ts-node-esm src/app.ts -f apis/dok-api.yaml
+$ npm start -- -f apis/dok-api.yaml
 ```
 
 ## Usage
 To validate a specific category add `-c CategoryName`
 **Example**
 ```bash
-$ ts-node-esm src/app.ts -f apis/dok-api.yaml -c DokRules
+$ npm start -- -f apis/dok-api.yaml -c DokRules
 ```
    **Available categories**
   * UfnRules
@@ -66,24 +66,24 @@ $ ts-node-esm src/app.ts -f apis/dok-api.yaml -c DokRules
 To save log errors in a file add `-l FileName`
 **Example**
 ```bash
-$ ts-node-esm src/app.ts -f apis/dok-api.yaml -l rap-lp.log
+$ npm start -- -f apis/dok-api.yaml -l rap-lp.log
 ```
 
 To append logs add `-a`
 **Example**
 ```bash
-$ ts-node-esm src/app.ts -f apis/dok-api.yaml -l rap-lp.log -a
+$ npm start -- -f apis/dok-api.yaml -l rap-lp.log -a
 ```
 
 To save log diagnostic in a file add `-d FileName`
 **Example**
 ```bash
-$ ts-node-esm src/app.ts -f apis/dok-api.yaml -d logDiagnostic.log
+$ npm start -- -f apis/dok-api.yaml -d logDiagnostic.log
 ```
 
 **Show help**
 ```bash
-$ ts-node-esm src/app.ts --help
+$ npm start -- --help
 ```
 
 ## Known issues
