@@ -1,8 +1,11 @@
 {
   "name": "@diggsweden/rest-api-profil-lint-processor",
-  "version": "v0.2.3",
+  "version": "v0.2.5",
   "main": ".src/app.ts",
   "type": "module",
+  "engines": {
+    "node": ">=20.17.0 <20.18.0"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:diggsweden/rest-api-profil-lint-processor"
@@ -10,7 +13,8 @@
   "description": "A command-line tool to lint OpenAPI v3 definitions using Spectral",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "jest"
+    "test": "jest",
+    "start": "node --import=./register.js src/app.ts"
   },
   "directories": {
     "test": "test"
@@ -30,6 +34,7 @@
     "chalk": "^5.3.0",
     "js-yaml": "^4.1.0",
     "path": "^0.12.7",
+    "ts-node": "^10.9.2",
     "yargs": "^17.7.2"
   },
   "author": "Digg - Agency for Digital Government",
