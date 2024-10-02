@@ -272,7 +272,7 @@ export class Ufn07 extends BaseRuleset {
     område: "URL Format och namngivning",
     id: "UFN.07",
   };
-  message = "URL:n SKALL använda dessa URL-säkra tecknen (a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986) (gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).";
+  message = 'URL:n SKALL använda dessa tecknen a-z, 0-9, "-", "." samt "~", se vidare i RFC 3986)';
   given = "$."
   then = [{
     field: 'servers',
