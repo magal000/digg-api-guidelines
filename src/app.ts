@@ -29,19 +29,6 @@ const { Spectral, Document } = spectralCore;
 const writeFileAsync = util.promisify(fs.writeFile);
 const appendFileAsync = util.promisify(fs.appendFile);
 
-/*
-const simulateError = true; // Set to true to simulate error
-try {
-    if (simulateError) {
-        throw new Error("Simulated error...");
-    }
-    // Your normal try block code here
-} catch (error: any) {
-    // Error handling code
-    console.error(chalk.red("An error occurred:", error.message));
-    logErrorToFile(error);
-}
-*/
 try {
   // Parse command-line arguments using yargs
   const argv = await yargs(process.argv.slice(2)).version("1.2.0")
