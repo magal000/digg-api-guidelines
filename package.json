@@ -38,7 +38,7 @@
     "yargs": "^17.7.2"
   },
   "//": [
-    "Override transatvie dependency due to vulnerability",
+    "Override transitive dependency due to vulnerability",
     "[CVE-2024-21534] CWE-94: Improper Control of Generation of Code ('Code Injection')"],
   "overrides": {
    "@stoplight/spectral-core": {
