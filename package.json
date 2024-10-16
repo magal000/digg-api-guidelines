@@ -37,6 +37,14 @@
     "ts-node": "^10.9.2",
     "yargs": "^17.7.2"
   },
+  "//": [
+    "Override transatvie dependency due to vulnerability",
+    "[CVE-2024-21534] CWE-94: Improper Control of Generation of Code ('Code Injection')"],
+  "overrides": {
+   "@stoplight/spectral-core": {
+      "jsonpath-plus": "10.0.0"
+    }
+  },
   "author": "Digg - Agency for Digital Government",
   "license": "EUPL",
   "keywords": []
