@@ -5,10 +5,8 @@ module.exports = async () => {
     testPathIgnorePatterns: ['util'],
     testEnvironment: 'node',
     "extensionsToTreatAsEsm": [".ts"],
-    globals: {
-      'ts-jest': {
-        useIsolatedModules: true,
-      },
-    },
+    transform: {
+      '.*': ['ts-jest', {useIsolatedModules: true }] 
+    }
   };
 };
