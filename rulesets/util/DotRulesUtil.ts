@@ -73,7 +73,7 @@ export class DotRuleBase extends BaseRuleset {
                 isValid = prop.example && pattern.test(prop.example);
             } else if (prop.format === 'date-time' && prop.example !== undefined) {
                 const pattern = new RegExp(this.generateDateTimePattern());
-                isValid = this.isValidWithOffset(prop.example) && pattern.test(prop.example); // Check for offset presence
+                isValid = this.isValidWithOffset(prop.example) && pattern.test(prop.example); // Check for Zulu or offset presence
             }
             if (!isValid) {
                 //Push info on dictionary
