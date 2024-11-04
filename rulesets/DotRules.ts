@@ -116,10 +116,35 @@ export class Dot04 extends DotRuleBase {
     return super.generateDatePattern();
   }
   isValidWithOffset(example: string): boolean {
-    const offsetIndex = example.lastIndexOf('+') || example.lastIndexOf('-');
-    if (offsetIndex !== -1) {
+    const zuluTimeIndex = example.lastIndexOf('Z');
+    const plusIndex = example.lastIndexOf('+');
+    const minusIndex = example.lastIndexOf('-');
+    const offsetIndex = plusIndex !== -1 ? plusIndex : minusIndex;
+
+    if (zuluTimeIndex !== -1) {
+      return true; // Zulu time found
+    }
+    else if (offsetIndex !== -1) {
         const offsetPart = example.substring(offsetIndex);
-        return true; // Offset found
+        const offsetRegex = /^([+-])(0[0-9]|1[0-4]):([0-5][0-9])$/;
+        const match = offsetPart.match(offsetRegex);
+        if (!match) {
+          return false; // Offset format is incorrect
+        }
+        const sign = match[1];
+        const hours = parseInt(match[2], 10);
+        const minutes = parseInt(match[3], 10);
+    
+        // Check hour range
+        if ((sign === '+' && hours > 14) || (sign === '-' && hours > 12)) {
+          return false; // Invalid hour range
+        }
+    
+        // Check minute range
+        if (minutes < 0 || minutes > 59) {
+          return false; // Invalid minute range
+        }    
+        return true; // Offset found (+ or -)
     } else {
         return false; // No offset found
     }

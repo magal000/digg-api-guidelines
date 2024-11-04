@@ -1,12 +1,13 @@
 openapi: "3.0.0"
 info:
   version: 1.2.0
-  title: RAP-LP
-  description: OpenAPI Specification example to handle Rules for the category []Hypermedia] in the Swedish REST API-profil https://dev.dataportal.se/rest-api-profil
+  title: API title goes here 
+  description: OpenAPI Specification description goes here
   license:
     name:  EUPL-1.2 license
 servers:
-  - url: http://petstore.swagger.io/v1
+  - url: https://example.com/myapi/v1
+  - url: https://example.com:443/myapi/v2
 paths:
   /pets:
     get:
@@ -124,6 +125,8 @@ components:
         postedTime:
           type: string
           format: date-time
-          #example: '2017-07-21T17:32:28Z'          
-          example: '2022-11-31T04:00:09.12Z'
-          #example: '2022-11-31T04:00:09.12'
+          example: '1997-04-01T04:00:09-12:00'
+          #example: '1997-04-01T04:00:09-01:30'
+          #example: '1997-04-01T04:00:09+14:00'          
+          #example:  '2024-10-23T06:50:16.559Z'
+          #example: '2022-12-31T04:00:09.12'
