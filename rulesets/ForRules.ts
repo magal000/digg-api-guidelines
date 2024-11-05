@@ -10,30 +10,6 @@ const moduleName: string = "ForRules.ts";
 /**
  * Module contains classes with functions that are need
  */
-export class For01 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "Förutsättningar",
-    id: "FOR.01",
-  };
-  description = "Swagger 2-filer är inte tillåtna. Använd OpenAPI >= 3.0";
-  message = "Swagger 2-filer är inte tillåtna. Använd OpenAPI >= 3.0";
-  given = "$";
-  then = [{
-      field: 'swagger',
-      function: falsy,
-  },
-  {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,
-        this.severity,this.constructor.name, moduleName,For01.customProperties);
-      }
-  }
-];
- severity = DiagnosticSeverity.Error;
-}
-/**
- * Rule for detect   
- */
 export class For02 extends BaseRuleset {
   static customProperties: CustomProperties = {
   område: "Förutsättningar",
@@ -60,4 +36,4 @@ export class For02 extends BaseRuleset {
     super.initializeFormats(['OAS3']);
   } 
 }
-export default { For01, For02 };
+export default {For02 };
