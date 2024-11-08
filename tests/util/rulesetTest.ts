@@ -19,7 +19,6 @@ const ruleInstances: Record<string, any> = {};
  * Define each rule class to create instance of
  */
 const ruleTypes = [
-  ForRules.For01,
   ForRules.For02,
   AmeRules.Ame01,
   AmeRules.Ame02,
