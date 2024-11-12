@@ -1,0 +1,13 @@
+openapi: "3.0.0"
+info:
+  version: 1.2.0
+  title: RAP-LP
+  description: OpenAPI Specification example to handle Rules for the category []Felhantering] in the Swedish REST API-profil https://dev.dataportal.se/rest-api-profil
+  license:
+    name:  EUPL-1.2 license
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          description: Desc goes here

@@ -22,7 +22,8 @@ const ruleModules = [
   "DokRules",
   "AmeRules",
   "ForRules",
-  "DotRules"
+  "DotRules",
+  "FelRules"
 ];
 /**
  * 

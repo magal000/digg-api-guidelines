@@ -11,6 +11,7 @@ import * as DokRules from "../../rulesets/DokRules.ts";
 import * as AmeRules from "../../rulesets/AmeRules.ts";
 import * as ForRules from "../../rulesets/ForRules.ts";
 import * as DotRules from "../../rulesets/DotRules.ts";
+import * as FelRules from "../../rulesets/FelRules.ts";
 
 
 const ruleInstances: Record<string, any> = {};
@@ -47,7 +48,7 @@ const ruleTypes = [
   FnsRules.Fns06,
   DokRules.Dok20,
   DokRules.Dok07,
-  ForRules.For02,
+  FelRules.Fel01,
   FnsRules.Fns08,
   DokRules.Dok23,
   DotRules.Dot02,
