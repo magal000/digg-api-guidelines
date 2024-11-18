@@ -30,7 +30,7 @@ testRule("Fel01", [
                           },
                           detail: {
                             type: 'string'
-                          }, 
+                          },
                           instance: {
                             type: 'string'
                           }
@@ -73,7 +73,7 @@ testRule("Fel01", [
                           },
                           detail: {
                             type: 'string'
-                          }, 
+                          },
                           instance: {
                             type: 'string'
                           }
@@ -113,7 +113,7 @@ testRule("Fel01", [
                           },
                           detail: {
                             type: 'string'
-                          }, 
+                          },
                           instance: {
                             type: 'string'
                           }
@@ -158,7 +158,7 @@ testRule("Fel01", [
                           },
                           detail: {
                             type: 'string'
-                          }, 
+                          },
                           instance: {
                             type: 'string'
                           }
@@ -178,5 +178,84 @@ testRule("Fel01", [
           severity: DiagnosticSeverity.Error
         },
       ],
-    }  
+    }
     ]);
+
+testRule("Fel02", [
+  {
+    name: "giltigt testfall - Fel02",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              "400": {
+                content: {
+                  "application/problem+json": {
+
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - Fel02",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              "200": {
+                content: {
+                  "application/json": {
+
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - Fel02",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              "400": {
+                content: {
+                  "application/json": {
+
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        code: "Fel02",
+        message: "Returnerad typ vid fel skall vara av typen application/problem+json",
+          path: ["paths", "/", "get", "responses", "400", "content"],
+          severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  }
+]);
