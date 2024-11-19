@@ -68,7 +68,9 @@ export function createWithRules(rules: (keyof Ruleset["rules"])[]): Spectral {
     rules: rules.reduce((obj: Record<string, boolean>, name) => {
       obj[name] = true;
       return obj;
-    }, {}),
+    }, {
+      
+    }),
   });
 
   return s;

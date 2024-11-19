@@ -1,7 +1,7 @@
 import type { Format } from '@stoplight/spectral-core';
 
 export interface RulesetInterface {
-    given?: string;
+    given?: string | string[];
     message?: string;
     field?: string;
     severity?:number;
