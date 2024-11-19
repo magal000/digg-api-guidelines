@@ -23,6 +23,7 @@ export class Dok15Get extends Dok15Base {
   }]
   
 }
+
 export class Dok15ReqBody extends Dok15Base {
   given = '$.paths[*][?(@ != "get")].requestBody.content.application/json';
   then = [{
@@ -37,6 +38,7 @@ export class Dok15ReqBody extends Dok15Base {
     }
   }]
 }
+
 export class Dok17 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
@@ -386,4 +388,4 @@ export class Dok03LicenseName extends Dok03Base {
 
 
 
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get,Dok15ReqBody, Dok03Info, Dok03Contact,Dok03License,Dok03ContactEmail, Dok03ContactName, Dok03ContactUrl, Dok03LicenseUrl,Dok03LicenseName,};
+export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get,Dok15ReqBody, Dok03Info, Dok03Contact,Dok03License,Dok03ContactEmail, Dok03ContactName, Dok03ContactUrl, Dok03LicenseUrl,Dok03LicenseName};
