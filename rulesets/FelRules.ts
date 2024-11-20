@@ -61,13 +61,25 @@ export class Fel02 extends BaseRuleset {
   område: "Felhantering",
   id: "FEL.02",
   };
-  description = "Returnerad typ vid fel skall vara av typen application/problem+json";
-  message = "Returnerad typ vid fel skall vara av typen application/problem+json";
-  given = "$.paths[*][*].responses[?(@property >= 300 || @property < 200)].content";
+  description = "Returnerad typ vid fel skall vara av typen application/problem+json eller application/problem+xml";
+  message = "Returnerad typ vid fel skall vara av typen application/problem+json eller application/problem+xml";
+  given = "$.paths[*][*].responses[?(@property == 'default' || @property >= 400)].content";
   then = [
     {
-      field: "application/problem+json",
-      function: truthy,
+      function: (targetVal: any, opts: any, paths: any) => {
+        // Ensure at least one of the fields exists
+        const hasJson = !!targetVal['application/problem+json'];
+        const hasXml = !!targetVal['application/problem+xml'];
+  
+        if (!hasJson && !hasXml) {
+          return [
+            {
+              message: this.message,
+              path: paths.given,
+            },
+          ];
+        }
+      },
     },
     {
       function: (targetVal: string, _opts: string, paths: string[]) => {

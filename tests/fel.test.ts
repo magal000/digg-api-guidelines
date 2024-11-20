@@ -183,7 +183,7 @@ testRule("Fel01", [
 
 testRule("Fel02", [
   {
-    name: "giltigt testfall - Fel02",
+    name: "giltigt testfall - Fel02 application/problem+json",
     document: {
       openapi: "3.1.0",
       info: { version: "1.0" },
@@ -194,6 +194,29 @@ testRule("Fel02", [
               "400": {
                 content: {
                   "application/problem+json": {
+
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - Fel02 application/problem+xml",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              "500": {
+                content: {
+                  "application/problem+xml": {
 
                   }
                 }
@@ -229,7 +252,7 @@ testRule("Fel02", [
     errors: [],
   },
   {
-    name: "ogiltigt testfall - Fel02",
+    name: "ogiltigt testfall - Fel02 400 saknar problem+json",
     document: {
       openapi: "3.1.0",
       info: { version: "1.0" },
@@ -252,8 +275,38 @@ testRule("Fel02", [
     errors: [
       {
         code: "Fel02",
-        message: "Returnerad typ vid fel skall vara av typen application/problem+json",
+        message: "Returnerad typ vid fel skall vara av typen application/problem+json eller application/problem+xml",
           path: ["paths", "/", "get", "responses", "400", "content"],
+          severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - Fel02 default",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              default: {
+                content: {
+                  "application/json": {
+                    
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        code: "Fel02",
+        message: "Returnerad typ vid fel skall vara av typen application/problem+json eller application/problem+xml",
+          path: ["paths", "/", "get", "responses", "default", "content"],
           severity: DiagnosticSeverity.Warning,
       },
     ],
