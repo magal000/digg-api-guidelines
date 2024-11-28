@@ -81,7 +81,7 @@ export class Ame01 extends BaseRuleset {
   };
   description = "Denna regel validerar att request och response är application/json.";
   message = "Datamodellen för en representation BÖR beskrivas med JSON enligt senaste versionen, RFC 8259.";
-  given = "$.paths..content";
+  given = "$.paths[*][*].responses[?(@property < 400)].content";
   then = [{
     function: (targetVal: any, _opts: string, paths: string[]) => {
       var valid:boolean = false;
@@ -122,7 +122,7 @@ export class Ame02 extends BaseRuleset {
   };
   description = "Denna regel validerar att response är application/json.";
   message = "Det BÖR förutsättas att alla request headers som standard använder 'Accept' med värde 'application/json'";
-  given = "$.paths.*.*..content";
+  given = "$.paths[*][*].responses[?(@property < 400)].content";
   then = [{
     function: (targetVal: any, _opts: string, paths: string[]) => {
       var valid:boolean = false;

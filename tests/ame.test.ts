@@ -34,6 +34,37 @@ testRule("Ame01", [
     errors: [],
   },
   {
+    name: "giltigt testfall - Plockar inte error >= 400",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/foo": {
+          post: {
+            responses: {
+              '400': {
+                content: {
+                  'application/problem+json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        foo: {
+                          type: 'string'
+                        }
+                      }
+                    }
+                  }
+                }
+
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
     name: "ogiltigt testfall - ej JSON format",
     document: {
       openapi: "3.1.0",
@@ -85,6 +116,37 @@ testRule("Ame02", [
               '200': {
                 content: {
                   'application/json; charset=utf-8': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        foo: {
+                          type: 'string'
+                        }
+                      }
+                    }
+                  }
+                }
+
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - Plockar inte error >= 400",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/foo": {
+          post: {
+            responses: {
+              '400': {
+                content: {
+                  'application/problem+json': {
                     schema: {
                       type: 'object',
                       properties: {
