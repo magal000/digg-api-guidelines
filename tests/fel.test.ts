@@ -15,7 +15,7 @@ testRule("Fel01", [
                 "501": {
                   description: "",
                   content: {
-                    "application/json+error": {
+                    "application/problem+json": {
                       schema: {
                         type: "object",
                         required: ["type", "title", "status", "detail", "instance"]
@@ -42,7 +42,7 @@ testRule("Fel01", [
                 "501": {
                   description: "",
                   content: {
-                    "application/xml+error": {
+                    "application/problem+xml": {
                       schema: {
                         type: "object",
                         required: ["type", "title", "status", "detail", "instance"]
@@ -69,7 +69,7 @@ testRule("Fel01", [
                 "501": {
                   description: "",
                   content: {
-                    "application/xml+error": {
+                    "application/problem+xml": {
                       schema: {
                         type: "object",
                         required: ["type", "title", "status", "detail"]
@@ -101,7 +101,7 @@ testRule("Fel01", [
                 "501": {
                   description: "",
                   content: {
-                    "application/json+error": {
+                    "application/problem+json": {
                       schema: {
                         type: "object",
                         required: ["status", "detail", "instance"]

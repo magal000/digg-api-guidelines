@@ -15,7 +15,7 @@ paths:
         '501':
           description: Internal Server Error
           content:
-            application/json+error:    
+            application/problem+json:    
               schema:
                 $ref: "#/components/schemas/Error"
 components:

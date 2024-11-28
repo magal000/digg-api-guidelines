@@ -20,8 +20,8 @@ export class Fel01 extends BaseRuleset {
   description = "";
   message = Fel01.ruleMessage;
   given = [
-    "$.paths.*.*.responses.*.content['application/json+error'].schema",
-    "$.paths.*.*.responses.*.content['application/xml+error'].schema"
+    "$.paths.*.*.responses.*.content['application/problem+json'].schema",
+    "$.paths.*.*.responses.*.content['application/problem+xml'].schema"
   ];
   then = [
     {
