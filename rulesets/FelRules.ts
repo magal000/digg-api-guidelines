@@ -10,8 +10,8 @@ const moduleName: string = "FelRules.ts";
  * Module contains classes with functions that are needed for category felhantering
  */
 export class Fel01 extends BaseRuleset {
-  static mandatoryFields = ['type', 'title', 'status', 'detail', 'instance'];
-  static ruleMessage =  `Om HTTP svarskoderna inte räcker SKALL (FEL.01) API:et beskriva feldetaljer enligt RFC 9457 med dessa ingående attribut; ${Fel01.mandatoryFields.join(', ')}.`;
+  static mandatoryProperties = ['type', 'title', 'status', 'detail', 'instance'];
+  static ruleMessage =  `Om HTTP svarskoderna inte räcker SKALL (FEL.01) API:et beskriva feldetaljer enligt RFC 9457 med dessa ingående attribut; ${Fel01.mandatoryProperties.join(', ')}.`;
   
   static customProperties: CustomProperties = {
   område: "Felhantering",
@@ -30,9 +30,9 @@ export class Fel01 extends BaseRuleset {
           return [{message: 'Schema must be object'}];
         }
         
-        return Fel01.mandatoryFields
+        return Fel01.mandatoryProperties
           .filter(mandatory => {
-            return !targetVal.required.find(required => required === mandatory);
+            return !targetVal.properties?.[mandatory];
           })
           .map(missing => ({
             message: `Missing required field: ${missing}`
@@ -58,10 +58,10 @@ export default {Fel01};
 
 type OpenApiObject = {
   type: 'object',
-  properties: Record<string, unknown>,
-  required: string[]
+  properties?: Record<string, unknown>,
+  required?: string[]
 }
 
 const isOpenApiObject = (x: unknown): x is OpenApiObject => {
-  return (x as OpenApiObject)?.type === 'object' && Array.isArray((x as OpenApiObject)?.required)
+  return (x as OpenApiObject)?.type === 'object'
 }

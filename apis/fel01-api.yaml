@@ -22,19 +22,13 @@ components:
   schemas:
     Error:
       type: object
-      required:
-        - type
-        - title
-        - status
-        - detail
-        - instance
       properties:
         type:
           type: string
         title:
           type: string
         status:
-          type: string
+          type: integer
         detail:
           type: string
         instance:

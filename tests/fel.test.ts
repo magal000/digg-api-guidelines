@@ -18,7 +18,23 @@ testRule("Fel01", [
                     "application/problem+json": {
                       schema: {
                         type: "object",
-                        required: ["type", "title", "status", "detail", "instance"]
+                        properties: {
+                          type: {
+                            type: 'string'
+                          },
+                          title: {
+                            type: 'string'
+                          },
+                          status: {
+                            type: 'integer'
+                          },
+                          detail: {
+                            type: 'string'
+                          }, 
+                          instance: {
+                            type: 'string'
+                          }
+                        }
                       }
                     }
                   }
@@ -45,7 +61,23 @@ testRule("Fel01", [
                     "application/problem+xml": {
                       schema: {
                         type: "object",
-                        required: ["type", "title", "status", "detail", "instance"]
+                        properties: {
+                          type: {
+                            type: 'string'
+                          },
+                          title: {
+                            type: 'string'
+                          },
+                          status: {
+                            type: 'integer'
+                          },
+                          detail: {
+                            type: 'string'
+                          }, 
+                          instance: {
+                            type: 'string'
+                          }
+                        }
                       }
                     }
                   }
@@ -72,7 +104,20 @@ testRule("Fel01", [
                     "application/problem+xml": {
                       schema: {
                         type: "object",
-                        required: ["type", "title", "status", "detail"]
+                        properties: {
+                          type: {
+                            type: 'string'
+                          },
+                          title:{
+                            type: 'string'
+                          },
+                          detail: {
+                            type: 'string'
+                          }, 
+                          instance: {
+                            type: 'string'
+                          }
+                        }
                       }
                     }
                   }
@@ -104,7 +149,20 @@ testRule("Fel01", [
                     "application/problem+json": {
                       schema: {
                         type: "object",
-                        required: ["status", "detail", "instance"]
+                        properties: {
+                          type: {
+                            type: 'string'
+                          },
+                          title:{
+                            type: 'string'
+                          },
+                          detail: {
+                            type: 'string'
+                          }, 
+                          instance: {
+                            type: 'string'
+                          }
+                        }
                       }
                     }
                   }
