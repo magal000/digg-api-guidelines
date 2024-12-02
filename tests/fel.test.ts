@@ -1,6 +1,6 @@
 import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./util/helperTest.ts";
-import { Fel01 } from "../rulesets/FelRules.ts";
+import { Fel01, Fel02 } from "../rulesets/FelRules.ts";
 
 testRule("Fel01", [
     {
@@ -275,7 +275,7 @@ testRule("Fel02", [
     errors: [
       {
         code: "Fel02",
-        message: "Returnerad typ vid fel skall vara av typen application/problem+json eller application/problem+xml",
+        message: Fel02.errorMessage,
           path: ["paths", "/", "get", "responses", "400", "content"],
           severity: DiagnosticSeverity.Warning,
       },
@@ -305,7 +305,33 @@ testRule("Fel02", [
     errors: [
       {
         code: "Fel02",
-        message: "Returnerad typ vid fel skall vara av typen application/problem+json eller application/problem+xml",
+        message: Fel02.errorMessage,
+          path: ["paths", "/", "get", "responses", "default", "content"],
+          severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - Fel02 no content",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              default: {
+                content: null
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        code: "Fel02",
+        message: Fel02.errorMessage,
           path: ["paths", "/", "get", "responses", "default", "content"],
           severity: DiagnosticSeverity.Warning,
       },

@@ -57,19 +57,20 @@ export class Fel01 extends BaseRuleset {
 }
 
 export class Fel02 extends BaseRuleset {
+  static errorMessage = "Schemat enligt RFC 9457 bör innehålla de beskrivna attributen i FEL.01 och SKALL (FEL.02) använda mediatypen application/problem+json eller application/problem+xml i svaret."
   static customProperties: CustomProperties = {
   område: "Felhantering",
   id: "FEL.02",
   };
   description = "";
-  message = "Schemat enligt RFC 9457 bör innehålla de beskrivna attributen i FEL.01 och SKALL (FEL.02) använda mediatypen application/problem+json eller application/problem+xml i svaret.";
+  message = Fel02.errorMessage;
   given = "$.paths[*][*].responses[?(@property == 'default' || @property >= 400)].content";
   then = [
     {
       function: (targetVal: any, opts: any, paths: any) => {
         // Ensure at least one of the fields exists
-        const hasJson = !!targetVal['application/problem+json'];
-        const hasXml = !!targetVal['application/problem+xml'];
+        const hasJson = !!targetVal?.['application/problem+json'];
+        const hasXml = !!targetVal?.['application/problem+xml'];
   
         if (!hasJson && !hasXml) {
           return [
