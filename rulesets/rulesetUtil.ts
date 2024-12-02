@@ -2,7 +2,6 @@ import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
-const moduleName: string = "UfnRules.ts";
 
 export class Dok03Base extends BaseRuleset {
   static customProperties: CustomProperties = {
@@ -41,6 +40,7 @@ export class Ufn09Base extends BaseRuleset {
   };
   constructor() {
     super();
+    let moduleName: string = "UfnRules.ts";
     this.message = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
     this.severity = DiagnosticSeverity.Error;
     this.description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
@@ -77,12 +77,21 @@ export class Dok15Base extends BaseRuleset {
     }
     protected get messageValue(): string {
       return this.message;
-    }  
+    } 
     protected test(targetVal: any, _opts: string, paths: string[]){
         
         let result:any = [];
         let hasExample = false;
         const pattern:RegExp = /^example(?:s$|$)/;
+        /**
+         * Check on scheme-level
+         */
+        if (targetVal && targetVal["schema"] && pattern.test("example") && targetVal["schema"]["example"]) {
+          hasExample = true;
+        }        
+        /**
+         * Check base-level
+         */
         for(let propertie in targetVal){
           if(pattern.test(propertie)){
             hasExample = true;
@@ -96,12 +105,8 @@ export class Dok15Base extends BaseRuleset {
          })
          
         }
-        
         return result;
-        
-      
     }
-
 }
 export class Arq05Base extends BaseRuleset {
     static customProperties: CustomProperties = {
