@@ -61,8 +61,8 @@ export class Fel02 extends BaseRuleset {
   område: "Felhantering",
   id: "FEL.02",
   };
-  description = "Returnerad typ vid fel skall vara av typen application/problem+json eller application/problem+xml";
-  message = "Returnerad typ vid fel skall vara av typen application/problem+json eller application/problem+xml";
+  description = "";
+  message = "Schemat enligt RFC 9457 bör innehålla de beskrivna attributen i FEL.01 och SKALL (FEL.02) använda mediatypen application/problem+json eller application/problem+xml i svaret.";
   given = "$.paths[*][*].responses[?(@property == 'default' || @property >= 400)].content";
   then = [
     {
