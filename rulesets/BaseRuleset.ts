@@ -10,7 +10,7 @@ export class BaseRuleset implements RulesetInterface {
   static getCustomProperties(): CustomProperties {
     return BaseRuleset.customProperties;
   }
-  given: string = '';
+  given: string| string[] = '';
   message: string = '';
   then: any = {};
   description: string = '';
