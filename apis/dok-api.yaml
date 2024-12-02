@@ -65,7 +65,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              examples: ""
       requestBody:
         content:
           application/json:
@@ -152,3 +151,4 @@ components:
           format: int32
         message:
           type: string
+      example: "Woooo12"
