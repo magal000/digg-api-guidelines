@@ -75,13 +75,17 @@ export class Ame04 extends BaseRuleset {
   severity = DiagnosticSeverity.Warning;
 }
 export class Ame01 extends BaseRuleset {
+  static errorMessage = "Datamodellen för en representation BÖR beskrivas med JSON enligt senaste versionen, RFC 8259."
   static customProperties: CustomProperties = {
     område: "API Message",
     id: "AME.01",
   };
   description = "Denna regel validerar att request och response är application/json.";
-  message = "Datamodellen för en representation BÖR beskrivas med JSON enligt senaste versionen, RFC 8259.";
-  given = "$.paths[*][*].responses[?(@property < 400)].content";
+  message = Ame01.errorMessage;
+  given = [
+    "$.paths[*][*].responses[?(@property < 400)].content",
+    "$.paths.*.*.requestBody.content",
+  ];
   then = [{
     function: (targetVal: any, _opts: string, paths: string[]) => {
       var valid:boolean = false;
@@ -116,13 +120,16 @@ export class Ame01 extends BaseRuleset {
 }
 
 export class Ame02 extends BaseRuleset {
+  static errorMessage = "Det BÖR förutsättas att alla request headers som standard använder 'Accept' med värde 'application/json'";
   static customProperties: CustomProperties = {
     område: "API Message",
     id: "AME.02",
   };
   description = "Denna regel validerar att response är application/json.";
-  message = "Det BÖR förutsättas att alla request headers som standard använder 'Accept' med värde 'application/json'";
-  given = "$.paths[*][*].responses[?(@property < 400)].content";
+  message = Ame02.errorMessage;
+  given = [
+    "$.paths.*.*.requestBody.content",
+  ];
   then = [{
     function: (targetVal: any, _opts: string, paths: string[]) => {
       var valid:boolean = false;

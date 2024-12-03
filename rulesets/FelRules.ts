@@ -1,10 +1,6 @@
-import {falsy, truthy, undefined as undefinedFunc } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
-import { schema} from "@stoplight/spectral-functions";
-import { CLIENT_RENEG_LIMIT } from "tls";
-import { schema} from "@stoplight/spectral-functions";
 
 const moduleName: string = "FelRules.ts";
 

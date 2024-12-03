@@ -1,5 +1,6 @@
 import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./util/helperTest.ts";
+import { Ame01, Ame02 } from "../rulesets/AmeRules.ts";
 
 testRule("Ame01", [
   {
@@ -32,6 +33,67 @@ testRule("Ame01", [
       },
     },
     errors: [],
+  },
+  {
+    name: "giltigt testfall - Request Body",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/foo": {
+          post: {
+            requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        foo: {
+                          type: 'string'
+                        }
+                      }
+                    }
+                  }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - Request Body",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/foo": {
+          post: {
+            requestBody: {
+                content: {
+                  'application/octet-stream': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        foo: {
+                          type: 'string'
+                        }
+                      }
+                    }
+                  }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        message: Ame01.errorMessage,
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
   },
   {
     name: "giltigt testfall - Plockar inte error >= 400",
@@ -112,8 +174,7 @@ testRule("Ame02", [
       paths: {
         "/foo": {
           post: {
-            responses: {
-              '200': {
+            requestBody: {
                 content: {
                   'application/json; charset=utf-8': {
                     schema: {
@@ -126,39 +187,6 @@ testRule("Ame02", [
                     }
                   }
                 }
-
-              }
-            }
-          },
-        },
-      },
-    },
-    errors: [],
-  },
-  {
-    name: "giltigt testfall - Plockar inte error >= 400",
-    document: {
-      openapi: "3.1.0",
-      info: { version: "1.0" },
-      paths: {
-        "/foo": {
-          post: {
-            responses: {
-              '400': {
-                content: {
-                  'application/problem+json': {
-                    schema: {
-                      type: 'object',
-                      properties: {
-                        foo: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  }
-                }
-
-              }
             }
           },
         },
@@ -174,8 +202,7 @@ testRule("Ame02", [
       paths: {
         "/foo": {
           post: {
-            responses: {
-              '200': {
+            requestBody: {
                 content: {
                   'application/octet-stream': {
                     schema: {
@@ -188,7 +215,6 @@ testRule("Ame02", [
                     }
                   }
                 }
-              }
             }
           },
         },
@@ -196,8 +222,8 @@ testRule("Ame02", [
     },
     errors: [
       {
-        message: "Det BÖR förutsättas att alla request headers som standard använder 'Accept' med värde 'application/json'",
-        path: ["paths", "/foo", "post", "responses", "200", "content"],
+        message: Ame02.errorMessage,
+        path: ["paths", "/foo", "post", "requestBody", "content"],
         severity: DiagnosticSeverity.Warning,
       },
     ],
