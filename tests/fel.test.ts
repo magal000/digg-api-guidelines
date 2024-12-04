@@ -1,6 +1,6 @@
 import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./util/helperTest.ts";
-import { Fel01 } from "../rulesets/FelRules.ts";
+import { Fel01, Fel02 } from "../rulesets/FelRules.ts";
 
 testRule("Fel01", [
     {
@@ -30,7 +30,7 @@ testRule("Fel01", [
                           },
                           detail: {
                             type: 'string'
-                          }, 
+                          },
                           instance: {
                             type: 'string'
                           }
@@ -73,7 +73,7 @@ testRule("Fel01", [
                           },
                           detail: {
                             type: 'string'
-                          }, 
+                          },
                           instance: {
                             type: 'string'
                           }
@@ -113,7 +113,7 @@ testRule("Fel01", [
                           },
                           detail: {
                             type: 'string'
-                          }, 
+                          },
                           instance: {
                             type: 'string'
                           }
@@ -158,7 +158,7 @@ testRule("Fel01", [
                           },
                           detail: {
                             type: 'string'
-                          }, 
+                          },
                           instance: {
                             type: 'string'
                           }
@@ -178,5 +178,163 @@ testRule("Fel01", [
           severity: DiagnosticSeverity.Error
         },
       ],
-    }  
+    }
     ]);
+
+testRule("Fel02", [
+  {
+    name: "giltigt testfall - Fel02 application/problem+json",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              "400": {
+                content: {
+                  "application/problem+json": {
+
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - Fel02 application/problem+xml",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              "500": {
+                content: {
+                  "application/problem+xml": {
+
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "giltigt testfall - Fel02",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              "200": {
+                content: {
+                  "application/json": {
+
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [],
+  },
+  {
+    name: "ogiltigt testfall - Fel02 400 saknar problem+json",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              "400": {
+                content: {
+                  "application/json": {
+
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        code: "Fel02",
+        message: Fel02.errorMessage,
+          path: ["paths", "/", "get", "responses", "400", "content"],
+          severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - Fel02 default",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              default: {
+                content: {
+                  "application/json": {
+                    
+                  }
+                }
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        code: "Fel02",
+        message: Fel02.errorMessage,
+          path: ["paths", "/", "get", "responses", "default", "content"],
+          severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  },
+  {
+    name: "ogiltigt testfall - Fel02 no content",
+    document: {
+      openapi: "3.1.0",
+      info: { version: "1.0" },
+      paths: {
+        "/": {
+          get: {
+            responses: {
+              default: {
+                content: null
+              }
+            }
+          },
+        },
+      },
+    },
+    errors: [
+      {
+        code: "Fel02",
+        message: Fel02.errorMessage,
+          path: ["paths", "/", "get", "responses", "default", "content"],
+          severity: DiagnosticSeverity.Warning,
+      },
+    ],
+  }
+]);

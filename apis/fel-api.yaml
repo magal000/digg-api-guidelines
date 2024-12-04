@@ -6,8 +6,59 @@ info:
   license:
     name:  EUPL-1.2 license
 paths:
-  /:
+  /feljson:
     get:
       responses:
         '200':
           description: Desc goes here
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/MyObject"
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:    
+              schema:
+                $ref: "#/components/schemas/Error"
+  /felxml:
+  get:
+    responses:
+      '200':
+        description: Desc goes here
+        content:
+          application/json:    
+            schema:
+              $ref: "#/components/schemas/MyObject"
+      '500':
+        description: Internal Server Error
+        content:
+          application/problem+xml:
+            schema:
+              $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    MyObject:
+      type: object
+      properties:
+        type: 
+          name: string
+    Error:
+      type: object
+      required:
+        - type
+        - title
+        - status
+        - detail
+        - instance
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+        detail:
+          type: string
+        instance:
+          type: string

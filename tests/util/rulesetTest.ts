@@ -49,6 +49,7 @@ const ruleTypes = [
   DokRules.Dok20,
   DokRules.Dok07,
   FelRules.Fel01,
+  FelRules.Fel02,
   FnsRules.Fns08,
   DokRules.Dok23,
   DotRules.Dot02,
