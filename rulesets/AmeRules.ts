@@ -3,6 +3,7 @@ import { DiagnosticSeverity } from "@stoplight/types";
 import { parsePropertyNames } from "./rulesetUtil.ts";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts"
+import { isValidApplicationJson } from "./util/AmeRulesUtil.ts";
 
 const moduleName: string = "AmeRules.ts";
 
@@ -88,11 +89,8 @@ export class Ame01 extends BaseRuleset {
   ];
   then = [{
     function: (targetVal: any, _opts: string, paths: string[]) => {
-      var valid:boolean = false;
-
-      if (targetVal.hasOwnProperty('application/json')) {
-        valid = true;
-      }
+      const valid: boolean = Object.keys(targetVal ?? {})
+        .some(property => isValidApplicationJson(property));
 
       if (!valid) {
         return [
@@ -132,13 +130,9 @@ export class Ame02 extends BaseRuleset {
   ];
   then = [{
     function: (targetVal: any, _opts: string, paths: string[]) => {
-      var valid:boolean = false;
+      const valid: boolean = Object.keys(targetVal ?? {})
+        .some(property => isValidApplicationJson(property));
 
-      Object.getOwnPropertyNames(targetVal).forEach(function (item, index) {
-        if (item.toLocaleLowerCase().includes('application/json')) {
-          valid = true;
-        }
-      });
 
       if (!valid) {
         return [
