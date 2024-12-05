@@ -51,7 +51,6 @@ const ruleTypes = [
   FelRules.Fel01,
   FelRules.Fel02,
   FnsRules.Fns08,
-  DokRules.Dok23,
   DotRules.Dot02,
   DokRules.Dok15Get,
   DokRules.Dok15ReqBody,

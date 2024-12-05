@@ -120,34 +120,6 @@ export class Dok07 extends BaseRuleset {
   } 
   severity = DiagnosticSeverity.Warning; 
 }
-export class Dok23 extends BaseRuleset {
-  static customProperties: CustomProperties = {
-    område: "Dokumentation",
-    id: "DOK.23",
-  };
-  given = "$.servers[*].url";
-  message = "API specifikationen SKALL återfinnas under API-roten.";
-  then = [{
-    field: "url",
-    function: pattern,
-    functionOptions: {
-      match: "^[a-z]+://(?:[a-z0-9\-.]+\.)+([a-z]{2,6})(?:\/[a-z0-9-]+/[a-z0-9-]+)?$"
-    }
-    },
-    {
-      function: (targetVal: string, _opts: string, paths: string[]) => {
-        this.trackRuleExecutionHandler(JSON.stringify(targetVal,null,2), _opts, paths,this.severity,
-        this.constructor.name, moduleName,Dok23.customProperties);
-      }
-    }
-  ];
-  constructor() {
-    super();
-    super.initializeFormats(['OAS3']);
-  } 
-  severity = DiagnosticSeverity.Error; 
-}
-
 export class Dok19 extends BaseRuleset {
   static customProperties: CustomProperties = {
     område: "Dokumentation",
@@ -388,4 +360,4 @@ export class Dok03LicenseName extends Dok03Base {
 
 
 
-export default { Dok23, Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get,Dok15ReqBody, Dok03Info, Dok03Contact,Dok03License,Dok03ContactEmail, Dok03ContactName, Dok03ContactUrl, Dok03LicenseUrl,Dok03LicenseName};
+export default { Dok20, Dok19, Dok07 , Dok01,Dok17,Dok15Get,Dok15ReqBody, Dok03Info, Dok03Contact,Dok03License,Dok03ContactEmail, Dok03ContactName, Dok03ContactUrl, Dok03LicenseUrl,Dok03LicenseName};
