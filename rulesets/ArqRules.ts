@@ -3,6 +3,7 @@ import { schema} from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
 import { BaseRuleset} from "./BaseRuleset.ts";
+import { isValidApplicationJson } from "./rulesetUtil.ts";
 
 const moduleName: string = "ArqRules.ts";
 
@@ -89,16 +90,21 @@ export class Arq01 extends BaseRuleset {
   message = "Ett request BÖR skickas i UTF-8";
   given = "$.paths[*][*].requestBody.content";
   then = [{
-    function: schema,
-    functionOptions: {
-      schema: {
-        type: "object",
-        properties: {
-          "application/json": true,
-        },
-        required: ["application/json"],
-      },
-    },
+    function: (targetVal: any, _opts: string, paths: string[]) => {
+      const valid: boolean = Object.keys(targetVal ?? {})
+        .some(property => isValidApplicationJson(property));
+
+      if (!valid) {
+        return [
+          {
+            message: this.message,
+            severity: this.severity
+          },
+        ];
+      } else {
+        return [];
+      }
+    }
   },
   {
       function: (targetVal: string, _opts: string, paths: string[]) => {

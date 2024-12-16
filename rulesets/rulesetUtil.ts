@@ -226,5 +226,7 @@ return true;
     }
     return result;
   }
-  
+  export function isValidApplicationJson(property: string): boolean {
+    return !!property.match(/application\/json(?:$|;[\s]*charset=.*)/)
+}
   export default { Arq05Base, Ufn09Base,Dok03Base};
