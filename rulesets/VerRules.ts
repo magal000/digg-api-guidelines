@@ -36,18 +36,19 @@ export class Ver05 extends BaseRuleset {
   };
 
   given = "$.servers.[url]";
-  message = "Alla API:er BÖR inkludera MAJOR versionen i den URL som används för ett specifikt API.";
+  message = "Version BÖR anges i URL enligt formatet v[x] där 'v' avser förkortning för version och x avser ett och bara ett nummer (0-n) för major-version";
   then = [ 
     {
     function: (targetVal: string, _opts: string, paths: string[]) => {
 
       const split = targetVal.split("/").filter(removeEmpty => removeEmpty);
 
-      var valid:boolean = false;
+      let valid:boolean = false;
       split.forEach(function (part) {
 
-      // regexp explanation: Allow 'v', 'ver' and 'version' (with optional underscore '_' before version number)
-      const containsVersion = /(v|ver|version)[_]?[1-9][0-9]*/g;
+      // regexp : Allow 'v', (and not allow explicit chars '_','-','.' before version number)
+      const containsVersion = /(v)[0-9][1-9]*(?![\.\-_])/g;
+
       if (containsVersion.test(part)) {
           valid = true;
         }
