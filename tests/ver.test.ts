@@ -64,7 +64,7 @@ testRule("Ver05", [
     document: {
       openapi: "3.1.0",
       info: { version: "1.0" },
-      servers: [ { url: "https://api.example.com/v1.0/my-api" } ],
+      servers: [ { url: "https://api.example.com/v1-0/my-api" } ],
     },
     errors: [
       {
@@ -79,7 +79,7 @@ testRule("Ver05", [
     document: {
       openapi: "3.1.0",
       info: { version: "1.0" },
-      servers: [ { url: "https://api.example.com/v1.0/my-api" } ],
+      servers: [ { url: "https://api.example.com/v1_0/my-api" } ],
     },
     errors: [
       {
