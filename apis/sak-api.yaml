@@ -94,15 +94,6 @@ paths:
   
 components:
   securitySchemes:
-    oAuth2:
-      type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: http://example.com/api/oauth/token
-          refreshUrl: http://example.com/api/oauth/refresh
-          scopes:
-            write:pets: modify pets in your account
-            read:pets: read your pets
   schemas:
     Error:
       type: object

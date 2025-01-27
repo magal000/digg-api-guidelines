@@ -16,7 +16,7 @@
 2. [Område: Datum- och tidsformat](#område-datum--och-tidsformat)  
    - [ID: DOT.01](#id-dot01)  
    - [ID: DOT.04](#id-dot04)  
-3. [Område: Unika fält](#område-unika-fält)  
+3. [Område: URL Format och namngivning](#område-url-format-och-namngivning)  
    - [ID: UFN.01](#id-ufn01)  
    - [ID: UFN.02](#id-ufn02)  
    - [ID: UFN.05](#id-ufn05)  
@@ -39,6 +39,19 @@
 7. [Område: Versionhantering](#område-versionhantering)  
    - [ID: VER.05](#id-ver05)  
    - [ID: VER.06](#id-ver06)
+8. [Område: Filtrering, paginering och sökparametrar](#område-filtrering-paginering-och-sökparametrar)
+   - [ID: FNS.01](#id-fns01)  
+   - [ID: FNS.03](#id-fns03)
+   - [ID: FNS.05](#id-fns05)
+   - [ID: FNS.06](#id-fns06)
+   - [ID: FNS.07](#id-fns07)
+   - [ID: FNS.08](#id-fns08)
+   - [ID: FNS.09](#id-fns09)
+9. [Område: Säkerhet](#område-säkerhet)
+   - [ID: SAK.09](#id-sak09)  
+   - [ID: SAK.10](#id-sak10)
+   - [ID: SAK.18](#id-sak18)
+
 
 ## Område: Dokumentation
 ### ID: DOK.01
@@ -122,10 +135,13 @@ externalDocs:
 
 **Typ:** SKALL
 
-**JSONPathExpression:** \$.paths[\*][\*].responses[\*].content.application/json
+**JSONPathExpression:** $.paths[\*][\*].responses[\*].content.application/json,\
+\$.paths[\*][?(@ != "get")].requestBody.content.application/json
+
 
 **Förklaring:** 
-  Regeln förutsätter att det finns en förekomst av fältet (elementet) `examples` i specifikationen under de angivna nivåerna.
+  Regeln förutsätter att det finns en förekomst av fältet (elementet) `examples` i specifikationen under de angivna nivåerna.\
+  Regeln förutsätter också att det finns en förekomst av fältet(elementet) examples i specifikationen på de angivna nivåerna under fältet(elementet) requestBody.
 
 **Exempel:**
 
@@ -134,7 +150,13 @@ externalDocs:
   I exemplet ovan, så exemplifieras regeln med en post operation, där regeln undersöker om det finns en förekomst av fältet `examples`. Om man refererar en schema definition med hjälp av nyckelordet `$ref`, så ignoreras övriga element på aktuell nivå. Detta innebär att om det finns ett exempel fält på schema nivå så ”overridar” den ett ev. ”inline” exempelfält.
 
 ---
+**Exempel:**
 
+![alt text](dok15_2.png)
+
+I exemplet ovan, så exemplifieras regeln med en post operation, där regeln undersöker om det finns en förekomst av fältet examples. Ifall man refererar en schema definition med hjälp av nyckelordet  $ref, så ignoreras övriga element på aktuell nivå. Detta innebär att om det finns ett exempel fält på schema nivå så ”overridar” den ett ev. ”inline” exempelfält.
+
+---
 ### ID: DOK.17
 **Krav:** API-specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification.
 
@@ -232,6 +254,7 @@ I exemplet ovan, så exemplifieras regeln med att oavsett typ av operation, unde
 
 ---
 
+## Område: URL Format och namngivning
 ### ID: UFN.01
 **Krav:** En URL för ett API BÖR följa namnstandarden nedan:
   `{protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}`
@@ -241,10 +264,9 @@ I exemplet ovan, så exemplifieras regeln med att oavsett typ av operation, unde
 **JSONPathExpression:** \$.servers.[url]
 
 **Förklaring:** 
-  Regeln söker efter 1-n förekomster av fältet `Url` under Serverobjektet, samt att dessa följer namnstandarden fram till versionen av API:et: 
-
-  ![alt text](ufn1.png)
-
+  Regeln söker efter 1-n förekomster av fältet `Url` under Serverobjektet, samt att dessa följer namnstandarden fram till versionen av API:et:\
+**{protokoll}://{domännamn}/{api}/{version}**
+  
 **Exempel:**
 
 ![alt text](ufn1-2.png)
@@ -574,3 +596,178 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 ![alt text](ver6.png)
 
   I exemplet ovan, så exemplifieras regeln med en kontroll att den specificerade URL:en följer den semantiska versioneringen korrekt.
+
+## Område: Filtrering, paginering och sökparametrar	
+### ID: FNS.01
+**Krav:** Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase.
+
+**Typ:** SKALL	
+
+**JSONPathExpression:** \$.paths.*.*.parameters[?(@.in=='query')].name
+
+**Förklaring:** 
+  Regeln kontrollerar att definierade query parametrar som är satta för API:et följer en stringent namnkonvention som antingen är uppbyggd med snake_case eller camelCase.
+
+**Exempel:**
+
+![alt text](fns01.png)
+
+  I exemplet ovan, så exemplifieras regeln med en kontroll av de parametrar som ingår under pathen /persons. I exemplet så kommer regeln att ge ett negativt utfall eftersom en av parametrarna (limt-this) är definerad med kebab-case och den andra parametern är definerad med namnkonventionen för camelCase.
+
+  **Exempel 2:**
+
+![alt text](fns01_2.png)
+
+  I exemplet ovan, så exemplifieras regeln med en kontroll av de parametrar som ingår under pathen /persons. I exemplet så kommer regeln att ge ett positivt utfall eftersom bådaparametrarna är definerade med giltiga namnkonventioner. Parametern limt_this är definerad med snake-case och den andra parametern pageThis är definerad med namnkonventionen för camelCase.
+
+---
+### ID: FNS.03
+**Krav:** Sökparametrar SKALL starta med en bokstav.
+
+**Typ:** SKALL	
+
+**JSONPathExpression:** \$.paths.*.*.parameters[?(@.in=='query')].name
+
+**Förklaring:** 
+  Regeln kontrollerar att definierade query parametrar som är satta för API:et startar med en bokstav.
+
+**Exempel:**
+
+![alt text](fns03.png)
+  I exemplet ovan, så exemplifieras regeln med en kontroll av de parametrar som ingår under pathen /persons. I exemplet så kommer regeln att ge ett negativt utfall eftersom en av de definierade parametrarna (1pageThis) ej startar med en bokstav.
+
+---
+### ID: FNS.05
+**Krav:** Sökparametrar BÖR vara frivilliga..
+
+**Typ:** BÖR	
+
+**JSONPathExpression:** \$.paths.[\*].parameters[?(@.in=='query')].required
+
+**Förklaring:** 
+  Regeln kontrollerar att definierade query parametrar ej är satt som tvingande.
+
+**Exempel:**
+
+![alt text](fns05.png)
+  I exemplet ovan, så exemplifieras regeln med en kontroll av de query parametrar som ingår under pathen /persons. I exemplet så kommer regeln att ge ett negativt utfall eftersom en av de definierade parametrarna (pageThis) är satt som tvingande.
+
+---
+### ID: FNS.06
+**Krav:**   Sökparametrar BÖR använda tecken som är URL-säkra (tecknen A-Z, a-z, 0-9, '-', '.', '_' samt '~', se vidare i RFC 3986).
+
+**Typ:** BÖR	
+
+**JSONPathExpression:** \$.paths.[\*].parameters[?(@.in=='query')].name
+
+**Förklaring:** 
+  Regeln kontrollerar att definierade query parametrar har tecken som är definierade som URL-säkra
+
+**Exempel:**
+
+![alt text](fns06.png)
+  I exemplet ovan, så exemplifieras regeln med en kontroll av de query parametrar som ingår under pathen /persons. I exemplet så kommer regeln att ge ett negativt utfall eftersom en av de definierade parametrarna (pageThis) innehåller tecken som ej är URL-säkra.
+
+---
+
+### ID: FNS.07
+**Krav:**   Vid användande av paginering, SKALL följande parametrar ingå i request: 'limit' och någon av 'page' eller 'offset'.
+
+**Typ:** BÖR	
+
+**JSONPathExpression:** \$.paths..parameters
+
+**Förklaring:** 
+  Regeln kontrollerar att parametern 'limit' ingår om man använder sig av paginering. Användandet av paginering använder de reserverade parameternamnen page och offset.  
+
+**Exempel:**
+
+![alt text](fns07.png)
+  I exemplet ovan, så exemplifieras regeln med en kontroll av de query parametrar som ingår under pathen /persons. I exemplet så kommer regeln att ge ett negativt utfall eftersom de reserverade parameternamnenorden 'page' och 'offset' ingår under pathen / persons, men inte det då tvingade reserverade parameternamnet 'limit'. I exemplet så finns det en definierad parameter (mylimit), men den är alltså inte giltig.
+
+---
+### ID: FNS.08
+**Krav:**   'page' SKALL alltid starta med värde 1
+
+**Typ:** SKALL	
+
+**JSONPathExpression:** \$.paths..parameters
+
+**Förklaring:** 
+  Regeln kontrollerar att ifall parametern 'page' ingår, så förväntas man använda sig av  paginering. Regeln kontrollerar vidare att parametern 'page' har ett korrekt defaultvärde satt.  
+
+**Exempel:**
+
+![alt text](fns08.png)
+  I exemplet ovan, så exemplifieras regeln med en kontroll av de query parametrar som ingår under pathen /persons. I exemplet så kommer regeln att ge ett negativt utfall eftersom det reserverade parameternamnet 'page'  ingår under pathen / persons, och har ett defaultvärde som är satt till 100 och ej till 1. 
+
+---
+### ID: FNS.09
+**Krav:**   Defaultvärde för limit BÖR vara 20
+
+**Typ:** BÖR	
+
+**JSONPathExpression:** \$.paths..parameters
+
+**Förklaring:** 
+  Regeln kontrollerar att ifall parametrarn 'page' eller 'offset' ingår, så förväntas man använda sig av paginering. Regeln kontrollerar vidare att parametern 'limit' ingår och har ett korrekt defaultvärde satt.  
+
+**Exempel:**
+
+![alt text](fns09.png)
+  I exemplet ovan, så exemplifieras regeln med en kontroll av de query parametrar som ingår under pathen /persons. I exemplet så kommer regeln att ge ett negativt utfall eftersom det reserverade parameternamnet 'page' ingår under pathen / persons, och att den reserverade parametern 'limit' ej har ett defaultvärde satt till 20. 
+
+---
+## Område: Säkerhet	
+
+### ID: SAK.09
+**Krav:** Basic- eller Digest-autentisering SKALL INTE användas.
+
+**Typ:** SKALL	
+
+**JSONPathExpression:** \$.components.securitySchemes[\*]
+
+**Förklaring:** 
+  Regeln kontrollerar att inte Basic- eller Digest- autentisering är definierad i API:ets securityscheme.
+
+**Exempel:**
+
+![alt text](sak09.png)
+
+ I exemplet ovan så kommer regeln att ge ett negativt utfall eftersom det finns både ett securityscheme definerad för basic och ett för digest.
+
+ ---
+### ID: SAK.10
+**Krav:** Authorization: Bearer header SKALL användas för autentisering/auktorisation.
+
+**Typ:** SKALL	
+
+**JSONPathExpression:** \$..components.securitySchemes[?(@.scheme)]
+
+**Förklaring:** 
+  Regeln kontrollerar förutsatt att det finns ett securityscheme definierat, att autentisering och auktorissation sker via Bearer-token. 
+
+**Exempel:**
+
+![alt text](sak10.png)
+
+ I exemplet ovan så kommer regeln att ge ett positivt utfall eftersom det finns  ett securityscheme definerad för bearer. Fältet 'bearerFormat' är valfritt och JWT anger att tokenen följer JWT-standarden
+
+ ---
+### ID: SAK.18
+**Krav:** OAuth version 2.0 eller senare BÖR användas för auktorisation.
+
+**Typ:** BÖR	
+
+**JSONPathExpression:** \$..[securitySchemes][?(@ && @.type=='oauth2' && @.flows ? true : false)][\*].[?(@property && @property.match(/Url$/i))]
+
+**Förklaring:** 
+  Regeln kontrollerar, förutsatt att typen av säkerhetsschema är ett oauth2, att clientCredentials fälten tokenUrl och refreshUrl är specificerat med https.
+
+**Exempel:**
+
+![alt text](sak18.png)
+
+ I exemplet ovan så kommer regeln att ge ett negativt utfall eftersom clientCredentials fälten tokenUrl samt refreshUrl är specificerat med http.
+
+ ---
