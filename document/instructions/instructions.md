@@ -763,6 +763,9 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **JSONPathExpression:** \$..[securitySchemes][?(@ && @.type=='oauth2' && @.flows ? true : false)][\*].[?(@property && @property.match(/Url$/i))]
 
+\$..\[securitySchemes\]\[\?\(@ && @\.type==\'oauth2\' && @\.flows \? true : false\)\]\[\*\]\.\[?\(@property && @property\.match(\/Url\$\/i)\)\]
+
+
 **Förklaring:** 
   Regeln kontrollerar, förutsatt att typen av säkerhetsschema är ett oauth2, att clientCredentials fälten tokenUrl och refreshUrl är specificerat med https.
 
