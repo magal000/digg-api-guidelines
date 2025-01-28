@@ -71,16 +71,18 @@ Regeln söker efter om det finns en förekomst av objektet `externalDocs` med un
 
 ![alt text](dok1.png)
 
-```
+<pre>
 openapi: "3.0.0"
 info:
   version: 1.0.0
   title: Title goes here
   description: OpenAPI specification goes here
+<span style="background-color: #black; border: 2px solid red; display: inline-block; padding: 5px;">
 externalDocs:
   description: "Find out more about the API info text goes here"
   url: http://example.com
-```
+</span>
+</pre>
 
 ---
 
