@@ -4,6 +4,8 @@ RAP-LP (REST API-profil Lint Processor) är ett verktyg som granskar kod mot den
 
 Verktyget analyserar OpenAPI-dokument och kontrollerar att API:et följer specifika designregler kopplade till REST API-profilen. Varje regel pekar på en specifik del av dokumentet med ett JSON Path Plus-uttryck, och kontrollerar om värdena följer de fastställda reglerna. Om avvikelser hittas returneras ett eller flera felmeddelanden.
 
+RAP-LP är kompatibelt med REST API-profil version 1.2.0
+
 
 ## Regelstruktur 
 Detta dokument specificerar reglerna som verktyget tillämpar. Varje regel innehåller:
@@ -76,10 +78,9 @@ Detta dokument specificerar reglerna som verktyget tillämpar. Varje regel inneh
 ```
 $
 ```
-
 **Förklaring:** 
 
-Regeln söker efter om det finns en förekomst av objektet `externalDocs` med underliggande struktur:
+Regeln förutsätter att det finns en förekomst av objektet `externalDocs` med underliggande struktur:
   - description
   - url.
 
@@ -103,11 +104,14 @@ externalDocs:
 ---
 
 ### ID: DOK.03
-**Krav:** Dokumentationen av ett API BÖR innehålla övergripande information om API:et.
+**Krav:** Dokumentationen av ett API SKALL innehålla övergripande information om API:et.
 
-**Typ:** BÖR
+**Typ:** SKALL
 
-**JSONPathExpression:** \$.info, \$.info.contact, \$.info.license
+**JSONPathExpression:** 
+```
+$.info,$.info.contact,$.info.license
+```
 
 **Förklaring:** 
 
@@ -135,7 +139,10 @@ externalDocs:
 
 **Typ:** BÖR
 
-**JSONPathExpression:** \$.info
+**JSONPathExpression:** 
+```
+$.info
+```
 
 **Förklaring:** 
   Regeln förutsätter att det finns en förekomst av objektet `info` med underliggande struktur:
@@ -153,9 +160,12 @@ externalDocs:
 
 **Typ:** SKALL
 
-**JSONPathExpression:** $.paths[\*][\*].responses[\*].content.application/json,\
-\$.paths[\*][?(@ != "get")].requestBody.content.application/json
+**JSONPathExpression:** 
+```
+$.paths[*][*].responses[*].content.application/json
 
+$.paths[*][?(@ != "get")].requestBody.content.application/json
+```
 
 **Förklaring:** 
   Regeln förutsätter att det finns en förekomst av fältet (elementet) `examples` i specifikationen under de angivna nivåerna.\
@@ -165,14 +175,14 @@ externalDocs:
 
 ![alt text](dok15.png)
 
-  I exemplet ovan, så exemplifieras regeln med en post operation, där regeln undersöker om det finns en förekomst av fältet `examples`. Om man refererar en schema definition med hjälp av nyckelordet `$ref`, så ignoreras övriga element på aktuell nivå. Detta innebär att om det finns ett exempel fält på schema nivå så ”overridar” den ett ev. ”inline” exempelfält.
+  I exemplet ovan, så exemplifieras regeln med en POST operation, där regeln undersöker om det finns en förekomst av fältet `examples`. Om man refererar en schema definition med hjälp av nyckelordet `$ref`, så ignoreras övriga element på aktuell nivå. Detta innebär att om det finns ett examples fält på schema nivå så ”overridar” den ett ev. ”inline” examples fält.
 
 ---
 **Exempel:**
 
 ![alt text](dok15_2.png)
 
-I exemplet ovan, så exemplifieras regeln med en post operation, där regeln undersöker om det finns en förekomst av fältet examples. Ifall man refererar en schema definition med hjälp av nyckelordet  $ref, så ignoreras övriga element på aktuell nivå. Detta innebär att om det finns ett exempel fält på schema nivå så ”overridar” den ett ev. ”inline” exempelfält.
+I exemplet ovan, så exemplifieras regeln med en post operation, där regeln undersöker om det finns en förekomst av fältet examples. Ifall man refererar en schema definition med hjälp av nyckelordet  $ref, så ignoreras övriga element på aktuell nivå. Detta innebär att om det finns ett examples fält på schema nivå så ”overridar” den ett ev. ”inline” examples fält.
 
 ---
 ### ID: DOK.17
