@@ -1,6 +1,19 @@
-# RAP-LP Open API Specification Guidelines Version 1.0
+# RAP-LP Open API Specification Guidelines Version 0.7
 
-[KORT INTRODUKTIONSTEXT]
+RAP-LP (REST API-profil Lint Processor) är ett verktyg som granskar kod mot den nationella REST API-profilen. Det identifierar syntaxfel och avvikelser från riktlinjer, vilket gör det enklare att snabbt hitta och rätta till problem.
+
+Verktyget analyserar OpenAPI-dokument och kontrollerar att API:et följer specifika designregler kopplade till REST API-profilen. Varje regel pekar på en specifik del av dokumentet med ett JSON Path Plus-uttryck, och kontrollerar om värdena följer de fastställda reglerna. Om avvikelser hittas returneras ett eller flera felmeddelanden.
+
+
+## Regelstruktur 
+Detta dokument specificerar reglerna som verktyget tillämpar. Varje regel innehåller:
+- Område: Aktuellt område i REST API-profilen för regeln
+- ID: Aktuell krav id i REST API-profilen för regeln.
+- Krav: Själva kravet enligt profilen.
+- Typ: Typ av krav (SKALL, SKALL INTE, BÖR, BÖR INTE, KAN)
+- JSONPathExpression: Vilken del av OpenAPI-dokumentet regeln gäller
+- Förklaring: Hur regeln ska tolkas
+- Exempel: Illustration med text och bild
 
 
 ## Innehållsförteckning
@@ -59,7 +72,10 @@
 
 **Typ:** BÖR
 
-**JSONPathExpression:** \$
+**JSONPathExpression:** 
+```
+$
+```
 
 **Förklaring:** 
 
@@ -761,10 +777,10 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** \$..[securitySchemes][?(@ && @.type=='oauth2' && @.flows ? true : false)][\*].[?(@property && @property.match(/Url$/i))]
-
-\$..\[securitySchemes\]\[\?\(@ && @\.type==\'oauth2\' && @\.flows \? true : false\)\]\[\*\]\.\[?\(@property && @property\.match(\/Url\$\/i)\)\]
-
+**JSONPathExpression:** 
+```
+ $..[securitySchemes][?(@ && @.type=='oauth2' && @.flows ? true : false)][*].[?(@property && @property.match(/Url$/i))]
+```
 
 **Förklaring:** 
   Regeln kontrollerar, förutsatt att typen av säkerhetsschema är ett oauth2, att clientCredentials fälten tokenUrl och refreshUrl är specificerat med https.
