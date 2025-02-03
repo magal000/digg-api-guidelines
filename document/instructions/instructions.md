@@ -190,21 +190,24 @@ I exemplet ovan, så exemplifieras regeln med en post operation, där regeln und
 
 **Typ:** BÖR
 
-**JSONPathExpression:** \$
+**JSONPathExpression:** 
+```
+$
+```
 
 **Förklaring:** 
 
-  Regeln undersöker att API-specifikationen dokumenteras med den senaste major versionen av OpenAPI. Detta för att få full täckning av de implementerade reglerna.
+  Regeln förutsätter att API-specifikationen dokumenteras med den senaste major versionen av OpenAPI. Detta för att få full täckning av de implementerade reglerna. Regeln förutsätter vidare att man använder sig av fältet openapi för att beskriva v 
 
 **Exempel:**
 
 ![alt text](dok17.png)
 
-  I exemplet ovan, så exemplifieras regeln med en godkänd värde på versionen av OpenAPI specification.
+I exemplet ovan, så exemplifieras regeln med ett godkänd värde på versionen av OpenAPI specification.
 
 ![alt text](dok17-2.png)
 
-I exemplet ovan, så exemplifieras regeln det med en icke godkänt värde på versionen av OpenAPI specification.
+I exemplet ovan, så exemplifieras regeln det med ett icke godkänt värde på versionen av OpenAPI specification.
 
 ---
 
@@ -213,7 +216,11 @@ I exemplet ovan, så exemplifieras regeln det med en icke godkänt värde på ve
 
 **Typ:** SKALL
 
-**JSONPathExpression:** \$.paths[\*][\*]
+**JSONPathExpression:** 
+```
+$.paths[*][*]
+```
+
 
 **Förklaring:**
 Regeln förutsätter att det finns en förekomst av objektet `Paths`. Regeln undersöker vidare om det finns förekomster av fältet `description` oavsett om det är en GET, POST, PUT, PATCH eller en DELETE operation.
@@ -227,20 +234,25 @@ I exemplet ovan, så exemplifieras regeln med en två get samt en post operation
 ---
 
 ### ID: DOK.20
-**Krav:** Ett API:s resurser och de möjliga operationer som kan utföras på resursen SKALL beskrivas så utförligt och tydligt som möjligt.
+**Krav:** Förväntade returkoder och felkoder SKALL vara fullständigt dokumenterade.
 
 **Typ:** SKALL
 
-**JSONPathExpression:** \$.paths[\*][\*].responses[\*]
+**JSONPathExpression:** 
+
+```
+$.paths[*][*].responses[*]
+
+```
 
 **Förklaring:** 
-  Regeln förutsätter att det finns en förekomst av objektet `Paths`. Regeln undersöker vidare om det under fältet `responses` finns förekomster av fältet `description` oavsett om det är en GET, POST, PUT, PATCH eller en DELETE operation.
+  Regeln förutsätter att det finns en förekomst av objektet `Paths`. Regeln undersöker vidare om det under fältet `responses` finns förekomster av fältet `description` i varje förekomst av en GET, POST, PUT, PATCH eller en DELETE operation.
 
 **Exempel:**
 
 ![alt text](dok20.png)
 
-I exemplet ovan, så exemplifieras regeln med en get samt en post operation, där regeln undersöker om det finns en förekomst av fältet description under fältet responses. I detta exempel så har man också angett att man behöver ha ett default svar, som då också blir föremål för regelvalidering.
+I exemplet ovan, så exemplifieras regeln med GET samt en POST operation, där regeln förutsätter att det finns en förekomst av fältet description under fältet responses. I detta exempel så har man också angett att man behöver ha ett default svar, som då också blir föremål för regelvalidering.
 
 ---
 
@@ -250,16 +262,19 @@ I exemplet ovan, så exemplifieras regeln med en get samt en post operation, dä
 
 **Typ:** SKALL
 
-**JSONPathExpression:** \$.responses.content.application/json.schema.properties
+**JSONPathExpression:** 
+```
+$.responses.content.application/json.schema.properties
+```
 
 **Förklaring:** 
-  Regeln söker efter förekomster av fält i retursvar och som beskrivs som datumfält och har formatet `date-time` under fältet `responses`. Formatet `date-time` accepteras även formatet `Z` för Zulu Time.
+  Regeln förutsätter att det finns förekomster av fält i retursvar och som beskrivs som datumfält och har formatet `date-time` under fältet `responses`. Formatet `date-time` accepteras även formatet `Z` för Zulu Time.
 
 **Exempel:**
 
 ![alt text](dot1.png) ![alt text](dot1-2.png)
 
-I exemplet ovan, så exemplifieras regeln med en post operation, där regeln undersöker om det finns en förekomst av fältet examples under i detta fall attributet ”postedTime ”. Ifall man refererar en schema definition med hjälp av nyckelordet $ref, så ignoreras övriga element på aktuell nivå. Detta innebär att om det finns ett exempel fält på schema nivå så ”overridar” den ett ev. ”inline” exempelfält.
+I exemplet ovan, så exemplifieras regeln med en POST operation, där regeln förutsätter att det finns en förekomst av fältet examples under i detta fall attributet ”postedTime ”. Ifall man refererar en schema definition med hjälp av nyckelordet $ref, så ignoreras övriga element på aktuell nivå. Detta innebär att om det finns ett exempel fält på schema nivå så ”overridar” den ett ev. ”inline” exempelfält.
 
 ---
 
@@ -268,15 +283,17 @@ I exemplet ovan, så exemplifieras regeln med en post operation, där regeln und
 
 **Typ:** SKALL
 
-**JSONPathExpression:** \$.components.schemas
-
+**JSONPathExpression:** 
+```
+$.components.schemas
+```
 **Förklaring:** 
 
   Regeln söker efter förekomster av fält som beskrivs som datumfält och har formatet `date` och/eller `date-time`. För formatet `date-time` accepteras också formatet `Z` för Zulu Time. Enligt RFC 3339 kan tidszoner anges på olika sätt, vilket innebär hantering av både UTC (som slutar på Z) samt offset (±hh:mm).
 
 **Exempel:**
 
-![alt text](image-10.png)
+![alt text](dot4.png)
 
 I exemplet ovan, så exemplifieras regeln med att oavsett typ av operation, undersöka om det finns en förekomst av fältet examples under i detta fall attributeten  ” postedDate och postedTime ”. Ifall man refererar en schema definition med hjälp av nyckelordet $ref, så ignoreras övriga element på aktuell nivå. Detta innebär att om det finns ett exempel fält på schema nivå så ”overridar” den ett ev. ”inline” exempelfält.
 
@@ -284,12 +301,16 @@ I exemplet ovan, så exemplifieras regeln med att oavsett typ av operation, unde
 
 ## Område: URL Format och namngivning
 ### ID: UFN.01
-**Krav:** En URL för ett API BÖR följa namnstandarden nedan:
+**Krav:** En URL för ett API BÖR
+ följa namnstandarden nedan:
   `{protokoll}://{domännamn}/{api}/{version}/{resurs}/{identifierare}?{parametrar}`
 
 **Typ:** BÖR
 
-**JSONPathExpression:** \$.servers.[url]
+**JSONPathExpression:** 
+```
+$.servers.[url]
+```
 
 **Förklaring:** 
   Regeln söker efter 1-n förekomster av fältet `Url` under Serverobjektet, samt att dessa följer namnstandarden fram till versionen av API:et:\
@@ -305,14 +326,17 @@ I exemplet ovan, så exemplifieras regeln med att oavsett typ av operation, unde
 
 **Typ:** SKALL
 
-**JSONPathExpression:** \$.servers.[url]
+**JSONPathExpression:** 
+```
+$.servers.[url]
+```
 
 **Förklaring:** 
-  Regeln söker efter 1-n förekomster av fältet `Url` under Serverobjektet, samt att dessa exponeras via HTTPS. Om en port är definierad, så kontrolleras att den är 443.
+  Regeln söker efter 1-n förekomster av fältet `Url` under Serverobjektet, samt förutsätter att dessa exponeras via HTTPS. Om en port är definierad, så kontrolleras att den är 443.
 
 **Exempel:**
 
-![alt text](image-13.png)
+![alt text](ufn2.png)
 
 I exemplet ovan, så exemplifieras regeln med att den första url:en inte exponerar en speciell port och i den url:en så är då port 443 default, medans den andra url:en definierar en port 443.
 
@@ -321,9 +345,13 @@ I exemplet ovan, så exemplifieras regeln med att den första url:en inte expone
 ### ID: UFN.05
 **Krav:** En URL BÖR INTE vara längre än 2048 tecken.
 
-**Typ:** SKALL
+**Typ:** BÖR
 
-**JSONPathExpression:** \$.servers[\*].url, \$.paths
+**JSONPathExpression:** 
+```
+$.servers[*].url
+$.paths
+```
 
 **Förklaring:** 
   Regeln kontrollerar att inte längden på URL:en definierade av fälten beskrivna i ovan JSONPathExpression överstiger 2048 tecken. Under objektet `servers`, så inkluderas fältet `url` och under objektet `paths`, så inkluderas och kontrolleras varje ingående path.
@@ -333,29 +361,27 @@ I exemplet ovan, så exemplifieras regeln med att den första url:en inte expone
 ![alt text](ufn5.png)
 
 I exemplet ovan, så utgör fältet url de båda url:ena man ser under serverobjektet, föremål för kontroll.
-
-![alt text](ufn5-1.png)
 ![alt text](ufn5-2.png)
-![alt text](ufn5-3.png)
 
 I exemplet ovan, så utgör paths tillsammans med parameters sektionen föremål för kontroll. Här exemplifieras det med en parameter av typen path. 
 
 ---
-
 ### ID: UFN.07
 **Krav:** URL:n SKALL använda dessa tecknen a-z, 0-9, "-", "." samt "~", se vidare i RFC 3986).
 
 **Typ:** SKALL
 
-**JSONPathExpression:** \$.
+**JSONPathExpression:** 
+```
+$.
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att de giltiga tecken som specificeras i kravet förekommer i de fält som bygger upp URL:n. Detta görs genom att kontrollera de tecken som återfinns under objektet `servers` i fältet `url`, samt under objektet `paths`.
+  Regeln förutsätter att de giltiga tecken som specificeras i kravet förekommer i de fält som bygger upp URL:n. Detta görs genom att kontrollera de tecken som återfinns under objektet `servers` i fältet `url`, samt under objektet `paths`.
 
 **Exempel:**
 
 ![alt text](ufn7.png)
-![alt text](ufn7-2.png)
 
 I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet paths föremål för kontroll.
 
@@ -366,7 +392,10 @@ I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet path
 
 **Typ:** SKALL
 
-**JSONPathExpression:** \$.paths[\*]~
+**JSONPathExpression:** 
+```
+$.paths[*]~
+```
 
 **Förklaring:** 
   Regeln kontrollerar att endast bindestreck ’-’ används för att separera ord i den del av URL:n som byggs upp av path objektet.
@@ -374,7 +403,6 @@ I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet path
 **Exempel:**
 
 ![alt text](ufn8.png)
-![alt text](ufn8-2.png)
 
 I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet paths med underliggande konstruktion av parameter föremål för kontroll.
 
@@ -387,7 +415,12 @@ I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet path
 
 **JSONPathExpression:** 
 
-\$.servers.[\url], \$.paths[\*]~, \$.paths.\*.\*.parameters[?(@.in=='path')].name
+```
+$.servers.[url]
+$.paths[*]~
+$.paths.*.*.parameters[?(@.in=='path')].name
+
+```
 
 **Förklaring:** 
   Regeln verifierar att blanksteg ' ' och understreck '_' inte används i URL:erna. Regeln kontrollerar alla ingående delar av URL:en som definieras i serverobjektet under fältet `url`, de delar av URL:en som byggs upp i `path` objektet, samt de delar av URL:en som utgör parametrar av typen `path`, med undantag för parameterdelen som utgörs av typen `query`.
@@ -395,8 +428,6 @@ I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet path
 **Exempel:**
 
 ![alt text](ufn9.png)
-![alt text](ufn9-2.png)
-![alt text](ufn9-3.png)
 
   I exemplet ovan, så utgör fältet `url` under serverobjektet, samt objektet `paths` med underliggande konstruktion av parameter av typen ”path” föremål för kontroll.
 
@@ -408,11 +439,15 @@ I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet path
 
 **Typ:** BÖR
 
-**JSONPathExpression:** \$.paths[\*][\*].responses[?(@property < 400)].content, \$.paths.\*.\*.requestBody.content
+**JSONPathExpression:** 
+```
+$.paths[*][*].responses[?(@property < 400)].content
+$.paths.*.*.requestBody.content
+```
 
 **Förklaring:** 
 
-  Regeln kontrollerar att svaren för de datastrukturer/modeller som används under `path` objektet, där http svarskoden är mindre än 400, beskrivs med `application/json`. Regeln kontrollerar också att de datastrukturer/modeller som används under `requestBody` objektet.
+  Regeln förutsätter att svaren för de datastrukturer/modeller som används under `path` objektet, där http svarskoden är mindre än 400, beskrivs med `application/json`. Regeln kontrollerar också att de datastrukturer/modeller som används under `requestBody` objektet.
 
 **Exempel:**
 
@@ -427,10 +462,12 @@ I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet path
 
 **Typ:** BÖR
 
-**JSONPathExpression:** \$.paths.\*.\*.requestBody.content
-
+**JSONPathExpression:** 
+```
+$.paths.*.*.requestBody.content
+```
 **Förklaring:** 
-  Regeln kontrollerar också att de datastrukturer/modeller som används under `requestBody` objektet beskrivs med `application/json`.
+  Regeln förutsätter också att de datastrukturer/modeller som används under `requestBody` objektet beskrivs med `application/json`.
 
 **Exempel:**
 
@@ -445,8 +482,10 @@ I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet path
 
 **Typ:** BÖR
 
-**JSONPathExpression:** \$.components.schemas.properties[\*]~
-
+**JSONPathExpression:** 
+```
+$.components.schemas.properties[*]~
+```
 **Förklaring:** 
   Regeln kontrollerar att den namnsättning som används för egenskaper beskrivna i request/responsebodyn bör beskrivas med camelCase eller snake_case notation.
 
