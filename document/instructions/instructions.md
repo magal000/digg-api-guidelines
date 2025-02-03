@@ -487,7 +487,7 @@ $.paths.*.*.requestBody.content
 $.components.schemas.properties[*]~
 ```
 **Förklaring:** 
-  Regeln kontrollerar att den namnsättning som används för egenskaper beskrivna i request/responsebodyn bör beskrivas med camelCase eller snake_case notation.
+  Regeln förutsätter att den namnsättning som används för egenskaper beskrivna i request/responsebodyn beskrivs med camelCase eller snake_case notation.
 
 **Exempel:**
 
@@ -502,10 +502,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** SKALL
 
-**JSONPathExpression:** \$.components.schemas.properties[\*]~
+**JSONPathExpression:** 
+```
+$.components.schemas.properties[*]~
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att den namnsättning som används för egenskaper beskrivna under `components.schemas` är konsekvent. Antingen så ska camelCase eller snake_case notation användas.
+  Regeln förutsätter att den namnsättning som används för egenskaper beskrivna under `components.schemas` är konsekvent. Antingen så ska camelCase eller snake_case notation användas.
 
 **Exempel:**
 
@@ -520,10 +523,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** \$.components.schemas.properties[\*]~
+**JSONPathExpression:** 
+```
+$.components.schemas.properties[*]~
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att den namnsättning som används för egenskaper beskrivna under `components.schemas` är alfanumeriska. Regeln tillåter också i detta kontext det specifika tecknet ”_” eftersom namnsättningskonventioner för egenskaper tillåts innehålla detta tecken. För mer information se regel AME.05
+  Regeln förutsätter att den namnsättning som används för egenskaper beskrivna under `components.schemas` är alfanumeriska. Regeln tillåter också i detta kontext det specifika tecknet ”_” eftersom namnsättningskonventioner för egenskaper tillåts innehålla detta tecken. För mer information se regel AME.05
 
 **Exempel:**
 
@@ -539,10 +545,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** \$.paths[\*][\*].requestBody.content
+**JSONPathExpression:** 
+```
+$.paths[*][*].requestBody.content
+```
 
 **Förklaring:** 
-  Regeln kontrollerar också att de datastrukturer/modeller som används under `requestBody` objektet skickas i UTF-8.  
+  Regeln förutsätter att de datastrukturer/modeller som används under `requestBody` objektet skickas i UTF-8.  
 
 **Exempel:**
 
@@ -557,10 +566,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** \$.paths.\*.\*
+**JSONPathExpression:** 
+```
+$.paths.*.*
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att ovan beskrivna header parametrar, förutsatt att de är satta, följer följande regler för respektive attribut:
+  Regeln förutsätter att ovan beskrivna header parametrar, förutsatt att de är satta, följer följande regler för respektive attribut:
   - Attributet Date: Kontroll görs att schema formatet är satt till värdet "date-time"
   - Attributet Cache-Control: Kontroll görs att det finns minst ett enum-värde
   - Attributet ETag: Kontroll görs att schema formatet är satt till värdet "etag"
@@ -569,9 +581,7 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Exempel:**
 
-![alt text](arq3.png)
-
-  I exemplet ovan, så exemplifieras regeln med en kontroll av att media typen under `content` objektet bör vara `application/json`.
+TODO
 
 ---
 
@@ -580,10 +590,17 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** \$.paths.\*.\*.parameters[?(@.in=='header' && @.schema)]
+**JSONPathExpression:** 
+```
+$.paths.*.*.parameters[?(@.in=='header' && @.schema)]
+```
 
 **Förklaring:**
-  Regeln kontrollerar att payload data inte förekommer i HTTP headers. Regeln är uppdelad i tre delregler där det sker kontroller att förekomster av s.k. ”nästlade strukturer” inte används. Vidare så kontrolleras okonventionell användning av HTTP headers kopplat till vilka MIME typer som används samt om det förekommer komplexa datastrukturer, såsom JSON eller XML.
+  Regeln förutsätter att payload data inte förekommer i HTTP headers. Regeln är uppdelad i tre delregler där det sker kontroller att förekomster av s.k. ”nästlade strukturer” inte används. Vidare så kontrolleras okonventionell användning av HTTP headers kopplat till vilka MIME typer som används samt om det förekommer komplexa datastrukturer, såsom JSON eller XML.
+
+**Exempel:**
+
+TODO
 
 ---
 
@@ -594,11 +611,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 **Typ:** SKALL	
 
 **JSONPathExpression:** 
-  - \$.paths.\*.\*.responses.\*.content['application/problem+json'].schema
-  - \$.paths.\*.\*.responses.\*.content['application/problem+xml'].schema
+```
+  $.paths.*.*.responses.*.content['application/problem+json'].schema
+  $.paths.*.*.responses.*.content['application/problem+xml'].schema
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att den namngivna komplexa strukturen som återfinns under `components.schemas` innehåller de attribut som återfinns i kravet ovan.
+  Regeln förutsätter att den namngivna komplexa strukturen som återfinns under `components.schemas` innehåller de attribut som återfinns i kravet ovan.
 
 **Exempel:**
 
@@ -613,12 +632,15 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 ### ID: FEL.02
 **Krav:** Schemat enligt RFC 9457 bör innehålla de beskrivna attributen i FEL.01 och SKALL använda mediatypen `application/problem+json` eller `application/problem+xml` i svaret.
 
-**Typ:** BÖR	
+**Typ:** SKALL	
 
-**JSONPathExpression:** \$.paths[\*][\*].responses[?(@property == 'default' || @property >= 400)].content
+**JSONPathExpression:** 
+```
+$.paths[*][*].responses[?(@property == 'default' || @property >= 400)].content
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att den namngivna komplexa strukturen som återfinns under `components.schemas` innehåller de attribut som återfinns i kravet ovan.
+  Regeln förutsätter att den namngivna komplexa strukturen som återfinns under `components.schemas` innehåller de attribut som återfinns i kravet ovan.
 
 **Exempel:**
 
@@ -635,10 +657,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** \$.servers.[url]
+**JSONPathExpression:** 
+```
+$.servers.[url]
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att den specificerade URL:en följer semantisk versionering enligt kravet. Regeln tillåter också att alpha/beta versioner specificeras.
+  Regeln förutsätter att den specificerade URL:en följer semantisk versionering enligt kravet. Regeln tillåter också att alpha/beta versioner specificeras.
 
 **Exempel:**
 
@@ -653,10 +678,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** \$.paths
+**JSONPathExpression:** 
+```
+$.paths
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att resursen `api-info` finns tillgänglig under själva roten till API:et, där information om API:et skall tillgängliggöras.
+  Regeln förutsätter att resursen `api-info` finns tillgänglig under själva roten till API:et, där information om API:et skall tillgängliggöras.
 
 **Exempel:**
 
@@ -670,10 +698,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** \$.paths.*.*.parameters[?(@.in=='query')].name
+**JSONPathExpression:** 
+```
+$.paths.*.*.parameters[?(@.in=='query')].name
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att definierade query parametrar som är satta för API:et följer en stringent namnkonvention som antingen är uppbyggd med snake_case eller camelCase.
+  Regeln förutsätter att definierade query parametrar som är satta för API:et följer en stringent namnkonvention som antingen är uppbyggd med snake_case eller camelCase.
 
 **Exempel:**
 
@@ -693,10 +724,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** \$.paths.*.*.parameters[?(@.in=='query')].name
+**JSONPathExpression:** 
+```
+$.paths.*.*.parameters[?(@.in=='query')].name
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att definierade query parametrar som är satta för API:et startar med en bokstav.
+  Regeln förutsätter att definierade query parametrar som är satta för API:et startar med en bokstav.
 
 **Exempel:**
 
@@ -709,10 +743,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** \$.paths.[\*].parameters[?(@.in=='query')].required
+**JSONPathExpression:** 
+```
+$.paths.[*].parameters[?(@.in=='query')].required
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att definierade query parametrar ej är satt som tvingande.
+  Regeln förutsätter att definierade query parametrar ej är satt som tvingande.
 
 **Exempel:**
 
@@ -725,10 +762,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** \$.paths.[\*].parameters[?(@.in=='query')].name
+**JSONPathExpression:** 
+```
+$.paths.[*].parameters[?(@.in=='query')].name
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att definierade query parametrar har tecken som är definierade som URL-säkra
+  Regeln förutsätter att definierade query parametrar har tecken som är definierade som URL-säkra
 
 **Exempel:**
 
@@ -740,12 +780,15 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 ### ID: FNS.07
 **Krav:**   Vid användande av paginering, SKALL följande parametrar ingå i request: 'limit' och någon av 'page' eller 'offset'.
 
-**Typ:** BÖR	
+**Typ:** SKALL	
 
-**JSONPathExpression:** \$.paths..parameters
+**JSONPathExpression:** 
+```
+$.paths..parameters
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att parametern 'limit' ingår om man använder sig av paginering. Användandet av paginering använder de reserverade parameternamnen page och offset.  
+  Regeln förutsätter att parametern 'limit' ingår om man använder sig av paginering. Användandet av paginering använder de reserverade parameternamnen page och offset.  
 
 **Exempel:**
 
@@ -758,10 +801,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** \$.paths..parameters
+**JSONPathExpression:** 
+```
+$.paths..parameters
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att ifall parametern 'page' ingår, så förväntas man använda sig av  paginering. Regeln kontrollerar vidare att parametern 'page' har ett korrekt defaultvärde satt.  
+  Regeln förutsätter att ifall parametern 'page' ingår, så förväntas man använda sig av  paginering. Regeln kontrollerar vidare att parametern 'page' har ett korrekt defaultvärde satt.  
 
 **Exempel:**
 
@@ -774,10 +820,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** \$.paths..parameters
+**JSONPathExpression:** 
+```
+$.paths..parameters
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att ifall parametrarn 'page' eller 'offset' ingår, så förväntas man använda sig av paginering. Regeln kontrollerar vidare att parametern 'limit' ingår och har ett korrekt defaultvärde satt.  
+  Regeln förutsätter att ifall parametrarn 'page' eller 'offset' ingår, så förväntas man använda sig av paginering. Regeln kontrollerar vidare att parametern 'limit' ingår och har ett korrekt defaultvärde satt.  
 
 **Exempel:**
 
@@ -792,10 +841,13 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** \$.components.securitySchemes[\*]
+**JSONPathExpression:** 
+```
+$.components.securitySchemes[*]
+```
 
 **Förklaring:** 
-  Regeln kontrollerar att inte Basic- eller Digest- autentisering är definierad i API:ets securityscheme.
+  Regeln förutsätter att inte Basic- eller Digest- autentisering är definierad i API:ets securityscheme.
 
 **Exempel:**
 
@@ -809,7 +861,10 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** \$..components.securitySchemes[?(@.scheme)]
+**JSONPathExpression:** 
+```
+$..components.securitySchemes[?(@.scheme)]
+```
 
 **Förklaring:** 
   Regeln kontrollerar förutsatt att det finns ett securityscheme definierat, att autentisering och auktorissation sker via Bearer-token. 
