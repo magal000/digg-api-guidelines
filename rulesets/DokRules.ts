@@ -178,18 +178,6 @@ export class Dok01 extends BaseRuleset {
               }
             ]
           }          
-          /*
-          if(obj.hasOwnProperty('description') && obj.hasOwnProperty('url')){
-              return [];
-          } else {
-              return [
-                      {
-                        path: ['externalDocs'],
-                        message: this.message,
-                        severity: this.severity
-                      }
-                    ]
-          }*/
         }          
     }         
   }];
