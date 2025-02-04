@@ -110,7 +110,9 @@ externalDocs:
 
 **JSONPathExpression:** 
 ```
-$.info,$.info.contact,$.info.license
+$.info
+$.info.contact
+$.info.license
 ```
 
 **Förklaring:** 
