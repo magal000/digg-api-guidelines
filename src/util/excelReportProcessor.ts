@@ -12,6 +12,11 @@ interface ExcelTemplateConfig {
     outputFilePath: string
 }
 
+/**
+ * Mapped to actual Excel template for corresponding version of the Swedish REST API-profile
+ * This integration is intended to facilitate reconciliation against the respective requirements 
+ * and to provide an overview of how an API meets this REST API profile. 
+ */
 const DEFAULT_CONFIG: ExcelTemplateConfig = {
     reportTemplatePath: path.resolve(process.cwd(), "document/Avstaemning_REST_API_profil_v_1_2_0_0.xlsx"),
     dataSheetName: "Kravlista REST API profil",
