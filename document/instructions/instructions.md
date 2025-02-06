@@ -534,6 +534,7 @@ $.components.schemas.properties[*]~
 ---
 
 ## Område: API Request	
+**Täckningsgrad: 60%**
 ### ID: ARQ.01
 **Krav:** Ett request BÖR skickas i UTF-8.
 
@@ -582,7 +583,7 @@ TODO
 ### ID: ARQ.05
 **Krav:** Payload data SKALL INTE användas i HTTP-headers.
 
-**Typ:** BÖR	
+**Typ:** SKALL	
 
 **JSONPathExpression:** 
 ```
@@ -592,13 +593,10 @@ $.paths.*.*.parameters[?(@.in=='header' && @.schema)]
 **Förklaring:**
   Regeln förutsätter att payload data inte förekommer i HTTP headers. Regeln är uppdelad i tre delregler där det sker kontroller att förekomster av s.k. ”nästlade strukturer” inte används. Vidare så kontrolleras okonventionell användning av HTTP headers kopplat till vilka MIME typer som används samt om det förekommer komplexa datastrukturer, såsom JSON eller XML.
 
-**Exempel:**
-
-TODO
-
 ---
 
 ## Område: Felhantering	
+**Täckningsgrad: 100%**
 ### ID: FEL.01
 **Krav:** Om HTTP svarskoderna inte räcker SKALL API:et beskriva feldetaljer enligt RFC 9457 med dessa ingående attribut: 'type', 'title', 'status', 'detail', 'instance'.
 
@@ -646,6 +644,7 @@ $.paths[*][*].responses[?(@property == 'default' || @property >= 400)].content
 ---
 
 ## Område: Versionhantering	
+**Täckningsgrad: 10%**
 ### ID: VER.05
 **Krav:** Version BÖR anges i URL enligt formatet v[x] där 'v' avser förkortning för version och x avser ett och bara ett nummer (0-n) för major-version.
 
@@ -687,6 +686,7 @@ $.paths
   I exemplet ovan, så exemplifieras regeln med en kontroll att den specificerade URL:en följer den semantiska versioneringen korrekt.
 
 ## Område: Filtrering, paginering och sökparametrar	
+**Täckningsgrad: 54%**
 ### ID: FNS.01
 **Krav:** Parameternamn SKALL anges med en konsekvent namnkonvention inom ett API, exempelvis antingen snake_case eller camelCase.
 
@@ -829,7 +829,7 @@ $.paths..parameters
 
 ---
 ## Område: Säkerhet	
-
+**Täckningsgrad: 9%**
 ### ID: SAK.09
 **Krav:** Basic- eller Digest-autentisering SKALL INTE användas.
 
