@@ -10,6 +10,7 @@ RAP-LP är kompatibelt med REST API-profil version 1.2.0
 ## Regelstruktur 
 Detta dokument specificerar reglerna som verktyget tillämpar. Varje regel innehåller:
 - Område: Aktuellt område i REST API-profilen för regeln
+- Täckningsgrad: Hur många % av antalet regler i området som är lintbar
 - ID: Aktuell krav id i REST API-profilen för regeln.
 - Krav: Själva kravet enligt profilen.
 - Typ: Typ av krav (SKALL, SKALL INTE, BÖR, BÖR INTE, KAN)
@@ -69,6 +70,7 @@ Detta dokument specificerar reglerna som verktyget tillämpar. Varje regel inneh
 
 
 ## Område: Dokumentation
+**Täckningsgrad: 29%**
 ### ID: DOK.01
 **Krav:** I regel BÖR dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online.
 
@@ -87,19 +89,6 @@ Regeln förutsätter att det finns en förekomst av objektet `externalDocs` med 
 **Exempel:**
 
 ![alt text](dok1.png)
-
-<pre>
-openapi: "3.0.0"
-info:
-  version: 1.0.0
-  title: Title goes here
-  description: OpenAPI specification goes here
-<span style="background-color: #black; border: 2px solid red; display: inline-block; padding: 5px;">
-externalDocs:
-  description: "Find out more about the API info text goes here"
-  url: http://example.com
-</span>
-</pre>
 
 ---
 
@@ -259,6 +248,7 @@ I exemplet ovan, så exemplifieras regeln med GET samt en POST operation, där r
 ---
 
 ## Område: Datum- och tidsformat
+**Täckningsgrad: 50%**
 ### ID: DOT.01
 **Krav:** Datum och tid SKALL hanteras enligt följande, använd alltid RFC 3339 för datum och tid, acceptera alla tidszoner i API:er returnera datum och tid i UTC och använd inte tidsdelen om du inte behöver den.
 
@@ -302,6 +292,7 @@ I exemplet ovan, så exemplifieras regeln med att oavsett typ av operation, unde
 ---
 
 ## Område: URL Format och namngivning
+**Täckningsgrad: 54%**
 ### ID: UFN.01
 **Krav:** En URL för ett API BÖR
  följa namnstandarden nedan:
@@ -436,6 +427,7 @@ $.paths.*.*.parameters[?(@.in=='path')].name
 ---
 
 ## Område: API Message	
+**Täckningsgrad: 71%**
 ### ID: AME.01
 **Krav:** Datamodellen för en representation BÖR (AME.01) beskrivas med JSON enligt senaste versionen, RFC 8259.
 
