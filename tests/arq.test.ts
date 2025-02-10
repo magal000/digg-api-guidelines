@@ -55,7 +55,7 @@ testRule("Arq05ComplexStructure", [
           message:
             "[Payload data SKALL INTE användas i HTTP-headers] Om en header förväntas innehålla komplexa datastrukturer, såsom JSON eller XML, kan det indikera en okonventionell användning av headers.",
           path: ["paths", "/foo", "post", "parameters", "0"],
-          severity: DiagnosticSeverity.Warning,
+          severity: DiagnosticSeverity.Error,
         },
       ],
     },
@@ -115,7 +115,7 @@ testRule("Arq05ComplexStructure", [
           message:
             "[Payload data SKALL INTE användas i HTTP-headers] Om en header förväntas innehålla data med ovanliga MIME-typer kan det indikera en okonventionell användning av headers.",
           path: ["paths", "/foo", "post", "parameters", "0"],
-          severity: DiagnosticSeverity.Warning,
+          severity: DiagnosticSeverity.Error,
         },
       ],
     },
@@ -187,7 +187,7 @@ testRule("Arq05ComplexStructure", [
           message:
             "[Payload data SKALL INTE användas i HTTP-headers] Om en header använder nästlade strukturer, är en requestbody mer lämplig.",
           path: ["paths", "/foo", "post", "parameters", "0"],
-          severity: DiagnosticSeverity.Warning,
+          severity: DiagnosticSeverity.Error,
         },
       ],
     },
