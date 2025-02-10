@@ -1,8 +1,8 @@
 # RAP-LP Open API Specification Guidelines Version 0.7
 
-RAP-LP (REST API-profil Lint Processor) är ett verktyg som granskar en API-specifikation mot den nationella REST API-profilen. Verktyget identifierar syntaxfel och avvikelser från riktlinjer, vilket gör det enklare att snabbt hitta och rätta till problem.
+RAP-LP (REST API-profil Lint Processor) är ett verktyg som granskar en OpenAPI-specifikation mot den nationella REST API-profilen. Verktyget identifierar syntaxfel och avvikelser från riktlinjer, vilket gör det enklare att snabbt hitta och rätta till problem.
 
-Verktyget analyserar OpenAPI-specifikationen och kontrollerar att API:et följer specifika designregler kopplade till REST API-profilen. Varje regel pekar på en specifik del av dokumentet med ett JSON Path Plus-uttryck, och kontrollerar om värdena följer de fastställda reglerna. Om avvikelser hittas returneras ett eller flera felmeddelanden.
+Verktyget analyserar OpenAPI-specifikationen och kontrollerar att API:et följer specifika designregler kopplade till REST API-profilen. Varje regel pekar på en specifik del av OpenAPI-specifikationen med ett JSON Path Plus-uttryck, och kontrollerar om värdena följer de fastställda reglerna. Om avvikelser hittas returneras ett eller flera felmeddelanden.
 
 RAP-LP är kompatibelt med REST API-profil version 1.2.0
 
@@ -14,7 +14,7 @@ Detta dokument specificerar reglerna som verktyget tillämpar.
   - ID: Krav id i REST API-profilen för regeln.
   - Krav: Beskrivning av kravet enligt profilen.
   - Typ: Typ av krav (SKALL, SKALL INTE, BÖR, BÖR INTE, KAN)
-  - JSONPathExpression: Vilken del av OpenAPI-specifikationen regeln gäller
+  - JSON Path Plus-uttryck: Vilken del av OpenAPI-specifikationen regeln gäller
   - Förklaring: Hur regeln ska tolkas
   - Exempel: Illustration med text och bild
 
@@ -76,7 +76,7 @@ Detta dokument specificerar reglerna som verktyget tillämpar.
 
 **Typ:** BÖR
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $
 ```
@@ -97,7 +97,7 @@ Regeln förutsätter att det finns en förekomst av objektet `externalDocs` med 
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.info
 $.info.contact
@@ -130,7 +130,7 @@ $.info.license
 
 **Typ:** BÖR
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.info
 ```
@@ -151,7 +151,7 @@ $.info
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths[*][*].responses[*].content.application/json
 
@@ -181,7 +181,7 @@ I exemplet ovan, så exemplifieras regeln med en post operation, där regeln und
 
 **Typ:** BÖR
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $
 ```
@@ -207,7 +207,7 @@ I exemplet ovan, så exemplifieras regeln det med ett icke godkänt värde på v
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths[*][*]
 ```
@@ -229,7 +229,7 @@ I exemplet ovan, så exemplifieras regeln med en två get samt en post operation
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 
 ```
 $.paths[*][*].responses[*]
@@ -254,7 +254,7 @@ I exemplet ovan, så exemplifieras regeln med GET samt en POST operation, där r
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.responses.content.application/json.schema.properties
 ```
@@ -275,7 +275,7 @@ I exemplet ovan, så exemplifieras regeln med en POST operation, där regeln fö
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.components.schemas
 ```
@@ -300,7 +300,7 @@ I exemplet ovan, så exemplifieras regeln med att oavsett typ av operation, unde
 
 **Typ:** BÖR
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.servers.[url]
 ```
@@ -319,7 +319,7 @@ $.servers.[url]
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.servers.[url]
 ```
@@ -340,14 +340,14 @@ I exemplet ovan, så exemplifieras regeln med att den första url:en inte expone
 
 **Typ:** BÖR
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.servers[*].url
 $.paths
 ```
 
 **Förklaring:** 
-  Regeln kontrollerar att inte längden på URL:en definierade av fälten beskrivna i ovan JSONPathExpression överstiger 2048 tecken. Under objektet `servers`, så inkluderas fältet `url` och under objektet `paths`, så inkluderas och kontrolleras varje ingående del i pathen.
+  Regeln kontrollerar att inte längden på URL:en definierade av fälten beskrivna i ovan JSON Path Plus-uttryck överstiger 2048 tecken. Under objektet `servers`, så inkluderas fältet `url` och under objektet `paths`, så inkluderas och kontrolleras varje ingående del i pathen.
 
 **Exempel:**
 
@@ -364,7 +364,7 @@ I exemplet ovan, så utgör paths tillsammans med parameters sektionen föremål
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.
 ```
@@ -385,7 +385,7 @@ I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet path
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths[*]~
 ```
@@ -406,7 +406,7 @@ I exemplet ovan, så utgör fältet url under serverobjektet, samt objektet path
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 
 ```
 $.servers.[url]
@@ -433,7 +433,7 @@ $.paths.*.*.parameters[?(@.in=='path')].name
 
 **Typ:** BÖR
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths[*][*].responses[?(@property < 400)].content
 $.paths.*.*.requestBody.content
@@ -456,7 +456,7 @@ $.paths.*.*.requestBody.content
 
 **Typ:** BÖR
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths.*.*.requestBody.content
 ```
@@ -476,7 +476,7 @@ $.paths.*.*.requestBody.content
 
 **Typ:** BÖR
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.components.schemas.properties[*]~
 ```
@@ -496,7 +496,7 @@ I exemplet ovan, så exemplifieras regeln med ett OK svar på en operation, där
 
 **Typ:** SKALL
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.components.schemas.properties[*]~
 ```
@@ -517,7 +517,7 @@ $.components.schemas.properties[*]~
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.components.schemas.properties[*]~
 ```
@@ -540,7 +540,7 @@ $.components.schemas.properties[*]~
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths[*][*].requestBody.content
 ```
@@ -561,7 +561,7 @@ $.paths[*][*].requestBody.content
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths.*.*
 ```
@@ -585,7 +585,7 @@ TODO
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths.*.*.parameters[?(@.in=='header' && @.schema)]
 ```
@@ -602,7 +602,7 @@ $.paths.*.*.parameters[?(@.in=='header' && @.schema)]
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
   $.paths.*.*.responses.*.content['application/problem+json'].schema
   $.paths.*.*.responses.*.content['application/problem+xml'].schema
@@ -626,7 +626,7 @@ $.paths.*.*.parameters[?(@.in=='header' && @.schema)]
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths[*][*].responses[?(@property == 'default' || @property >= 400)].content
 ```
@@ -650,7 +650,7 @@ $.paths[*][*].responses[?(@property == 'default' || @property >= 400)].content
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.servers.[url]
 ```
@@ -671,7 +671,7 @@ $.servers.[url]
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths
 ```
@@ -692,7 +692,7 @@ $.paths
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths.*.*.parameters[?(@.in=='query')].name
 ```
@@ -718,7 +718,7 @@ $.paths.*.*.parameters[?(@.in=='query')].name
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths.*.*.parameters[?(@.in=='query')].name
 ```
@@ -737,7 +737,7 @@ $.paths.*.*.parameters[?(@.in=='query')].name
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths.[*].parameters[?(@.in=='query')].required
 ```
@@ -756,7 +756,7 @@ $.paths.[*].parameters[?(@.in=='query')].required
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths.[*].parameters[?(@.in=='query')].name
 ```
@@ -776,7 +776,7 @@ $.paths.[*].parameters[?(@.in=='query')].name
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths..parameters
 ```
@@ -795,7 +795,7 @@ $.paths..parameters
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths..parameters
 ```
@@ -814,7 +814,7 @@ $.paths..parameters
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.paths..parameters
 ```
@@ -835,7 +835,7 @@ $.paths..parameters
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $.components.securitySchemes[*]
 ```
@@ -855,7 +855,7 @@ $.components.securitySchemes[*]
 
 **Typ:** SKALL	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
 $..components.securitySchemes[?(@.scheme)]
 ```
@@ -875,7 +875,7 @@ $..components.securitySchemes[?(@.scheme)]
 
 **Typ:** BÖR	
 
-**JSONPathExpression:** 
+**JSON Path Plus-uttryck:** 
 ```
  $..[securitySchemes][?(@ && @.type=='oauth2' && @.flows ? true : false)][*].[?(@property && @property.match(/Url$/i))]
 ```
