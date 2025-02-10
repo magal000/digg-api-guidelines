@@ -1,22 +1,22 @@
 # RAP-LP Open API Specification Guidelines Version 0.7
 
-RAP-LP (REST API-profil Lint Processor) är ett verktyg som granskar kod mot den nationella REST API-profilen. Det identifierar syntaxfel och avvikelser från riktlinjer, vilket gör det enklare att snabbt hitta och rätta till problem.
+RAP-LP (REST API-profil Lint Processor) är ett verktyg som granskar en API-specifikation mot den nationella REST API-profilen. Verktyget identifierar syntaxfel och avvikelser från riktlinjer, vilket gör det enklare att snabbt hitta och rätta till problem.
 
-Verktyget analyserar OpenAPI-dokument och kontrollerar att API:et följer specifika designregler kopplade till REST API-profilen. Varje regel pekar på en specifik del av dokumentet med ett JSON Path Plus-uttryck, och kontrollerar om värdena följer de fastställda reglerna. Om avvikelser hittas returneras ett eller flera felmeddelanden.
+Verktyget analyserar OpenAPI-specifikationen och kontrollerar att API:et följer specifika designregler kopplade till REST API-profilen. Varje regel pekar på en specifik del av dokumentet med ett JSON Path Plus-uttryck, och kontrollerar om värdena följer de fastställda reglerna. Om avvikelser hittas returneras ett eller flera felmeddelanden.
 
 RAP-LP är kompatibelt med REST API-profil version 1.2.0
 
 
 ## Regelstruktur 
-Detta dokument specificerar reglerna som verktyget tillämpar. Varje regel innehåller:
+Detta dokument specificerar reglerna som verktyget tillämpar.
 - Område: Aktuellt område i REST API-profilen för regeln
-- Täckningsgrad: Hur många % av antalet regler i området som är lintbar
-- ID: Aktuell krav id i REST API-profilen för regeln.
-- Krav: Själva kravet enligt profilen.
-- Typ: Typ av krav (SKALL, SKALL INTE, BÖR, BÖR INTE, KAN)
-- JSONPathExpression: Vilken del av OpenAPI-dokumentet regeln gäller
-- Förklaring: Hur regeln ska tolkas
-- Exempel: Illustration med text och bild
+- Täckningsgrad: Hur många % av antalet regler i området  som inkluderas och täcks av verktyget.
+  - ID: Krav id i REST API-profilen för regeln.
+  - Krav: Beskrivning av kravet enligt profilen.
+  - Typ: Typ av krav (SKALL, SKALL INTE, BÖR, BÖR INTE, KAN)
+  - JSONPathExpression: Vilken del av OpenAPI-specifikationen regeln gäller
+  - Förklaring: Hur regeln ska tolkas
+  - Exempel: Illustration med text och bild
 
 
 ## Innehållsförteckning
