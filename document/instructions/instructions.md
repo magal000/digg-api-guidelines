@@ -347,7 +347,7 @@ $.paths
 ```
 
 **Förklaring:** 
-  Regeln kontrollerar att inte längden på URL:en definierade av fälten beskrivna i ovan JSONPathExpression överstiger 2048 tecken. Under objektet `servers`, så inkluderas fältet `url` och under objektet `paths`, så inkluderas och kontrolleras varje ingående path.
+  Regeln kontrollerar att inte längden på URL:en definierade av fälten beskrivna i ovan JSONPathExpression överstiger 2048 tecken. Under objektet `servers`, så inkluderas fältet `url` och under objektet `paths`, så inkluderas och kontrolleras varje ingående del i pathen.
 
 **Exempel:**
 
