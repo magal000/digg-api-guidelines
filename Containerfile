@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/node AS packages
+FROM node:22.14.0 AS packages
 ENV NODE_ENV=staging
 
 WORKDIR /app
