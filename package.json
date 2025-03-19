@@ -1,6 +1,6 @@
 {
   "name": "@diggsweden/rest-api-profil-lint-processor",
-  "version": "v0.3.7",
+  "version": "v0.3.8",
   "main": ".src/app.ts",
   "type": "module",
   "engines": {
@@ -46,9 +46,10 @@
   },
   "//": [
     "Override transitive dependency due to vulnerability",
-    "[CVE-2024-21534] CWE-94: Improper Control of Generation of Code ('Code Injection')"],
+    "[CVE-2024-21534] CWE-94: Improper Control of Generation of Code ('Code Injection')"
+  ],
   "overrides": {
-   "@stoplight/spectral-core": {
+    "@stoplight/spectral-core": {
       "jsonpath-plus": "10.0.0"
     }
   },
