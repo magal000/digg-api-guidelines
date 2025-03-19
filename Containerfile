@@ -1,4 +1,4 @@
-FROM node:22.14.0 AS packages
+FROM node:22-alpine AS packages
 ENV NODE_ENV=staging
 
 WORKDIR /app
