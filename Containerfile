@@ -8,6 +8,6 @@ COPY --chown=node:node ["./","./"]
 #RUN npm config set strict-ssl false 
 RUN npm install -g npm@11.2.0
 
-RUN npm install --omit=dev
-RUN npm install ts-node typescript --omit=dev 
+RUN npm install --omit=dev --verbose
+RUN npm install ts-node typescript --omit=dev  --verbose
 ENTRYPOINT ["npm", "start", "--"]
