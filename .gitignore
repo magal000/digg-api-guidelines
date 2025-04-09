@@ -6,3 +6,4 @@ node_modules
 rap-lp.log
 rap-lp-error.log
 Avstaemning_REST_API_profil_generated*.xlsx
+.tool-versions
