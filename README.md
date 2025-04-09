@@ -20,9 +20,9 @@ RAP-LP är ett kommandoradsverktyg för att linta OpenAPI v3-definitioner med hj
 - [REST API-profil - Lint Processor (RAP-LP)](#rest-api-profil---lint-processor-rap-lp)
   - [Innehållsförteckning](#innehållsförteckning)
   - [Installation och krav](#installation-och-krav)
-  - [Instruktioner för att komma igång snabbtt](#instruktioner-för-att-komma-igång-snabbt)
+  - [Instruktioner för att komma igång snabbt](#instruktioner-för-att-komma-igång-snabbt)
   - [Användning](#användning)
-  - [Kända problem](#known-issues)
+  - [Begränsningar](#begränsningar)
   - [Support](#support)
   - [Bidra](#bidra)
   - [Utveckling](#utveckling)
@@ -202,10 +202,13 @@ Du kan behöva ett Personal Access Token (PAT) för din användare i github för
     $ sudo podman run -it -v $(pwd):/app/example ghcr.io/diggsweden/rest-api-profil-lint-processor:1.0.0 -f example/dot-api.yaml -l example/test.log --dex example/avstamning.xlsx
     ```
 
+### Riktlinjer och förklaringar
+Vill du veta mer om de specifika reglerna som verktyget tillämpar, se avsnittet [GUIDELINES](GUIDELINES.md) för detaljer.
+
 
 ### Förklaring av översikt för regelutfall
 
-Om man väljer att köra verktyget i console läge, så kommer diagnostiseringsinformationen på stdout. I denna så kommer en sammanställning av det totala regelutfallet att visas.
+Om man väljer att köra verktyget i console läge, så kommer diagnostiseringsinformationen på stdout. I denna så kommer en sammanställning av det totala regelutfallet att visas. 
 
 - Verkställda och godkända regler:
   - OK = Krav bedömt och hanterat för att möta kravet
@@ -239,7 +242,7 @@ I exemplet ovan framgår det att kravet för regeln DOK.01 inte är godkänt och
 
 Vidare framgår det att kravet för regeln DOK.03 inte är godkänt och att det aktuella API:et inte möter detta krav. Kravet har bedömts ha allvarlighetsgraden Warning eftersom API:et bryter mot ett BÖR/BÖR INTE-krav i REST API-profilen. Även här finns information om var i den aktuella OpenAPI-specifikationen problemet återfinns.
 
-## Kända problem
+## Begränsningar
 
 - Det går endast att köra RAP-LP mot en enda YAML-fil åt gången.
 
