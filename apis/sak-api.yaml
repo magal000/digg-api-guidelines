@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 diggsweden/rest-api-profil-lint-processor
+#
+# SPDX-License-Identifier: EUPL-1.2
+
 openapi: "3.0.0"
 info:
   version: 1.0.0
@@ -94,6 +98,23 @@ paths:
   
 components:
   securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic  
+
+#    BearerAuth:
+#      type: http
+#      scheme: bearer
+#      bearerFormat: JWT  
+    oAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: http://example.com/api/oauth/token
+          refreshUrl: http://example.com/api/oauth/refresh
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
   schemas:
     Error:
       type: object

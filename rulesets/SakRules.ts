@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 diggsweden/rest-api-profil-lint-processor
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { BaseRuleset } from "./BaseRuleset.ts"
@@ -53,7 +57,7 @@ export class Sak10 extends BaseRuleset {
   };
   description = "Genom att använda HTTPS för att kryptera kommunikationen mellan klient och server kan Bearer Authentication erbjuda en hög nivå av säkerhet. Det gör det svårare för angripare att avlyssna eller ändra åtkomsttoken under överföringen";
   message = "Authorization: Bearer header SKALL användas för autentisering/auktorisation.";
-  given = "$.components.securitySchemes[*]";
+  given = "$..components.securitySchemes[?(@ && @.scheme)]";
   then = [
     {
       field:"scheme",

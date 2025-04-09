@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 diggsweden/rest-api-profil-lint-processor
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import { enumeration, truthy, falsy, undefined as undefinedFunc, pattern, schema } from "@stoplight/spectral-functions";
 import { DiagnosticSeverity } from "@stoplight/types";
 import { CustomProperties } from '../ruleinterface/CustomProperties.ts';
@@ -11,8 +15,8 @@ export class Dok03Base extends BaseRuleset {
   constructor() {
     super()
     super.initializeFormats(['OAS3']);
-    this.description = "Dokumentationen för ett API SKALL (DOK.03) innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering,Kontaktuppgifter.";
-    this.severity = DiagnosticSeverity.Warning;
+    this.description = "Dokumentationen för ett API SKALL innehålla följande: Om API, Användarvillkor, Datamodell för representation av resurser, Krav på autentisering, Livscykelhantering och versionshantering, Kontaktuppgifter.";
+    this.severity = DiagnosticSeverity.Error;
   }
 
 }
@@ -118,7 +122,7 @@ export class Arq05Base extends BaseRuleset {
       super.initializeFormats(['OAS3']);
       this.given = "$.paths.*.*.parameters[?(@.in=='header' && @.schema)]";
       this.message = "Payload data SKALL INTE användas i HTTP-headers";
-      this.severity = DiagnosticSeverity.Warning;
+      this.severity = DiagnosticSeverity.Error;
       this.description = '';
       }
     protected get messageValue(): string {
