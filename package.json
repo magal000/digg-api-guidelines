@@ -32,7 +32,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@stoplight/spectral-core": "^1.18.3",
+    "@stoplight/spectral-core": "^1.19.5",
     "@stoplight/spectral-functions": "^1.7.2",
     "@types/express": "^5.0.0",
     "adm-zip": "^0.5.16",
@@ -48,11 +48,12 @@
   },
   "//": [
     "Override transitive dependency due to vulnerability",
-    "[CVE-2024-21534] CWE-94: Improper Control of Generation of Code ('Code Injection')"
+    "[GHSA-pppg-cpfq-h7wr] JSONPath Plus Remote Code Execution (RCE) Vulnerability - https://github.com/advisories/GHSA-pppg-cpfq-h7wr",
+    "[GHSA-hw8r-x6gr-5gjp] JSONPath Plus allows Remote Code Execution - https://github.com/advisories/GHSA-hw8r-x6gr-5gjp"
   ],
   "overrides": {
     "@stoplight/spectral-core": {
-      "jsonpath-plus": "10.0.0"
+      "jsonpath-plus": "10.3.0"
     }
   },
   "author": "Digg - Agency for Digital Government",
