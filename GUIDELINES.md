@@ -1,10 +1,19 @@
+<!--
+SPDX-FileCopyrightText: 2025 Digg - Agency for Digital Government
+
+SPDX-License-Identifier: CC0-1.0 
+-->
+
 # RAP-LP Open API Specification Guidelines Version 0.7
 
 RAP-LP (REST API-profil Lint Processor) är ett verktyg som granskar en OpenAPI-specifikation mot den nationella REST API-profilen. Verktyget identifierar syntaxfel och avvikelser från riktlinjer, vilket gör det enklare att snabbt hitta och rätta till problem.
 
 Verktyget analyserar OpenAPI-specifikationen och kontrollerar att API:et följer specifika designregler kopplade till REST API-profilen. Varje regel pekar på en specifik del av OpenAPI-specifikationen med ett JSON Path Plus-uttryck, och kontrollerar om värdena följer de fastställda reglerna. Om avvikelser hittas returneras ett eller flera felmeddelanden.
 
-RAP-LP är kompatibelt med REST API-profil version 1.2.0
+Utöver reglerna från REST API-profilen innehåller RAP-LP även ett regelområde benämnt **Förutsättningar**. Detta område omfattar tilläggsregler som inte ingår i profilen, men som baseras på etablerad god praxis för API-design. Reglerna i Förutsättningar kan hjälpa till att ytterligare höja kvaliteten på API-specifikationen genom att identifiera förbättringsområden som inte täcks av den nationella profilen.
+
+Den första versionen av RAP-LP är kompatibel med REST API-profil version 1.2.0, och varje ny version av verktyget kommer att ange vilken version av profilen den är avsedd att stödja.
+
 
 ## Regelstruktur
 
@@ -67,6 +76,9 @@ Detta dokument specificerar reglerna som verktyget tillämpar.
    - [ID: SAK.09](#id-sak09)
    - [ID: SAK.10](#id-sak10)
    - [ID: SAK.18](#id-sak18)
+10. [Område: Förutsättningar](#område-förutsättningar)
+   - [ID: FOR.09](#id-sak09)
+   
 
 ## Område: Dokumentation
 
@@ -997,5 +1009,31 @@ Regeln kontrollerar, förutsatt att typen av säkerhetsschema är ett oauth2, at
 ![alt text](images/sak18.png)
 
 I exemplet ovan så kommer regeln att ge ett negativt utfall eftersom clientCredentials fälten tokenUrl samt refreshUrl är specificerat med http.
+
+---
+## Område: Förutsättningar
+
+**Täckningsgrad: 100%**
+
+### ID: FOR.02
+
+**Krav:** EN GET -förfrågan SKALL INTE acceptera en body.
+
+**Typ:** SKALL
+
+**JSON Path Plus-uttryck:**
+
+```
+$.paths..get
+```
+
+**Förklaring:**
+Regeln förutsätter att det inte finns en förekomst av element requestBody när en get operation används för att ställa en förfrågan av specifik resurs.
+
+**Exempel:**
+
+![alt text](images/for02.png)
+
+I exemplet ovan så kommer regeln att ge ett negativt utfall eftersom GET operationer inte kan ha en requestBody definierad.
 
 ---
