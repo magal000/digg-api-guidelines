@@ -45,7 +45,7 @@ export class Ufn09Base extends BaseRuleset {
   constructor() {
     super();
     let moduleName: string = "UfnRules.ts";
-    this.message = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
+    this.message = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen (gäller alltså URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).";
     this.severity = DiagnosticSeverity.Error;
     this.description = "Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen.";
     this.then = [
@@ -72,7 +72,7 @@ export class Dok15Base extends BaseRuleset {
   };
   constructor() {
     super();
-    this.message = "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.";
+    this.message = "I dokumentationen av API:et SKALL exempel på API:ets fråga (eng:request) och svar (eng:reply) finnas i sin helhet.";
     this.severity = DiagnosticSeverity.Error;
     this.description = '';
     super.initializeFormats(['OAS3']);
