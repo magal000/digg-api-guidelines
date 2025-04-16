@@ -362,7 +362,7 @@ testRule("Dok15Get", [
     errors: [
       {
         code: "Dok15Get",
-        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.",
+        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (eng:request) och svar (eng:reply) finnas i sin helhet.",
         path: ["paths", "/Dettacase", "get", "responses", "200", "content","application/json"],
         severity: DiagnosticSeverity.Error,
         range: {"start": {
@@ -419,7 +419,7 @@ testRule("Dok15Get", [
     errors: [
       {
         code: "Dok15Get",
-        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.",
+        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (eng:request) och svar (eng:reply) finnas i sin helhet.",
         path: ["paths", "/Dettacase", "get", "responses", "200", "content","application/json"],
         severity: DiagnosticSeverity.Error,
       },
@@ -556,7 +556,7 @@ testRule("Dok15ReqBody", [
     errors: [
       {
         code: "Dok15ReqBody",
-        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.",
+        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (eng:request) och svar (eng:reply) finnas i sin helhet.",
         path: ["paths", "/Dettacase", "post", "requestBody", "content","application/json"],
         severity: DiagnosticSeverity.Error,
         range: {"start": {
@@ -616,7 +616,7 @@ testRule("Dok15ReqBody", [
     errors: [
       {
         code: "Dok15ReqBody",
-        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (en:request) och svar (en:reply) finnas i sin helhet.",
+        message: "I dokumentationen av API:et SKALL exempel på API:ets fråga (eng:request) och svar (eng:reply) finnas i sin helhet.",
         path: ["paths", "/Dettacase", "post", "requestBody", "content","application/json"],
         severity: DiagnosticSeverity.Error,
       },
