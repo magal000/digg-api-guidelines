@@ -157,7 +157,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda dessa tecknen a-z, 0-9, "-", "." samt "~", se vidare i RFC 3986)(gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).',
+          message: 'URL:n SKALL använda dessa tecknen a-z, 0-9, "-", "." samt "~", se vidare i RFC 3986) (gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -172,7 +172,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda dessa tecknen a-z, 0-9, "-", "." samt "~", se vidare i RFC 3986)(gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).',
+          message: 'URL:n SKALL använda dessa tecknen a-z, 0-9, "-", "." samt "~", se vidare i RFC 3986) (gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -190,7 +190,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda dessa tecknen a-z, 0-9, "-", "." samt "~", se vidare i RFC 3986)(gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).',
+          message: 'URL:n SKALL använda dessa tecknen a-z, 0-9, "-", "." samt "~", se vidare i RFC 3986) (gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -208,7 +208,7 @@ testRule("Ufn07", [
       },
       errors: [
         {
-          message: 'URL:n SKALL använda dessa tecknen a-z, 0-9, "-", "." samt "~", se vidare i RFC 3986)(gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).',
+          message: 'URL:n SKALL använda dessa tecknen a-z, 0-9, "-", "." samt "~", se vidare i RFC 3986) (gäller URL-elementen Scheme, Authority och Path samt API-elementen protokoll, domännamn, api, version, resurs och identifierare).',
           severity: DiagnosticSeverity.Error,
         }
       ],
@@ -251,7 +251,7 @@ testRule("Ufn08", [
     },
     errors: [
       {
-        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.(gäller URL-elementen Authority och Path. Mer specifikt API-elementen domännamn, api, resurs, identifierare).",
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig (gäller URL-elementen Authority och Path. Mer specifikt API-elementen domännamn, api, resurs, identifierare).",
         severity: DiagnosticSeverity.Error,
       }
     ],
@@ -265,7 +265,7 @@ testRule("Ufn08", [
     },
     errors: [
       {
-        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.(gäller URL-elementen Authority och Path. Mer specifikt API-elementen domännamn, api, resurs, identifierare).",
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig (gäller URL-elementen Authority och Path. Mer specifikt API-elementen domännamn, api, resurs, identifierare).",
         severity: DiagnosticSeverity.Error,
       }
     ],
@@ -279,7 +279,7 @@ testRule("Ufn08", [
     },
     errors: [
       {
-        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.(gäller URL-elementen Authority och Path. Mer specifikt API-elementen domännamn, api, resurs, identifierare).",
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig (gäller URL-elementen Authority och Path. Mer specifikt API-elementen domännamn, api, resurs, identifierare).",
         severity: DiagnosticSeverity.Error,
       }
     ],
@@ -293,7 +293,7 @@ testRule("Ufn08", [
     },
     errors: [
       {
-        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.(gäller URL-elementen Authority och Path. Mer specifikt API-elementen domännamn, api, resurs, identifierare).",
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig (gäller URL-elementen Authority och Path. Mer specifikt API-elementen domännamn, api, resurs, identifierare).",
         severity: DiagnosticSeverity.Error,
       }
     ],
@@ -307,7 +307,7 @@ testRule("Ufn08", [
     },
     errors: [
       {
-        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig.(gäller URL-elementen Authority och Path. Mer specifikt API-elementen domännamn, api, resurs, identifierare).",
+        message: "Endast bindestreck '-' SKALL användas för att separera ord för att öka läsbarheten samt förenkla för sökmotorer att indexera varje ord för sig (gäller URL-elementen Authority och Path. Mer specifikt API-elementen domännamn, api, resurs, identifierare).",
         severity: DiagnosticSeverity.Error,
       }
     ],
