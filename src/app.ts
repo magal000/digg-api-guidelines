@@ -36,17 +36,17 @@ const appendFileAsync = util.promisify(fs.appendFile);
 
 try {
   // Parse command-line arguments using yargs
-  const argv = await yargs(process.argv.slice(2)).version("1.2.0")
+  const argv = await yargs(process.argv.slice(2)).version("1.0.0")
     .option("file", {
       alias: "f",
-      describe: "Path to the YAML file",
+      describe: "Sökväg till OpenAPI specifikation(yaml,json)",
       demandOption: true,
       type: "string",
       coerce: (file: string) => path.resolve(file), // convert to absolute path
     })
     .option("categories", {
       alias: "c",
-      describe: `Regelkategorier separerade med kommatecken.\nAvailable categories:\r ${getRuleModules().join(",")}`,
+      describe: `Regelkategorier separerade med kommatecken.Tillgängliga kategorier: ${getRuleModules().join(",")}`,
       type: "string",
     })
     .option("logError", {
