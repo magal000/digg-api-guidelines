@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-FROM node:lts-slim AS packages
+FROM node:22.15.0-slim AS packages
 ENV NODE_ENV=staging
 
 WORKDIR /app
