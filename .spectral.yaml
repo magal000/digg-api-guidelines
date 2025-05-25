@@ -1,0 +1,445 @@
+#extends: [spectral:oas3]
+
+functionsDir: ./functions
+
+#It is unclear if all of these needs to be external functions. But I have just tried to migrate them from what DIGG has done.
+functions:
+  - is-valid-application-json
+  - is-nested-structure
+  - is-string-binary
+  - is-complex-structure
+  - supports-required-headers
+  - uses-utf8-body
+  - ame05-property-casing-consistency
+  - dok01-external-docs
+  - dok03-info-fields
+  - dok03-contact-name
+  - dok03-contact-email
+  - dok03-contact-url
+  - dok03-contact-exists
+  - dok03-license-exists
+  - dok03-license-url
+  - dok03-license-name
+  - dok07-info-description
+  - dok15-response-content-json
+  - dok15-requestbody-content-json
+  - dok17-openapi-version
+  - dok19-operation-description
+  - dok20-response-description
+  - dot02-date-time-format
+  - dot04-date-time-timezone
+  - fel01-problem-schema
+  - fel02-problem-mediatype
+  - fns01-query-parameter-naming
+  - fns03-query-parameter-starts-with-letter
+  - fns05-query-parameters-should-be-optional
+  - fns06-query-parameters-url-safe
+  - fns07-pagination-parameters
+  - fns08-page-default-should-be-1
+  - fns09-limit-default-should-be-20
+  - for02-get-no-requestbody
+  - sak09-no-basic-or-digest-auth
+  - sak10-require-bearer-auth
+  - sak18-oauth-url-should-be-https
+  - ufn01-url-pattern
+  - ufn02-require-https-port-443
+  - ufn05-url-length-check
+  - ufn07-url-safe-characters
+  - ufn08-use-hyphens-only
+  - ufn09-server
+  - ufn09-inpathparams
+  - ufn09-path
+  - ver05-version-in-url
+  - ver06-api-info-required
+
+
+rules:
+  ame01:
+    description: Datamodellen för en representation BÖR beskrivas med JSON enligt senaste versionen, RFC 8259.
+    message: Datamodellen för en representation BÖR beskrivas med JSON enligt senaste versionen, RFC 8259.
+    severity: warn
+    given:
+      - $.paths[*][*].responses[?(@property < 400)].content
+      - $.paths.*.*.requestBody.content
+    then:
+      function: is-valid-application-json
+
+  ame02:
+    description: Det BÖR förutsättas att alla request headers som standard använder 'Accept' med värde 'application/json'.
+    message: Det BÖR förutsättas att alla request headers som standard använder 'Accept' med värde 'application/json'.
+    severity: warn
+    given: $.paths.*.*.requestBody.content
+    then:
+        function: is-valid-application-json
+
+  ame04:
+    description: För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.
+    message: För fältnamn i request och response body BÖR camelCase eller snake_case notation användas.
+    severity: warn
+    given: $.components.schemas..properties[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: '^(?:[a-z]+(?:_[a-z]+)*|[a-z]+(?:[A-Z][a-z]*)*)$'
+
+  ame05:
+    description: Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.
+    message: Inom ett API SKALL namnsättningen vara konsekvent, dvs blanda inte camelCase och snake_case.
+    severity: error
+    given: $.components.schemas
+    then:
+      function: ame05-property-casing-consistency
+
+
+  ame07:
+    description: Fältnamn BÖR använda tecken som är alfanumeriska.
+    message: Fältnamn BÖR använda tecken som är alfanumeriska.
+    severity: warn
+    given: $.components.schemas..properties[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[a-zA-Z0-9_]+$'
+
+  arq01:
+    description: Ett request BÖR skickas i UTF-8.
+    message: Ett request BÖR skickas i UTF-8.
+    severity: warn
+    given: $.paths[*][*].requestBody.content
+    then:
+      function: uses-utf8-body
+
+  arq03:
+    description: Alla API:er BÖR supportera följande request headers: Accept, Date, Cache-Control, ETag, Connection och Cookie.
+    message: Alla API:er BÖR supportera följande request headers: Accept, Date, Cache-Control, ETag, Connection och Cookie.
+    severity: warn
+    given: $.paths.*.*
+    then:
+      function: supports-required-headers
+
+  arq05-nested-structure:
+    description: Om en header använder nästlade strukturer, är en requestbody mer lämplig.
+    message: Om en header använder nästlade strukturer, är en requestbody mer lämplig.
+    severity: warn
+    given: $.components.parameters[*].schema
+    then:
+      function: is-nested-structure
+
+  arq05-string-binary:
+    description: Om en header innehåller data med ovanliga MIME-typer...
+    message: Om en header innehåller data med ovanliga MIME-typer...
+    severity: warn
+    given: $.components.parameters[*].schema
+    then:
+      function: is-string-binary
+
+  arq05-complex-structure:
+    description: Om en header innehåller komplexa datastrukturer, såsom JSON eller XML...
+    message: Om en header innehåller komplexa datastrukturer, såsom JSON eller XML...
+    severity: warn
+    given: $.components.parameters[*].schema
+    then:
+      function: is-complex-structure
+
+  dok01:
+    description: I regel BÖR dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online.
+    message: I regel BÖR dokumentationen och specifikationen för ett API finnas allmänt tillgänglig online.
+    severity: warn
+    given: $
+    then:
+      function: dok01-external-docs
+
+  dok03-info:
+    description: info-objektet bör ha title, version, description, termsOfService, contact, license
+    message: Saknar en eller flera rekommenderade fält i info-objektet
+    severity: warn
+    given: $.info
+    then:
+      function: dok03-info-fields
+
+  dok03-contact-name:
+    severity: warn
+    given: $.info.contact
+    then:
+      function: dok03-contact-name
+
+  dok03-contact-email:
+    severity: warn
+    given: $.info.contact
+    then:
+      function: dok03-contact-email
+
+  dok03-contact-url:
+    severity: warn
+    given: $.info.contact
+    then:
+      function: dok03-contact-url
+
+  dok03-contact-exists:
+    severity: warn
+    given: $.info
+    then:
+      function: dok03-contact-exists
+
+  dok03-license-exists:
+    severity: warn
+    given: $.info
+    then:
+      function: dok03-license-exists
+
+  dok03-license-url:
+    severity: warn
+    given: $.info.license
+    then:
+      function: dok03-license-url
+
+  dok03-license-name:
+    severity: warn
+    given: $.info.license
+    then:
+      function: dok03-license-name
+
+  dok07:
+    description: Dokumentationen av ett API BÖR innehålla övergripande information om API:et.
+    message: Saknar beskrivning av API:et i info-objektet
+    severity: warn
+    given: $.info
+    then:
+      function: dok07-info-description
+
+  dok15-response-json:
+    description: Kontrollerar innehållet i response med content application/json
+    message: Innehåll i response BÖR valideras enligt regel DOK.15
+    severity: warn
+    given: $.paths[*][*].responses[*].content.application/json
+    then:
+      function: dok15-response-content-json
+
+  dok15-requestbody-json:
+    description: Kontrollerar innehållet i requestBody med content application/json
+    message: Innehåll i requestBody BÖR valideras enligt regel DOK.15
+    severity: warn
+    given: $.paths[*][?(@ != "get")].requestBody.content.application/json
+    then:
+      function: dok15-requestbody-content-json
+
+  dok17:
+    description: API specifikation BÖR dokumenteras med den senaste versionen av OpenAPI Specification.
+    message: OpenAPI-versionen BÖR vara 3.x.y eller högre
+    severity: warn
+    given: $
+    then:
+      function: dok17-openapi-version
+
+  dok19:
+    description: Ett API:s resurser och operationer SKALL beskrivas tydligt.
+    message: Saknar description i operation
+    severity: error
+    given: $.paths[*][*]
+    then:
+      function: dok19-operation-description
+
+  dok20:
+    description: Returkoder och felkoder SKALL vara fullständigt dokumenterade.
+    message: Saknar description för response
+    severity: error
+    given: $.paths[*][*].responses[*]
+    then:
+      function: dok20-response-description
+
+  dot02:
+    description: Datum och tid SKALL anges enligt RFC 3339 som bygger på ISO-8601.
+    message: Ogiltigt datum-/tidsformat i exempel (DOT.02)
+    severity: error
+    given: $.components.schemas..properties
+    then:
+      function: dot02-date-time-format
+  dot04:
+    description: Tidzonen BÖR representeras med UTC-format (Z eller +00:00).
+    message: Exempel på datum/tid bör inkludera tidszon enligt RFC 3339 (DOT.04)
+    severity: warn
+    given: $.components.schemas..properties
+    then:
+      function: dot04-date-time-timezone
+
+  fel01:
+    description: FEL.01 – Problem schema SKALL innehålla obligatoriska fält enligt RFC 9457.
+    message: Saknar obligatoriska attribut i problem+json-schema.
+    severity: error
+    given:
+      - $.paths.*.*.responses.*.content['application/problem+json'].schema
+      - $.paths.*.*.responses.*.content['application/problem+xml'].schema
+    then:
+      function: fel01-problem-schema
+
+  fel02:
+    description: FEL.02 – Felrespons SKALL använda mediatypen application/problem+json eller application/problem+xml.
+    message: Felrespons saknar mediatyp application/problem+json eller application/problem+xml.
+    severity: warn
+    given: $.paths[*][*].responses[?(@property == 'default' || @property >= 400)].content
+    then:
+      function: fel02-problem-mediatype
+
+  fns01:
+    description: Parameternamn SKALL vara snake_case eller camelCase
+    severity: error
+    given: "$.paths.*.*.parameters[?(@.in=='query')].name"
+    then:
+      function: fns01-query-parameter-naming
+
+  fns03:
+    description: Sökparametrar SKALL starta med en bokstav
+    severity: error
+    given: "$.paths.*.*.parameters[?(@.in=='query')].name"
+    then:
+      function: fns03-query-parameter-starts-with-letter
+
+  fns05:
+    description: Sökparametrar BÖR vara frivilliga
+    severity: warn
+    given: "$.paths.*.*.parameters[?(@.in=='query')].required"
+    then:
+      function: fns05-query-parameters-should-be-optional
+
+  fns06:
+    description: Sökparametrar BÖR använda URL-säkra tecken
+    severity: warn
+    given: "$.paths.*.*.parameters[?(@.in=='query')].name"
+    then:
+      function: fns06-query-parameters-url-safe
+
+  fns07:
+    description: Paginering SKALL använda limit och page/offset
+    severity: error
+    given: "$.paths..parameters"
+    then:
+      function: fns07-pagination-parameters
+
+  fns08:
+    description: "'page' SKALL alltid starta med värde 1"
+    severity: error
+    given: "$.paths..parameters"
+    then:
+      function: fns08-page-default-should-be-1
+
+  fns09:
+    description: Defaultvärde för 'limit' BÖR vara 20
+    severity: warn
+    given: "$.paths..parameters"
+    then:
+      function: fns09-limit-default-should-be-20
+
+  for02:
+    description: EN GET -förfrågan SKALL INTE acceptera en body
+    message: EN GET -förfrågan SKALL INTE acceptera en body
+    severity: error
+    given: $.paths..get
+    then:
+      function: for02-get-no-requestbody
+
+  sak09:
+    description: Basic- eller Digest-autentisering SKALL INTE användas
+    message: Basic- eller Digest-autentisering SKALL INTE användas.
+    severity: error
+    given: $.components.securitySchemes[*]
+    then:
+      function: sak09-no-basic-or-digest-auth
+
+  sak10:
+    description: Authorization: Bearer header SKALL användas för autentisering/auktorisation.
+    message: Saknar korrekt Bearer-autentisering.
+    severity: error
+    given: $..components.securitySchemes[?(@ && @.scheme)]
+    then:
+      function: sak10-require-bearer-auth
+
+  sak18:
+    description: OAuth URL BÖR använda HTTPS (inte HTTP)
+    message: OAuth URL BÖR använda HTTPS (inte HTTP)
+    severity: warn
+    given: "$..[securitySchemes][?(@ && @.type=='oauth2' && @.flows ? true : false)][*].[?(@property && @property.match(/Url$/i))]"
+    then:
+      function: sak18-oauth-url-should-be-https
+
+  ufn01:
+    description: URL BÖR följa struktur: {protokoll}://{domän}/{api}/{version}
+    severity: warn
+    given: $.servers[*].url
+    then:
+      function: ufn01-url-pattern
+
+  ufn02:
+    description: URL SKALL använda HTTPS och port 443
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: ufn02-require-https-port-443
+
+  ufn05-url:
+    description: URL-strängar BÖR inte överstiga 2048 tecken
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: ufn05-url-length-check
+
+  ufn05-path:
+    description: Kombinerade URL:er och sökvägar får inte vara för långa
+    severity: error
+    given: $.paths[*]~
+    then:
+      function: ufn05-url-length-check
+
+  ufn07:
+    description: URL SKALL endast innehålla tillåtna tecken enligt RFC 3986
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: ufn07-url-safe-characters
+
+  ufn08:
+    description: Endast '-' SKALL användas som avgränsare i URL-paths
+    severity: error
+    given: $.paths[*]~
+    then:
+      function: ufn08-use-hyphens-only
+
+  ufn09-server:
+    description: Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen
+    message: Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen
+    severity: error
+    given: $.servers.[url]
+    then:
+      function: ufn09-server
+
+  ufn09-inpathparams:
+    description: Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen
+    message: Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen
+    severity: error
+    given: "$.paths.*.*.parameters[?(@.in=='path')].name"
+    then:
+      function: ufn09-inpathparams
+
+  ufn09-path:
+    description: Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen
+    message: Blanksteg ' ' och understreck '_' SKALL INTE användas i URL:er med undantag av parameter-delen
+    severity: error
+    given: $.paths[*]~
+    then:
+      function: ufn09-path
+
+
+  ver05:
+    description: Version BÖR anges i URL enligt formatet 'v[x]'
+    message: Version saknas i URL enligt formatet 'v[x]'
+    severity: warn
+    given: $.servers[*].url
+    then:
+      function: ver05-version-in-url
+
+  ver06:
+    description: Resursen "/api-info" SKALL finnas i rot-nivån för API:et
+    message: Saknar resursen "/api-info"
+    severity: error
+    given: $.paths
+    then:
+      function: ver06-api-info-required

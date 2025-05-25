@@ -1,0 +1,22 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "requestBody": {
+          "description": "Om endast något annat format än JSON, så bör en varning ges",
+          "content": {
+            "text/csv": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

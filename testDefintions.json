@@ -1,0 +1,62 @@
+[
+    {
+        "testName": "test-invalid-ame01-1",
+        "testFile": "testMaterial/invalidAme01-1.json",
+        "expectedErrorCodes": ["dok01 dok03-contact-exists dok03-info dok03-license-exists dok07 ver06 dok19 ame01 ame02 arq01"],
+        "disabled": false
+    },
+    {
+        "testName": "test-invalid-ame05-1",
+        "testFile": "testMaterial/invalidAme05-1.json",
+        "expectedErrorCodes": ["dok01 dok03-contact-exists dok03-info dok03-license-exists dok07 ame05 ame05"],
+        "disabled": false
+    },
+    {   
+        "testName": "test-valid-1",
+        "testFile": "testMaterial/validAme-1.json",
+        "expectedErrorCodes":[],
+        "disabled": false
+    },
+    {
+        "testName": "test-valid-2",
+        "testFile": "testMaterial/validAme-2.json",
+        "expectedErrorCodes":[],
+        "disabled": true
+    },
+    {
+        "testName": "test-valid-3",
+        "testFile": "testMaterial/validAme-3.json",
+        "expectedErrorCodes":[],
+        "disabled": true
+    },
+    {
+        "testName": "test-invalid-arq01-1",
+        "testFile": "testMaterial/invalidArq01-1.json",
+        "expectedErrorCodes":["ame01", "ame02", "arq01"],
+        "disabled": true
+    },
+    {
+        "testName": "test-invalid-arq03-1",
+        "testFile": "testMaterial/invalidArq03-1.json",
+        "expectedErrorCodes":[],
+        "disabled": true
+    },
+    {
+        "testName": "test-invalid-arq05-1",
+        "testFile": "testMaterial/invalidArq05-1.json",
+        "expectedErrorCodes":[],
+        "disabled": true
+    },
+    {
+        "testName": "test-invalid-arq05-2",
+        "testFile": "testMaterial/invalidArq05-2.json",
+        "expectedErrorCodes":[],
+        "disabled": true
+    },
+    {
+        "testName": "test-invalid-arq05-3",
+        "testFile": "testMaterial/invalidArq05-3.json",
+        "expectedErrorCodes":[],
+        "disabled": true
+    }
+]
