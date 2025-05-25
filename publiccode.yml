@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 Digg - Agency for Digital Government
+# SPDX-FileCopyrightText: 2025 diggsweden/rest-api-profil-lint-processor
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -6,7 +6,7 @@
 # metadata file that makes public software easily discoverable.
 # More info at https://github.com/italia/publiccode.yml
 
-publiccodeYmlVersion: "0.4.0"
+publiccodeYmlVersion: '0.4.0'
 categories:
   - application-development
   - it-development
@@ -31,15 +31,15 @@ localisation:
   localisationReady: false
 maintenance:
   contacts:
-    - name: Fredrik Nordlander
-    - email: "fredrik.nordlander@digg.se"
+    - name: Digg OSPO
+    - email: 'raplp-maintenance@digg.se'
   type: internal
-name: "REST API-profil - Lint Processor (RAP-LP)"
+name: 'REST API-profil - Lint Processor (RAP-LP)'
 platforms:
   - windows
   - mac
   - linux
-releaseDate: "2025-X-X"
-softwareType: "library"
-softwareVersion: "0.0.1"
-url: "https://github.com/diggsweden/rest-api-profil-lint-processor.git"
+releaseDate: '2025-05-17'
+softwareType: 'library'
+softwareVersion: '1.0.0'
+url: 'https://github.com/diggsweden/rest-api-profil-lint-processor.git'
