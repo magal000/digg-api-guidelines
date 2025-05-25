@@ -1,0 +1,16 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0"
+  },
+  "paths": {
+    "/foo": {
+      "post": {
+        "parameters": [
+          {
+            "name": "Connection",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["close", "u]()

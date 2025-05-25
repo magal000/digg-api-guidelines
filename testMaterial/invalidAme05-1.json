@@ -1,0 +1,21 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0"
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "very_long_message": {
+            "type": "string"
+          },
+          "veryLongMessage": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0"
+  },
+  "paths": {
+    "/foo": {
+      "post": {
+        "parameters": [
+          {
+            "name": "Payload_simple",
+            "in": "header",
+            "description": "Simple payload in header is ok",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

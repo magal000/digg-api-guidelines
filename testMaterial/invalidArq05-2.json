@@ -1,0 +1,24 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0"
+  },
+  "paths": {
+    "/foo": {
+      "post": {
+        "parameters": [
+          {
+            "name": "Payload_complex",
+            "in": "header",
+            "description": "If a header is expected to contain data with unusual MIME types, it may indicate an unconventional use of headers",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
