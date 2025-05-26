@@ -1,45 +1,76 @@
-# DIGG API Spectral Ruleset
+<!--
+SPDX-FileCopyrightText: 2025 diggsweden/rest-api-profil-lint-processor
 
-This is a "fork" of the Swedish [Agency for Digital Government](https://www.digg.se/en) [RAP-LP](https://github.com/diggsweden/rest-api-profil-lint-processor/tree/main) project. The aim being to remove all the custom stuff DIGG have added and reduce it to a spectral ruleset `.yaml` file that can be used with default Spectral CLI.
+SPDX-License-Identifier: CC0-1.0 
+-->
 
-## Background
+# REST API-profil - Lint Processor (RAP-LP)
 
-[Stoplight Spectral](https://stoplight.io/open-source/spectral) is an open source project that provides different tools and libraries for linting [OpenAPI](https://www.openapis.org/) specifications.
+[![Tag](https://img.shields.io/github/v/tag/diggsweden/rest-api-profil-lint-processor?style=for-the-badge&color=green)](https://github.com/diggsweden/rest-api-profil-lint-processor/tags)
 
-Spectral provides a CLI for linting and functionality for defining custom rulesets. DIGG seem to have taken the Spectral libraries and created their own completely different CLI. 
+[![License: EUPL 1.2](https://img.shields.io/badge/License-European%20Union%20Public%20Licence%201.2-library?style=for-the-badge&&color=lightblue)](LICENSE)
+[![REUSE](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.reuse.software%2Fstatus%2Fgithub.com%2Fdiggsweden%2Frest-api-profil-lint-processor&query=status&style=for-the-badge&label=REUSE&color=lightblue)](https://api.reuse.software/info/github.com/diggsweden/rest-api-profil-lint-processor)
 
-Now I have only tested the DIGG tool a little so I could be wrong, but I can only imagine that it would have been simpler for everyone to use the default Spectral CLI. If I'm not mistaken the only new functionality is that the results can be saved to an excel file.
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/diggsweden/rest-api-profil-lint-processor/badge?style=for-the-badge)](https://scorecard.dev/viewer/?uri=github.com/diggsweden/rest-api-profil-lint-processor)
 
-## What's new
+[![License: EUPL 1.2](https://img.shields.io/badge/publiccode.yml-library?style=for-the-badge&&color=orange)](publiccode.yml)
 
-* In the upstream repo, the history of the main branch has been removed. Forked from [develop](https://github.com/diggsweden/rest-api-profil-lint-processor/tree/develop) and merged with main to reintroduce history. Could be something missing in between.
-* Delete all of the `node.js` application.
-* I had Mr. GPT translate the rules from the `node.js` application to a `spectral.yaml` file and some external .js-functions.
-* Test the application using the spectral cli and simple shell script instead.
+**Beskrivning**:
 
-## How to use
+RAP-LP är ett kommandoradsverktyg för att linta OpenAPI v3-definitioner med hjälp av [Spectral](https://github.com/stoplightio/spectral). Verktyget är specifikt utvecklat för att linta OpenAPI-definitioner enligt den svenska REST API-profilens specifikation [REST API-profil](https://dev.dataportal.se/rest-api-profil).
 
-See [Spectral Instructions](https://github.com/stoplightio/spectral)
+## Innehållsförteckning
 
-Quickstart would be (if executing in repo).
+- [REST API-profil - Lint Processor (RAP-LP)](#rest-api-profil---lint-processor-rap-lp)
+  - [Innehållsförteckning](#innehållsförteckning)
+  - [Användning](#användning)
+  - [Support](#support)
+  - [Bidra](#bidra)
+  - [Utveckling](#utveckling)
+  - [Licens](#licens)
+  - [Underhållare](#underhållare)
+  - [Krediter och referenser](#krediter-och-referenser)
+
+
+## Användning
+
+Se [Spectral dokumentation](https://github.com/stoplightio/spectral).
+
+Snabbaste sättet att starta vore som nedan (förutsatt att du befinner dig i report).
+
 ```
 spectral lint <path/to/openapi.yaml>
 ```
 
-## Accuracy
+Spectral Docker image finns [här](https://hub.docker.com/r/stoplight/spectral).
 
-I have not verified that the rules match against the upstream project. Given that there has been a fair bit of chatGPT involved when translating, one should be a bit skeptical until verification has been done.
+## Support
 
-The DIGG CLI does not provide any easily machine-readable output, unlike the default Spectral CLI. If it did I could just have cross checked results against the DIGG CLI to verify that all rules behave the same. 
+Om du har frågor, funderingar, buggrapporter etc, vänligen kontakta [Digg - Agency for Digital Government](https://www.digg.se/)
 
-I am not that interested in the rules themselves however, I mostly just want to try them on [https://swelint.se/](https://swelint.se/). I do not intend to validate that the rules are correct until the DIGG tool has a better output format. It looks like DIGG is working on creating a [web API](https://github.com/diggsweden/rest-api-profil-lint-processor/tree/feature/MVP2), which reasonably must have a stricter output. I can just wait for this to be completed and verify against it. Or perhaps they update their CLI before that.
+## Bidra
 
-## License
+Om du vill bidra till projektet, vänligen följ instruktionerna i avsnittet [Contributing](CONTRIBUTING).
 
-Upstream repo contains three different (and conflicting?) licenses for some reason. I don't have the energy to try and figure out what that would imply. I refer to all of them here as well.
+## Utveckling
 
-European Union Public Licence v. 1.2 (attached)
+- Vänligen kontakta [Digg - Agency for Digital Government](https://www.digg.se/)
 
-License: [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+## Licens
 
-License: [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)
+European Union Public Licence v. 1.2
+Se [LICENS](LICENSE) för mer detaljer.
+
+Copyright: [Contributor Covenant](https://www.contributor-covenant.org/)
+
+Licens: [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)
+
+## Underhållare
+
+[Digg - Agency for Digital Government](https://github.com/diggsweden)
+
+## Krediter och referenser
+
+Speciellt tack till
+
+- [Arbetsförmedlingen – The Swedish Public Employment Service](https://arbetsformedlingen.se/)
