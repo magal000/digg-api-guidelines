@@ -1,4 +1,4 @@
-# DIGG API Spectral Ruleset
+# Spectral Ruleset for D*** National API Guidelines
 
 This is a "fork" of the Swedish [Agency for Digital Government](https://www.digg.se/en) [RAP-LP](https://github.com/diggsweden/rest-api-profil-lint-processor/tree/main) project. The aim being to remove all the custom stuff DIGG have added and reduce it to a spectral ruleset `.yaml` file that can be used with default Spectral CLI.
 
